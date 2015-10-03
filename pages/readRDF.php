@@ -89,6 +89,8 @@ function countAnnotations(){
 	return $final + 1;
 }
 function GetMenuGroups(){
+	//da eliminare qui, perche evito i gruppi
+	return "";
 $Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
 $result = DirectSELECT($Query);
 $result = json_decode($result)->results->bindings;
