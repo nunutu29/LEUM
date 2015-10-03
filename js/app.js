@@ -53,9 +53,9 @@ self.chiamaServizio = function (customOptions) {
 	setOptions(customOptions);
 	if (!validate()) {
 		if (options.callback)
-			return { error: "Service URL not defined!" };
+			return { error: "URL non definito!" };
 		else
-			alert("Service URL not defined!");
+			alert("URL non definito!");
 	}
 	makeAjaxRequest();
 	if (options.callback === null)
