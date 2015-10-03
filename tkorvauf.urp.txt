@@ -1,0 +1,15 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch leum
+# Your branch is up-to-date with 'origin/leum'.
+#
+# Changes to be committed:
+#	modified:   js/app.js
+#	modified:   pages/annotation.json
+#	modified:   pages/insertRDF.php
+#	modified:   pages/log.txt
+#	modified:   pages/pageScrapper.php
+#	modified:   pages/utils.php
+#
+
