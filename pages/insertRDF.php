@@ -395,15 +395,44 @@ if($title != NULL){
 
 //Autori dell'articolo
 //$aut = $xpath->query("//table[@cellpadding='6']//b[1]");
+
 $audID = 'form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2';
-$aut = $xpath->query("//p[@id='$audID']/text()[1]")->item(0);
-$aut = explode(" and ", $aut->nodeValue);
+$autArray = $xpath->query("//p[@id='$audID']/text()");
 $autStart = 0;
-foreach($aut as $node){
-	$node = trim($node);
-	CreateAuthors($Exp, $item, $node, $autStart, $autStart + strlen($node), $audID, $uri);
-	$autStart = $autStart + strlen($node) + 5;
+function Authors($autori, $del_Len, $autStartTmp, $Exp, $item, $autStart, $audID, $uri){
+	foreach($autori as $node){
+		if(is_array($node) && count($node) > 1) {
+			print ",";
+			$autStartTmp=Authors($node, 1, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
+			continue;}
+		if(is_array($node)) {
+			print "and";
+			$autStartTmp=Authors($node, 5, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
+			continue;}
+			
+		$end = 0;
+		$autStartTmp = $autStartTmp + (strlen($node) - strlen(ltrim($node)));
+		$end = strlen($node) - strlen(rtrim($node));
+		$node = trim($node);
+		$node = Normalize($node);
+		CreateAuthors($Exp, $item, $node, $autStart + $autStartTmp, $autStart + $autStartTmp + strlen($node), $audID, $uri);
+		$autStartTmp = $autStartTmp + strlen($node) + $end + $del_Len;
+	}
+	return $autStartTmp - $del_Len;
 }
+for($i = 0; $i < $autArray->length; $i++){
+	$aut = $autArray->item($i);
+	if($i != 0 && (strlen($aut->nodeValue) - strlen(ltrim($aut->nodeValue))) != 2) {
+		$autStart = $autStart + strlen($aut->nodeValue);
+		continue;}
+		
+	$aut = MultiDelimiter(array(" and ", ","), $aut->nodeValue);
+	Authors($aut, 5, 0, $Exp, $item, $autStart, $audID, $uri);
+	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+	$i++;
+	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+}
+
 //Abstract
 $astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
 if($astratto != null)
@@ -781,5 +810,15 @@ foreach($target as $node){
 		
 	}
 }
+}
+
+function MultiDelimiter($delimiters, $string){
+	$arr = explode($delimiters[0], $string);
+	array_shift($delimiters);
+	if($delimiters != NULL) {
+		foreach($arr as $key => $val)
+             $arr[$key] = MultiDelimiter($delimiters, $val);
+	}
+	return $arr;
 }
 ?>
