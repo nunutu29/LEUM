@@ -14,28 +14,28 @@ function GetMenu($from = GetGraph){
 			   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 			   PREFIX dcterms: <http://purl.org/dc/terms/>
 			   PREFIX oa: <http://www.w3.org/ns/oa#> ";
-			   
+
 	$Query = "";
 	$pos = strpos($from, "ltw1516");
-	if($pos === false)		   
+	if($pos === false)
 		$Query = "Select DISTINCT ?title ?url
-				 $fromVar 
+				 $fromVar
 				  WHERE {{?b a fabio:Expression; fabio:hasRepresentation ?url.
-						 ?a a oa:Annotation; oa:hasBody ?body. 
+						 ?a a oa:Annotation; oa:hasBody ?body.
 						 ?body rdf:predicate dcterms:title; rdf:subject ?b; rdf:object ?title }
 						 UNION {?work a fabio:Work ; fabio:hasPortrayal ?url.
 						 	?url a fabio:Item ; rdfs:label ?title.
 						 }
 						 UNION {?b a fabio:Expression; fabio:hasRepresentation ?url.
-						 ?a a oa:Annotation; oa:hasBody ?body. 
-						 ?body rdf:predicate 'dcterms:title'; rdf:subject ?b; rdf:object ?title 
+						 ?a a oa:Annotation; oa:hasBody ?body.
+						 ?body rdf:predicate 'dcterms:title'; rdf:subject ?b; rdf:object ?title
 						 }
 						} Limit 50";
 	else
 		$Query = "Select DISTINCT ?title ?url
-				 $fromVar 
+				 $fromVar
 				  WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
-				  
+
 	$Rows = SELECT($Prefix.$Query);
 	if($Rows != null)
 		foreach($Rows as $Row){
@@ -77,7 +77,7 @@ function countAnnotations(){
 						<http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> ?predicate;
 						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.
 			}";
-			
+
 	$result = DirectSELECT($query);
 	$array = json_decode($result)->results->bindings;
 	$final = 0;
@@ -89,26 +89,26 @@ function countAnnotations(){
 	return $final + 1;
 }
 function GetMenuGroups(){
-	//da eliminare qui, perche evito i gruppi
-	return "";
-$Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
-$result = DirectSELECT($Query);
-$result = json_decode($result)->results->bindings;
-//if ($result == null || $result->numRows() ==  0) return "";
-$menu = "";
-foreach($result as $r){
-	$name = explode("/",$r->uri->value);
-	$name = $name[count($name) - 1];
-	if ($name == "essepuntato" || $name == "ltw1525" || $name == "ltw1516" || $name == "" || $name == "ltw1508" || $name == "ltw1513" || $name == "ltw1511"  || $name == "ltw1540" || $name == "ltw1536" || $name == "ltw1514" || $name == "ltw1510") continue;
-	$name = strtoupper($name);
-	$menu .= "<li>";
-	$menu .= "<a class=\"gn-icon gn-icon-groups\" onclick=\"ToggleSibling(this)\">$name</a>";
-	$menu .= "<ul class=\"gn-submenu\" style=\"display:none;\">";
-	$menu .= GetMenu($r->uri->value);
-	$menu .= "</ul>";
-	$menu .= "</li>";
-}
-return $menu;
+// 	//da eliminare qui, perche evito i gruppi
+// 	return "";
+// $Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
+// $result = DirectSELECT($Query);
+// $result = json_decode($result)->results->bindings;
+// //if ($result == null || $result->numRows() ==  0) return "";
+// $menu = "";
+// foreach($result as $r){
+// 	$name = explode("/",$r->uri->value);
+// 	$name = $name[count($name) - 1];
+// 	if ($name == "essepuntato" || $name == "ltw1525" || $name == "ltw1516" || $name == "" || $name == "ltw1508" || $name == "ltw1513" || $name == "ltw1511"  || $name == "ltw1540" || $name == "ltw1536" || $name == "ltw1514" || $name == "ltw1510") continue;
+// 	$name = strtoupper($name);
+// 	$menu .= "<li>";
+// 	$menu .= "<a class=\"gn-icon gn-icon-groups\" onclick=\"ToggleSibling(this)\">$name</a>";
+// 	$menu .= "<ul class=\"gn-submenu\" style=\"display:none;\">";
+// 	$menu .= GetMenu($r->uri->value);
+// 	$menu .= "</ul>";
+// 	$menu .= "</li>";
+// }
+// return $menu;
 }
 
 function GetData($url, $from = GetGraph){
@@ -121,8 +121,8 @@ function GetData($url, $from = GetGraph){
 			PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>
 			PREFIX frbr: <http://purl.org/vocab/frbr/core#>
 
-			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key 
-			FROM <$from> 
+			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key
+			FROM <$from>
 			WHERE {
 					?ann a oa:Annotation ;
 						oa:hasTarget ?target ;
