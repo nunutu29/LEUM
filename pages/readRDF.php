@@ -1,4 +1,4 @@
-<?php
+<?php
 require_once("../vendor/autoload.php" );
 require_once("utils.php");
 $index = 0;
@@ -89,6 +89,8 @@ function countAnnotations(){
 	return $final + 1;
 }
 function GetMenuGroups(){
+	//da eleminare perche qui evito i gruppi
+	return "";
 $Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
 $result = DirectSELECT($Query);
 $result = json_decode($result)->results->bindings;
