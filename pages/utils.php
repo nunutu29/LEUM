@@ -173,7 +173,7 @@ function AddIDs($node, $father){
 	}
 	$node->removeAttribute('class');
 	$node->removeAttribute('id');
-	$node->setAttribute('id', $father);
+	$node->setAttribute('id', str_replace("_body1_", "", $father));
 	return $node;
 }
 

@@ -26,7 +26,7 @@ elseif(strpos($url, "rivista-statistica.unibo.it") !== false) $isOUR = "RS";
 elseif (strpos($url, "almatourism.unibo.it") !== false) $isOUR = "AM";
 elseif (strpos($url, "antropologiaeteatro.unibo.it") !== false) $isOUR = "AT";
 try{
-	$doc = AddIDs($doc->getElementsByTagName('html')->item(0), $doc->getElementsByTagName('html')->item(0)->nodeName."1");
+	$doc = AddIDs($doc->getElementsByTagName('html')->item(0), "");
 }
 catch(Exception $e){
 	echo "Indirizzo non raggiungibile.";

@@ -1408,7 +1408,7 @@ var Scrap = (function(){
 	};
 	self.GetPrefixID = function(subject, id)	{
 		var prefix = "";
-		if(id.indexOf('html1') == 0) return id;
+		if(id.indexOf('form1') == 0 || id.indexOf('div1') == 0) return id;
 		if(subject.indexOf("www.dlib.org") != -1) 
 			prefix = "dlib";
 		else 
@@ -1432,12 +1432,12 @@ var Scrap = (function(){
 		switch(prefix)
 		{
 			case "dlib":
-				return "html1_body1_form1_table3_tr1_td1_" + Crea(id.substring(id.indexOf("table5")));
+				return "form1_table3_tr1_td1_" + Crea(id.substring(id.indexOf("table5")));
 			case "AT":
 			case "AM":
 			case "RS":
 			case "eqa":
-				return "html1_body1_" + Crea(id.substring(id.indexOf("div1")));
+				return Crea(id.substring(id.indexOf("div1")));
 			
 		}
 		function Clear(string){
