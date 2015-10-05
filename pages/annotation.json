@@ -1,0 +1,10 @@
+{
+  "head": {
+    "vars": [ "ann" , "by" , "at" , "label" , "id" , "start" , "end" , "subject" , "predicate" , "object" , "bLabel" , "name" , "email" , "key" ]
+  } ,
+  "results": {
+    "bindings": [
+      
+    ]
+  }
+}
