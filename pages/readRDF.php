@@ -2,50 +2,6 @@
 require_once("../vendor/autoload.php" );
 require_once("utils.php");
 $index = 0;
-
-function GetMenu($from = GetGraph){
-	$Menu = "";
-	$fromVar = $from != "" ? "FROM <$from>" : "";
-	$Prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-			   PREFIX fabio: <http://purl.org/spar/fabio/>
-			   PREFIX fab: <http://purl.org/fab/ns#>
-			   PREFIX frb: <http://frb.270a.info/dataset/>
-			   PREFIX frbr: <http://purl.org/vocab/frbr/core#>
-			   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-			   PREFIX dcterms: <http://purl.org/dc/terms/>
-			   PREFIX oa: <http://www.w3.org/ns/oa#> ";
-
-	$Query = "";
-	$pos = strpos($from, "ltw1516");
-	if($pos === false)
-		$Query = "Select DISTINCT ?title ?url
-				 $fromVar
-				  WHERE {{?b a fabio:Expression; fabio:hasRepresentation ?url.
-						 ?a a oa:Annotation; oa:hasBody ?body.
-						 ?body rdf:predicate dcterms:title; rdf:subject ?b; rdf:object ?title }
-						 UNION {?work a fabio:Work ; fabio:hasPortrayal ?url.
-						 	?url a fabio:Item ; rdfs:label ?title.
-						 }
-						 UNION {?b a fabio:Expression; fabio:hasRepresentation ?url.
-						 ?a a oa:Annotation; oa:hasBody ?body.
-						 ?body rdf:predicate 'dcterms:title'; rdf:subject ?b; rdf:object ?title
-						 }
-						} Limit 50";
-	else
-		$Query = "Select DISTINCT ?title ?url
-				 $fromVar
-				  WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
-
-	$Rows = SELECT($Prefix.$Query);
-	if($Rows != null)
-		foreach($Rows as $Row){
-			$myStr = substr($Row->title, 0, strrpos(substr($Row->title, 0, 30), ' '))."...";
-			if(strlen($Row->title) < 30) $myStr = $Row->title;
-			$url = $Row->url;
-			$Menu .= "<li><a class=\"gn-icon gn-icon-file\" title=\"".$Row->title."\" onclick=\"Page.GetData('".$url."','".$myStr."', '0', '$from')\">".$myStr."</a></li>";
-		}
-		return $Menu;
-}
 function SearchIfExists($uri, $from = GetGraph){
 	$Prefix = "PREFIX frbr: <http://purl.org/vocab/frbr/core#> ";
 	$Query = "SELECT DISTINCT * FROM <$from> WHERE {<$uri> ?a frbr:item.}";
