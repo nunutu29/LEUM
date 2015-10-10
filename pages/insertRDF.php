@@ -406,7 +406,6 @@ function Authors($autori, $del_Len, $autStartTmp, $Exp, $item, $autStart, $audID
 			$autStartTmp=Authors($node, 1, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
 			continue;}
 		if(is_array($node)) {
-			print "and";
 			$autStartTmp=Authors($node, 5, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
 			continue;}
 			
