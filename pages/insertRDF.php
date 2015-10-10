@@ -480,6 +480,7 @@ foreach($cities as $cite){
 	$i++;	
 }
 }
+
 function InsertJournals($content, $uri, $item, $ArtTitle){
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
@@ -551,11 +552,22 @@ foreach($cities as $cite){
 		$title=substr($intera, 0, $endtitlevirgola);
 	else
 		$title=substr($intera, 0, $endtitlepunto); 		
+
+	$fineautore=strpos($cite->nodeValue, '(');    //D. J. DONNELL, A. BUJA, W. STUETZLE (1994).
+	$fineautore=$fineautore-2;
+	$autori=substr($cite->nodeValue,0,$fineautore+1);
+	$arrayautori = explode(",", $autori);
+	$start=0;
+	foreach($arrayautori as $node){
+			$var = $node;
+			CreateAuthors($citExp, $item, $var, $start, $start + strlen($var), $cite->getAttribute('id'), $uri);
+			$start += strlen($var) + 2;
+		}
 	
 	if($title!=NULL){
-		 CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		 CreateTitle($citExp, $item, $title, strpos($cite->nodeValue, $title), strlen($title) + strpos($cite->nodeValue, $title), $cite->getAttribute('id')/*correggere*/, $uri);
-		 CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
+		CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
+		CreateTitle($citExp, $item, $title, strpos($cite->nodeValue, $title), strlen($title) + strpos($cite->nodeValue, $title), $cite->getAttribute('id')/*correggere*/, $uri);
+		CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
 	
 	}
 	$i++;

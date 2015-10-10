@@ -39,10 +39,10 @@ switch($isOUR){
 		$contentTable = $doc->getElementsByTagName('table')->item(8); // Prendo la tabella di posizione 8
 	break;
 	case "RS": case "AM": case "AT": 
-		$contentTable = $xpath->query("//*[@id='html1_body1_div1_div2_div2_div3']", $doc)->item(0);
+		$contentTable = $xpath->query("//*[@id='div1_div2_div2_div3']", $doc)->item(0);
 	break;
 	default:
-		$contentTable = $xpath->query("//*[@id='html1_body1_div1_div2_div2_div3']", $doc)->item(0);
+		$contentTable = $xpath->query("//*[@id='div1_div2_div2_div3']", $doc)->item(0);
 		if($contentTable == null)
 			$contentTable = $doc->getElementsByTagName('body')->item(0);
 	break;
