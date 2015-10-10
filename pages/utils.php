@@ -2,8 +2,8 @@
 
 define("GetGraph", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
 define("Insert", "GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>");
- 
- 
+
+
 function Update($Query){
 	try{
 		$client = new EasyRdf_Sparql_Client(UpdateEndPoint());
@@ -180,7 +180,7 @@ function AddIDs($node, $father){
 function CountInArray($arr, $string){
 $count = 0;
 foreach ($arr as $item)
-	if ($item == $string) 
+	if ($item == $string)
 		$count++;
 return $count;
 }

@@ -1,4 +1,78 @@
 
+var SELECT = (function () {
+var self = {},
+	options = {
+		isAsync: true,
+		callback: null,
+		Query: '',
+		hasModal: false,
+		dataType: 'jsonp'
+	},
+	resp;
+
+function Reset(){
+		options.isAsync= true;
+		options.callback= null;
+		options.Query= '';
+		options.hasModal= false;
+		options.dataType = 'jsonp';
+
+}
+function makeAjaxRequest() {
+	$.ajax({
+		type: 'GET',
+		url: "http://tweb2015.cs.unibo.it:8080/data/query?query=" + options.Query,
+		async: options.isAsync,
+		dataType: options.dataType,
+		beforeSend: function(){$("#myLoader").show();},
+		complete: function(){
+
+			$("#myLoader").hide();
+			Reset();
+		},
+		success: function (response) {
+			if (options.callback)
+				options.callback(response);
+			else resp = response;
+		},
+		error: function (XMLHttpRequest) {
+			if (XMLHttpRequest.responseText) {
+				if (options.callback)
+					options.callback(XMLHttpRequest.responseText);
+				else resp = XMLHttpRequest.responseText;
+
+			}
+		}
+	});
+}
+
+self.GO = function (customOptions) {
+	setOptions(customOptions);
+	if (!validate()) {
+		if (options.callback)
+			return { error: "URL non definito!" };
+		else
+			alert("URL non definito!");
+	}
+	makeAjaxRequest();
+	if (options.callback === null)
+		return resp;
+};
+
+function setOptions(cusmtomOptions) {
+	$.extend(options, options, cusmtomOptions);
+};
+
+
+function validate() {
+	if (options.Query.length === 0)
+		return false;
+	return true;
+}
+return self;
+}());
+
+
 var api = (function () {
 var self = {},
 	options = {
@@ -1409,7 +1483,7 @@ var Scrap = (function(){
 	self.GetPrefixID = function(subject, id)	{
 		var prefix = "";
 		if(id.indexOf('form1') == 0 || id.indexOf('div1') == 0) return id;
-		if(subject.indexOf("www.dlib.org") != -1) 
+		if(subject.indexOf("www.dlib.org") != -1)
 			prefix = "dlib";
 		else
 			if(subject.indexOf("rivista-statistica.unibo.it") != -1)
@@ -1879,8 +1953,7 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 				}
 		});
 }
-// function DirectSELECT(query, graph){
-// 	var url = "
-// 	";
-// 	api.chiamaServizio({requestUrl: url, isAsync:true});
-// }
+function DirectSELECT(querry, callback){
+	querry = querry.replace(/#/g,"%23");
+	SELECT.GO({Query: querry, callback: function(str){callback(str)}});
+}
