@@ -3,8 +3,8 @@
 <head>
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
-	<meta charset="utf-8" /> 
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 	<title>Raschietto</title>
 	<link rel="stylesheet" type="text/css" href="css/normalize.css" /><link rel="stylesheet" type="text/css" href="css/demo.css" /><link rel="stylesheet" type="text/css" href="css/component.css" /><link rel="stylesheet" type="text/css" href="css/login.css" /><link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" /><link href="css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="css/jquery-ui.css"><link href="css/flat-ui.min.css" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
@@ -23,12 +23,12 @@
 	<input type="text" name="URL" id="URL" style="display:none;">
 	<input type="text" name="GRAPH" id="GRAPH" style="display:none;">
 	<div class="container" id="container">
-		<?php include('menu.php');?>		
-		<?php include('ann-menu.php');?>		
+		<?php include('menu.php');?>
+		<?php include('ann-menu.php');?>
 		<div class="content">
 			<div id="tabs">
 				<div class="content2">
-					<?php include('home.php');?>			
+					<?php include('home.php');?>
 					</div>
 				</div>
 			</div>
@@ -109,7 +109,7 @@
 					float: left;
 				}
 			}
-			@media screen and (max-width: 422px) { 
+			@media screen and (max-width: 422px) {
 				.gn-menu-wrapper.gn-open-all {
 					-webkit-transform: translateX(0px);
 					-moz-transform: translateX(0px);
@@ -125,11 +125,12 @@
 
 
 </body>
+<script type="text/javascript" src="js/readRDF.js"></script>
 <script type="text/javascript" src="js/ann-menu.js"></script>
 <script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
 <script type="text/javascript">
 var globalLoader = true;
-new gnMenu(document.getElementById( 'gn-menu' ));	
+new gnMenu(document.getElementById( 'gn-menu' ));
 $('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
 $('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
 $('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
@@ -167,11 +168,11 @@ $(document).on('touchstart click', '#login-open', function(event){
 		return false;
 	}
 });
-	//Nascondiamo il login se si click fuori dalla form o dal botton	
+	//Nascondiamo il login se si click fuori dalla form o dal botton
 	$(document).mousedown(function (e){
 		var container = $('#login-form');
 		var btnLogin = $('#login-open');
-		if (!container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0) 
+		if (!container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
 			Login.Remove();
 	});
 
@@ -209,9 +210,9 @@ $(document).on('touchstart click', '#login-open', function(event){
 				var a = Scrap.GetAll(link, from);
 				self.Uncheck();
 			}});
-			
+
 		};
-		
+
 		self.GetData = function(link, titolo, scrap, from){
 			$('#URL').val(link);
 			$('#GRAPH').val(from);
@@ -220,7 +221,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			api3.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
 				self.WriteData(str);
 			}});
-			
+
 			var a = Scrap.GetAll(link, from);
 			self.Uncheck();
 		};
@@ -228,7 +229,8 @@ $(document).on('touchstart click', '#login-open', function(event){
 				$(".content2").html(data);
 		};
 		self.LoadMenu = function(){
-			api.chiamaServizio({requestUrl: 'pages/proxy.php', isAsync: true, callback: function(str){$('.doc-annotati').html(str);}});
+			//api.chiamaServizio({requestUrl: 'pages/proxy.php', isAsync: true, callback: function(str){$('.doc-annotati').html(str);}});
+			readRDF.GetMenu();
 			if(globalLoader){
 				api2.chiamaServizio({requestUrl: 'pages/GetGroupsData.php', isAsync: true, callback: function(gStr){$('#mainMenu').find("#CaricamentoToDelete").remove(); $('#mainMenu').append(gStr);}});
 				globalLoader = false;
@@ -241,7 +243,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 	}());
 	//Caricamento menu
 	window.onload = function() {Page.LoadMenu();};
-	
+
 	var str=null;
 	function AnnotaClick(){
 		var str=manualAnn();
@@ -249,7 +251,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			Scrap.EditOpen(null, str, "I");
 	};
 	$('#save-ann').click(function() {var annotazione=$('#s').val();	annota(str,annotazione);});
-	
+
 	 window.onbeforeunload = function(){
 	 	var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
 	   if(!ann == undefined || !ann == "")
@@ -263,7 +265,3 @@ $("#iptSearch").keypress(function(){
 });
 </script>
 </html>
-
-
-
-

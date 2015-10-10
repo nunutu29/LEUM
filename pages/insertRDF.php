@@ -402,11 +402,9 @@ $autStart = 0;
 function Authors($autori, $del_Len, $autStartTmp, $Exp, $item, $autStart, $audID, $uri){
 	foreach($autori as $node){
 		if(is_array($node) && count($node) > 1) {
-			print ",";
 			$autStartTmp=Authors($node, 1, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
 			continue;}
 		if(is_array($node)) {
-			print "and";
 			$autStartTmp=Authors($node, 5, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
 			continue;}
 			
@@ -415,6 +413,7 @@ function Authors($autori, $del_Len, $autStartTmp, $Exp, $item, $autStart, $audID
 		$end = strlen($node) - strlen(rtrim($node));
 		$node = trim($node);
 		$node = Normalize($node);
+		//print $node." ".$autStart.$autStartTmp."<br>";
 		CreateAuthors($Exp, $item, $node, $autStart + $autStartTmp, $autStart + $autStartTmp + strlen($node), $audID, $uri);
 		$autStartTmp = $autStartTmp + strlen($node) + $end + $del_Len;
 	}
@@ -425,9 +424,27 @@ for($i = 0; $i < $autArray->length; $i++){
 	if($i != 0 && (strlen($aut->nodeValue) - strlen(ltrim($aut->nodeValue))) != 2) {
 		$autStart = $autStart + strlen($aut->nodeValue);
 		continue;}
-		
-	$aut = MultiDelimiter(array(" and ", ","), $aut->nodeValue);
-	Authors($aut, 5, 0, $Exp, $item, $autStart, $audID, $uri);
+	if($Work == "11kristianto")
+	{
+		$node = $aut->nodeValue;
+		$node = Normalize($node);
+		$pos1 = strpos($node, " ");
+		$pos2 = strpos($node, " ", $pos1 + 1);
+		if($i != 0)
+			$node = substr($node, 0, $pos2);
+		else
+		{
+			$pos3 = strpos($node, " ", $pos2 + 1);
+			$node = substr($node, 0, $pos3);
+		}
+		$node = substr($node, 0, strlen($node) - 1);
+		CreateAuthors($Exp, $item, $node, $autStart, $autStart + strlen($node), $audID, $uri);
+	}
+	else
+	{
+		$aut = MultiDelimiter(array(" and ", ","), $aut->nodeValue);
+		Authors($aut, 5, 0, $Exp, $item, $autStart, $audID, $uri);
+	}
 	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
 	$i++;
 	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
@@ -476,6 +493,14 @@ foreach($cities as $cite){
 		$DOI = $DOI->length > 1 ? $DOI->item(1) : NULL;
 		if($DOI != NULL)
 			CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
+		//Autori
+		$node = $node = Normalize($cite->nodeValue);
+		$pos1 = strpos($node, " and ");
+		$pos2 = strpos($node, ",", $pos1 + strlen(" and "));
+		$autori = trim(substr($node, strpos($node, "]") + 1, $pos2 - 1));
+		$autori = substr($autori, 0, strlen($autori) - 1);
+		$autori = MultiDelimiter(array(" and ", ","), $autori);
+		Authors($autori, 5, 0, $citExp, $item, strpos($node, "]") + 2, $cite->getAttribute('id'), $uri);
 	}
 	$i++;	
 }
