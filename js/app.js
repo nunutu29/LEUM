@@ -919,9 +919,10 @@ var Login = (function (){
 var Scrap = (function(){
 	var self = {};
 	var DataObject = {};
-	self.GetAll = function(uri, from){
-		var pData = {link: uri, from: from};
-		return api.chiamaServizio({requestUrl: "pages/TryScrap.php", data: pData, isAsync:true});
+	self.GetAll = function(uri, fromGraph){
+		//var pData = {link: uri, from: from};
+		//return api.chiamaServizio({requestUrl: "pages/TryScrap.php", data: pData, isAsync:true});
+		return readRDF.GetData(fromGraph,uri);
 	};
 	self.GetNew = function(what, index){
 		var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
