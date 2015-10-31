@@ -28,9 +28,9 @@ var readRDF= (function (){
         Query += "SELECT DISTINCT ?title ?url FROM <"+fromquerry+">\
         WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
       }
-      var res = DirectSELECT(Query, self.CallBack);
+      var res = DirectSELECT(Query, self.CallBackMenu);
   }
-  self.CallBack = function(res){
+  self.CallBackMenu = function(res){
     res = res.results.bindings;
     if (res.length != 0) {
       for(var i=0; i<res.length; i++ ){
@@ -45,8 +45,59 @@ var readRDF= (function (){
       }
     }
   }
-  self.SearchIfExists = function() {
-
+  self.SearchIfExists = function() {}
+  self.GetData = function (fromquerry, url) {
+    fromquerry = fromquerry || self.GetGraph();
+    var Query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
+  			PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
+  			PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\
+  			PREFIX foaf: <http://xmlns.com/foaf/0.1/>\
+  			PREFIX schema: <http://schema.org/>\
+  			PREFIX oa: <http://www.w3.org/ns/oa#>\
+  			PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>\
+  			PREFIX frbr: <http://purl.org/vocab/frbr/core#>\
+  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key\
+  			FROM <"+fromquerry+">\
+  			WHERE {\
+  					?ann a oa:Annotation ;\
+  						oa:hasTarget ?target ;\
+  						oa:hasBody ?body ;\
+  						oa:annotatedBy ?by ;\
+  						oa:annotatedAt ?at .\
+  					OPTIONAL { ?ann rdfs:label ?label }.\
+  					?target a oa:SpecificResource ;\
+  							oa:hasSource <"+url+"> ;\
+  							oa:hasSelector ?sel.\
+  					?sel a oa:FragmentSelector ;\
+  							rdf:value ?id.\
+  					OPTIONAL{?sel oa:start ?start ; oa:end ?end.}.\
+  					?body a rdf:Statement ;\
+  							rdf:subject ?subject ;\
+  							rdf:predicate ?predicate ;\
+  							rdf:object ?object ;\
+  					OPTIONAL { ?body rdfs:label ?bLabel }\
+  					OPTIONAL { SELECT ?by (SAMPLE(?NAME) as ?name)\
+  								WHERE { ?by foaf:name ?NAME } GROUP BY ?by}.\
+  					OPTIONAL { ?by schema:email ?email }.\
+  					OPTIONAL { SELECT ?ann ?body ?object (SAMPLE(?KEY) as ?key)\
+  								WHERE {\
+  								?ann oa:hasBody ?body .\
+  								?body rdf:object ?object .\
+  								?object rdfs:label ?KEY}\
+  								GROUP BY ?ann ?body ?object} }";
+      var res = DirectSELECT(Query, self.CallBackData);
+  }
+  self.CallBackData = function (res) {
+    sessionStorage.clear();
+    sessionStorage.setItem('annotation', JSON.stringify(res));
+  }
+  self.countAnnotations = function function_name(argument) {
+    var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
+  			WHERE{ ?ann <http://www.w3.org/ns/oa#hasBody> ?body.\
+  				?body 	<http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> ?exp;\
+  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> ?predicate;\
+  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
+    var res = DirectSELECT(Query, self.CallBackcountAnn);
   }
  return self;
 }());

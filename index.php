@@ -26,8 +26,10 @@
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
 		<div class="content">
+
 			<div id="tabs">
 				<div class="content2">
+					<div id="test"></div>
 					<?php include('home.php');?>
 					</div>
 				</div>
@@ -137,7 +139,6 @@ $('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
 $('#hasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this);});
 $('#hasURL').change(function(){Scrap.ShowArray("hasURL",this);});
 $('#hasComment').change(function(){Scrap.ShowArray("hasComment",this);});
-//Retorica
 $('#hasIntro').change(function(){Scrap.ShowArray("deo:Introduction",this);});
 $('#hasConcept').change(function(){Scrap.ShowArray("skos:Concept",this);});
 $('#hasAbstr').change(function(){Scrap.ShowArray("sro:Abstract",this);});
@@ -263,5 +264,11 @@ $(document).on('touchstart click', '#login-open', function(event){
 $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
 });
+$( document ).ready(function (){
+
+	readRDF.GetData();
+	var data = sessionStorage.getItem('annotation');
+	$("#test").append(data);
+	}());
 </script>
 </html>
