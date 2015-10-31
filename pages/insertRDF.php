@@ -493,14 +493,51 @@ foreach($cities as $cite){
 		$DOI = $DOI->length > 1 ? $DOI->item(1) : NULL;
 		if($DOI != NULL)
 			CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
+		//Anno
+		$anni = explode(",", $cite->nodeValue);
+		foreach($anni as $anno){
+			if((strlen(trim($anno)) == 4) || (strlen(trim($anno)) == 5 && substr(trim($anno), -1) == ".")){
+				//inserimento anno
+				break;
+			}
+			else
+			{
+				//incremento posizione
+			}
+		}
 		//Autori
 		$node = $node = Normalize($cite->nodeValue);
-		$pos1 = strpos($node, " and ");
-		$pos2 = strpos($node, ",", $pos1 + strlen(" and "));
-		$autori = trim(substr($node, strpos($node, "]") + 1, $pos2 - 1));
-		$autori = substr($autori, 0, strlen($autori) - 1);
-		$autori = MultiDelimiter(array(" and ", ","), $autori);
-		Authors($autori, 5, 0, $citExp, $item, strpos($node, "]") + 2, $cite->getAttribute('id'), $uri);
+		$valoriSplit = explode(" ", $node);
+		$save = false;
+		$authorToSave = "";
+		$positionStart = 0;
+		$positionEnd = 0;
+		$span = 0;
+		foreach($valoriSplit as $autori){
+			// se sono 2 caratteri e l'ultimo = '.', oppure se sono 5 caratteri e il 3 = '-' e ultimo = '.'
+			if((strlen(trim($autori)) == 2 && substr(trim($autori), -1) == ".") || (strlen(trim($autori)) == 5 && substr(trim($autori), -1) == "." && substr(trim($autori), 2, 1) == "-")){
+				$save = true;
+				$authorToSave .= $autori." ";
+			}
+			else{
+				if($save == true){
+					$authorToSave = $authorToSave.$autori;
+					if(substr($authorToSave,-1) == "," || substr($authorToSave,-1) == "."){
+						$authorToSave = substr($authorToSave, 0, strlen($authorToSave) - 1);
+						$span = 1; //la virgola o il punto
+					}
+					$positionEnd = $positionStart + strlen($authorToSave);
+					CreateAuthors($citExp, $item, $authorToSave, $positionStart, $positionEnd, $cite->getAttribute('id'), $uri);
+					//print $positionStart." ".$positionEnd." ".$authorToSave."<br>";
+					$positionStart = $positionEnd + $span + 1; //lo spazio
+					$span = 0;
+					$save = false;
+					$authorToSave = "";
+				}
+				else
+					$positionStart += strlen($autori) + 1; //Per lo split di spazio
+			}
+		}
 	}
 	$i++;	
 }
