@@ -578,16 +578,22 @@ foreach($cities as $cite){
 	else
 		$title=substr($intera, 0, $endtitlepunto); 		
 
+	
 	$fineautore=strpos($cite->nodeValue, '(');    //D. J. DONNELL, A. BUJA, W. STUETZLE (1994).
-	$fineautore=$fineautore-2;
-	$autori=substr($cite->nodeValue,0,$fineautore+1);
-	$arrayautori = explode(",", $autori);
-	$start=0;
-	foreach($arrayautori as $node){
-			$var = $node;
+	if($fineautore){
+		$fineautore=$fineautore-2;
+		$autori=substr($cite->nodeValue,0,$fineautore+1);
+		$arrayautori = explode(",", $autori);
+		$start=0;
+		foreach($arrayautori as $node){
+			$var = trim($node); 
+			print($var);
+			print("|\n");
+			print($start + strlen($var));
 			CreateAuthors($citExp, $item, $var, $start, $start + strlen($var), $cite->getAttribute('id'), $uri);
 			$start += strlen($var) + 2;
-		}
+			}
+	}	
 	
 	if($title!=NULL){
 		CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
@@ -681,6 +687,96 @@ foreach($cities as $cite){
 
 		$endtitlepunto=strpos($intera, '.');
 		$title=substr($intera, 0, $endtitlepunto); 
+		
+		$fineautore=strpos($cite->nodeValue, '(');    //Cowburn, G., & Stockley, L. (2005)
+		if($fineautore){
+			$fineautore=$fineautore-2;
+			$autori=substr($cite->nodeValue,0,$fineautore+1);
+			$arrayautori = explode(",", $autori);
+			$start=0;
+			for($i=0;$i<sizeof($arrayautori)-1;$i++){ //ciclo gli autori
+				$au=trim($arrayautori[$i]);
+				$au1=trim($arrayautori[$i+1]);
+				
+				//un' idea è se trova punti, li conta e vede dove si trova l'ultimo, e poi fa sizeof string+1
+				//	substr($au[$i+1], )				//un'altra idea è per ogni punto fa substr fino alla prossima virgola e così via però problema spazi
+				
+				/*	$dot_position=0;
+					for($k=0;$k<strlen($au[$i+1]);$k++){
+						$temp=$au[$i+1];
+						if($temp[$k] == '.')
+							$dot_position=$k;
+					}
+					print("||".$dot_position);
+					$i++;*/
+				if((strpos($au1, '&'))===FALSE)	{ //articolo1   Frewer, L., Mills, C., & Dubois, A.E.
+				
+					$dot_position=strripos($au1,'.');					//ora che abbiamo l'ultimo punto facciamo start au[i]+dot_position+eventuale offset(spazi vuoti forse trimmati)
+					//print($au." ".$au1." ".$dot_position."||");
+					if($dot_position!==FALSE){ //se trova il punto(lo dovrebbe trovare sempre)
+						$e_comm_position=strpos($au, '&'); //posizione della &
+						if($e_comm_position!==FALSE){ //se trova la &
+							$start=$start+$e_comm_position+1; //la escludiamo
+							$sub=substr($au, $e_comm_position+1);
+							$end=$start+strlen($sub)+$dot_position+3;
+							
+							CreateAuthors($citExp, $item, $sub." ".$au1, $start, $end, $cite->getAttribute('id'), $uri);
+						}
+						else{ //se non trova la &
+							$end=$start+strlen($au)+$dot_position+3;
+							
+							//print($au." ".$au1."s:".$start."e:".$end."|||");
+							CreateAuthors($citExp, $item, $au." ".$au1, $start, $end, $cite->getAttribute('id'), $uri);
+						}
+						$i++; //saltiamo avanti
+					}
+					else{ print($au." ".$au1."-->stringa maledetta"); //non dovebbe mai entrare ma nell'articolo 3 entra con ANTONIOLI CORIGLIANO M
+					}
+				}
+				else{									//per l'ultimo autore di articolo 3 e 4    Boyne, S., Williams, F. & Hall, D.
+					if($dot_position!==FALSE){ 	//se trova il punto
+						$dot_position=strpos($au1, '.'); 	//prende il primo punto
+						$e_comm_position=strpos($au1, '&'); 	//posizione della &
+						if($dot_position<$e_comm_position){		//se il punto è prima della & e quindi ci serve l'iniziale per il nome precedente
+							$sub=substr($au1, 0, $e_comm_position-1);	//ricaviamo l'iniziale
+							$dot_position=strripos($sub,'.');	//troviamo l'ultimo punto
+							$end=$start+strlen($au)+$dot_position+3;	
+							//print($au." ".$au1."s:".$start."e:".$end."|||");
+							CreateAuthors($citExp, $item, $au." ".$sub, $start, $end, $cite->getAttribute('id'), $uri); //creiamo penultimo autore e ultimo senza ciclare ancora, l'ultimo lo creiamo sotto
+							
+							$ultimo_aut=substr($au1, $e_comm_position+2); 	//prendiamo cognome nella stessa stringa di & 
+							$ultimo_aut=trim($ultimo_aut);
+							$ultimo_start=$start+strlen($au)+$e_comm_position+4; //offset vari ed escludiamo la &
+							$ultimo_end=$ultimo_start+strlen($ultimo_aut)+1; //offset vari
+							
+							$last=trim($arrayautori[$i+2]); //a volte va fuori array, perchè alcuni nell'articolo 3 non hanno l'iniziale!! ERRORE
+							$dot_position=strripos($last, '.'); 	//ultimo punto
+							$ultimo_end+=$dot_position+3;		//offset
+							//print($ultimo_aut." ".$last."s:".$ultimo_start."e:".$ultimo_end."|||");
+							CreateAuthors($citExp, $item, $ultimo_aut." ".$last, $ultimo_start, $ultimo_end, $cite->getAttribute('id'), $uri); //ultimo autore
+							$i=sizeof($arrayautori)-1; //forzo uscita dal ciclo perhè era l'ultimo autore
+						
+						}
+						/*else{ 		//non serve
+							$dot_position=strripos($au1,'.');
+							$start=$start+$e_comm_position;
+							$end=$start+strlen($au)+$dot_position+3;
+							$i++;
+							CreateAuthors($citExp, $item, $au." ".$au1, $start, $end, $cite->getAttribute('id'), $uri);
+						}*/
+					}
+					else{
+						print("riga maledetta, qualcosa sfasato"); //non dovebbe mai entrare ma entra in qualche articolo per colpa di qualche stringa 
+					}
+					
+				}
+				
+				$start=$end+2; //offset tra un autore ed un altro, per la maggiorparte è 2
+				
+				
+			}
+		}
+		
 	}
 	else{  //per una maledetta citazione senza anno
 		$intera=trim($cite->nodeValue);
@@ -688,7 +784,14 @@ foreach($cities as $cite){
 		$endtitle=strpos($intera, ',');
 		$offset=$endtitle-$starttitle;
 		$title=substr($intera, $starttitle, $offset);
-	}			
+	}		
+	
+	
+
+
+	
+	
+	
 	
 	if($title!=NULL){
 		 CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
@@ -758,6 +861,10 @@ $doi=$target->nodeValue;
 
 
 }
+
+
+
+
 function InsertStandart($content, $uri, $item, $ArtTitle){
 $arr = explode(".", $item);
 $Work = "";
@@ -773,6 +880,10 @@ CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
 GetUrlName($uri);
 CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 }
+
+
+
+
 function InsertDlib2($content, $uri, $item, $ArtTitle){
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
