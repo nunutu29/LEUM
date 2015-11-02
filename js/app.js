@@ -959,7 +959,8 @@ var Scrap = (function(){
 		return arr.length == 0 ? null : arr;
 	};
 	self.Execute = function(what, array, index){
-		var json =  api.chiamaServizio({requestUrl: "pages/annotation.json"});
+		//var json =  api.chiamaServizio({requestUrl: "pages/annotation.json"});
+		var json = JSON.parse(sessionStorage.getItem('annotation'));
 		var control = "ver1";
 		if(index != 0) control = "cited";
 		return self.GetArray(json.results.bindings, what, control);

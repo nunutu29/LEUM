@@ -487,26 +487,31 @@ foreach($cities as $cite){
 	$title = $cite->getElementsByTagName('i');
 	$title = $title->length > 0 ? $title->item(0) : NULL;
 	if($title != NULL){
-		CreateCities($title->nodeValue, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		CreateTitle($citExp, $item, $title->nodeValue, 0, strlen($title->nodeValue), $title->getAttribute('id'), $uri);
+		CreateCities($title->nodeValue, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen(Normalize($cite->nodeValue)), $uri);
+		CreateTitle($citExp, $item, $title->nodeValue, 0, strlen(Normalize($title->nodeValue)), $title->getAttribute('id'), $uri);
 		$DOI = $cite->getElementsByTagName('a');
 		$DOI = $DOI->length > 1 ? $DOI->item(1) : NULL;
 		if($DOI != NULL)
 			CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
 		//Anno
-		$anni = explode(",", $cite->nodeValue);
+		$node = Normalize($cite->nodeValue);
+		$anni = explode(",", $node);
+		$positionStart = 0;
 		foreach($anni as $anno){
 			if((strlen(trim($anno)) == 4) || (strlen(trim($anno)) == 5 && substr(trim($anno), -1) == ".")){
-				//inserimento anno
+				//manipulazione anno
+				$positionStart += strlen($anno) - strlen(ltrim($anno));
+				$anno = trim($anno);
+				if(substr($anno, -1) == ".")
+					$anno = substr($anno, -1);
+				//Inserimento anno
+				CreatePublicationYear($citExp, $item, $anno, $positionStart, $positionStart + strlen($anno), $cite->getAttribute('id'), $uri); 
 				break;
 			}
 			else
-			{
-				//incremento posizione
-			}
-		}
+				$positionStart += strlen($anno) + 1; //+1 per la virgola
+		}	
 		//Autori
-		$node = $node = Normalize($cite->nodeValue);
 		$valoriSplit = explode(" ", $node);
 		$save = false;
 		$authorToSave = "";
@@ -1007,3 +1012,4 @@ function MultiDelimiter($delimiters, $string){
 	return $arr;
 }
 ?>
+

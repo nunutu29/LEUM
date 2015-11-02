@@ -208,7 +208,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			api11.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
 				Page.LoadMenu();
 				self.WriteData(str);
-				var a = Scrap.GetAll(link, from);
+				Scrap.GetAll(link, from);
 				self.Uncheck();
 			}});
 

@@ -41,7 +41,7 @@ var readRDF= (function (){
           var shorttittle = title.substr(0, title.substr(0, 30).lastIndexOf(' '))+"...";
         }
         var url = res[i].url.value;
-        $("ul.gn-submenu.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '$from')\">"+shorttittle+"</a></li");
+        $("ul.gn-submenu.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">"+shorttittle+"</a></li");
       }
     }
   }
