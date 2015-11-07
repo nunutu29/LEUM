@@ -10,25 +10,15 @@ var self = {},
 	},
 	resp;
 
-function Reset(){
-		options.isAsync= true;
-		options.callback= null;
-		options.Query= '';
-		options.hasModal= false;
-		options.dataType = 'jsonp';
-
-}
 function makeAjaxRequest() {
-	$.ajax({
+	new $.ajax({
 		type: 'GET',
 		url: "http://tweb2015.cs.unibo.it:8080/data/query?query=" + options.Query,
 		async: options.isAsync,
 		dataType: options.dataType,
 		beforeSend: function(){$("#myLoader").show();},
 		complete: function(){
-
 			$("#myLoader").hide();
-			Reset();
 		},
 		success: function (response) {
 			if (options.callback)
@@ -45,7 +35,6 @@ function makeAjaxRequest() {
 		}
 	});
 }
-
 self.GO = function (customOptions) {
 	setOptions(customOptions);
 	if (!validate()) {
@@ -58,12 +47,9 @@ self.GO = function (customOptions) {
 	if (options.callback === null)
 		return resp;
 };
-
 function setOptions(cusmtomOptions) {
 	$.extend(options, options, cusmtomOptions);
 };
-
-
 function validate() {
 	if (options.Query.length === 0)
 		return false;
@@ -71,7 +57,6 @@ function validate() {
 }
 return self;
 }());
-
 
 var api = (function () {
 var self = {},
@@ -95,7 +80,7 @@ function Reset(){
 
 }
 function makeAjaxRequest() {
-	$.ajax({
+	new $.ajax({
 		type: options.methodType,
 		url: options.requestUrl,
 		data: JSON.stringify(options.data),
@@ -122,7 +107,6 @@ function makeAjaxRequest() {
 		}
 	});
 }
-
 self.chiamaServizio = function (customOptions) {
 	setOptions(customOptions);
 	if (!validate()) {
@@ -135,79 +119,6 @@ self.chiamaServizio = function (customOptions) {
 	if (options.callback === null)
 		return resp;
 };
-
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-
-
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api2 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
 function setOptions(cusmtomOptions) {
 	$.extend(options, options, cusmtomOptions);
 };
@@ -218,658 +129,6 @@ function validate() {
 }
 return self;
 }());
-
-var api3 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api4 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api5 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api6 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api7 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api8 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api9 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api10 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api11 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-function showGetResult( ){
-	 var result = null;
-	 var scriptUrl = "pages/ann.json";
-	 $.ajax({
-		url: scriptUrl,
-		type: 'get',
-		async: false,
-		success: function(data) {
-			result = data;
-		}
-	 });
-	 return result;
-}
 
 var Login = (function (){
 	var self = {};
@@ -919,13 +178,8 @@ var Login = (function (){
 var Scrap = (function(){
 	var self = {};
 	var DataObject = {};
-	self.GetAll = function(uri, fromGraph){
-		//var pData = {link: uri, from: from};
-		//return api.chiamaServizio({requestUrl: "pages/TryScrap.php", data: pData, isAsync:true});
-		return readRDF.GetData(fromGraph,uri);
-	};
 	self.GetNew = function(what, index){
-		var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+		var ann = sessionStorage.getItem('ann');
 		if(ann == undefined || ann == "") return null;
 		var control = "ver1";
 		if(index != 0) control = "cited";
@@ -959,7 +213,6 @@ var Scrap = (function(){
 		return arr.length == 0 ? null : arr;
 	};
 	self.Execute = function(what, array, index){
-		//var json =  api.chiamaServizio({requestUrl: "pages/annotation.json"});
 		var json = JSON.parse(sessionStorage.getItem('annotation'));
 		var control = "ver1";
 		if(index != 0) control = "cited";
@@ -972,6 +225,7 @@ var Scrap = (function(){
 		what = self.Decode(what);
 		var content = self.Execute(what, true, index);
 		var content2 = self.GetNew(what, index);
+		var content2 = null;
 		if(content2 != null) content = content.concat(content2);
 		if (content != null && content != undefined)
 			for(var i = 0; i< content.length; i++)
@@ -1196,7 +450,7 @@ var Scrap = (function(){
 		var predicate = "", ob = $("#" + id), retObject = "";
 		if(azione == "D"){
 			el.azione = {value: "D"};
-			api8.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+			api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
 			$("span[name="+idToRemove+"]").contents().unwrap();
 			$("span[name="+idToRemove+"]").remove();
 			self.HideModal(id);
@@ -1212,7 +466,7 @@ var Scrap = (function(){
 			}
 			if(azione == "U"){
 				el.azione = {value:"D"};
-				api8.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+				api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
 			}
 		}
 		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
@@ -1253,7 +507,7 @@ var Scrap = (function(){
 			if(index != 0) control = "cited";
 			el.subject = {value: control};
 		}
-		api5.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+		api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
 		self.HideModal(id);
 
 		if(azione == "I"){
@@ -1272,8 +526,8 @@ var Scrap = (function(){
 		}
 	}
 	self.CheckAnnotation = function(from){
-		var ann = api7.chiamaServizio({requestUrl: "pages/ann.json"});
-		if(ann == undefined) return from;
+		var ann = sessionStorage.getItem('ann');
+		if(ann == undefined || ann == "") return from;
 		if(typeof ann == "object") ann = [ann];
 		else{
 			ann = ann.replace(/\|/g, ",");
@@ -1540,7 +794,7 @@ var Scrap = (function(){
 	}
 	self.SalvaTutto = function(){
 		pData = {link: $("#URL").val()};
-		api9.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true});
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true});
 		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";
 	}
@@ -1738,7 +992,7 @@ function manualAnn() {
 function annota(str, annotazione){  //str � l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto
 	var pData = str;
-	return api4.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: pData, isAsync:true});
+	return api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: pData, isAsync:true});
 
 }
 
@@ -1869,7 +1123,7 @@ function elimina(id, azione, id_ann){ //non ho passato come parametro direttamen
 			el.name = {value:getCookie("name")};
 			el.email = {value:getCookie("email")};
 			el.at = {value:timeGet()};
-			api5.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+			api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
 			$("span#"+id_ann).text("ANNOTAZIONE (eliminata)");
 			$("span#"+id_ann).attr("style", "color:red");
 			$("#"+id).text("Ripristina");
@@ -1890,7 +1144,7 @@ function ripristina(id, azione, id_ann){ //non ho passato come parametro diretta
 		el.name = {value:getCookie("name")};
 		el.email = {value:getCookie("email")};
 		el.at = {value:timeGet()};
-		api5.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+		api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
 	//	$("span#OpenedSpan").next().contents().unwrap(); 	// non lo trova, ci vorrebbe un collegamento tra l'occhio e la tabella delle annotazioni...data-info??
 	//	$("span#OpenedSpan").remove();
 		$("span#"+id_ann).text("ANNOTAZIONE (ripristinata)");
@@ -1955,7 +1209,4 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 				}
 		});
 }
-function DirectSELECT(querry, callback){
-	querry = querry.replace(/#/g,"%23");
-	SELECT.GO({Query: querry, callback: function(str){callback(str)}});
-}
+
