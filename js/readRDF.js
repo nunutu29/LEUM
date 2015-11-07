@@ -88,7 +88,7 @@ var readRDF= (function (){
       var res = DirectSELECT(Query, self.CallBackData);
   }
   self.CallBackData = function (res) {
-    sessionStorage.clear();
+    sessionStorage.setItem('ann', "");
     sessionStorage.setItem('annotation', JSON.stringify(res));
   }
   self.countAnnotations = function function_name(argument) {
