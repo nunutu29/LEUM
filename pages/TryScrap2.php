@@ -15,7 +15,11 @@ else
 	$varNew = "";
 	foreach($vars as $c){
 		$obj = json_decode($c);
-		if($obj->azione->value != "D" && $obj->predicate->value == $newD->predicate->value && $obj->value->value == $newD->value->value && $obj->start->value == $newD->start->value && $obj->end->value == $newD->end->value ){
+		if($obj->azione->value != "D" && 
+		$obj->predicate->value == $newD->predicate->value && 
+		$obj->value->value == $newD->value->value && 
+		$obj->start->value == $newD->start->value && 
+		$obj->end->value == $newD->end->value ){
 			continue;
 		}
 		$varNew .= "|".$c;
@@ -23,24 +27,4 @@ else
 	file_put_contents($file, $data.$varNew);
 }
 return;
-/* $content = file_get_contents("annotation.json");
-$object = json_decode($content);
-
-$remove = Enter($object->annotations);
-
-
-function Enter($arr){
-	foreach($arr as $ann){
-		if(gettype($ann) == "array") Enter ($ann);
-		else {
-			$fount = Search($ann);
-		}
-	}
-}
-function Search($var){
-	if(isset($var->target)){
-		if($var->target->id) == 
-	}
-	return false;
-} */
 ?>

@@ -227,12 +227,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 				$(".content2").html(data);
 		};
 		self.LoadMenu = function(){
-			//api.chiamaServizio({requestUrl: 'pages/proxy.php', isAsync: true, callback: function(str){$('.doc-annotati').html(str);}});
 			readRDF.GetMenu();
-			if(globalLoader){
-				api.chiamaServizio({requestUrl: 'pages/GetGroupsData.php', isAsync: true, callback: function(gStr){$('#mainMenu').find("#CaricamentoToDelete").remove(); $('#mainMenu').append(gStr);}});
-				globalLoader = false;
-			}
 		};
 		self.Uncheck = function(){
 			$('.check-boxs input:checkbox').removeAttr('checked');
@@ -251,7 +246,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 	$('#save-ann').click(function() {var annotazione=$('#s').val();	annota(str,annotazione);});
 
 	 window.onbeforeunload = function(){
-	 	var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+	 	var ann = sessionStorage.getItem('ann');
 	   if(!ann == undefined || !ann == "")
 			return 'Ci sono modifiche non salvate!';
 	 };

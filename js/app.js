@@ -1159,31 +1159,6 @@ function ripristina(id, azione, id_ann){ //non ho passato come parametro diretta
 return 0;
 }
 
-function modificaPosizioneOld(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si pu� fare nient'altro senn� sballa le annotazioni magari, boh!!!
-	var css = document.createElement("style");
-	css.type = "text/css";
-	css.innerHTML = "#annota{ opacity: 0.5; pointer-events:none; background-color:#EEEEEE;} #view-ann{ opacity: 0.5; pointer-events:none; background-color:#EEEEEE;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
-	document.body.appendChild(css);
-	var old=$('.gn-icon-show').attr("onclick");  //salvo vecchio valore onclick
-	$('.gn-icon-show').attr("onclick", null); 	//evito il click sull'occhiolino mentre selezioni senn� fa casini
-	document.getElementById("modalBox").style.display="none";
-
-
-	$('.content2').click(function(){	var str=manualAnn();
-										if(str.object.value!=""){
-											css.innerHTML ="";
-											str=JSON.stringify(str);
-											var json=JSON.parse(str);
-											var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
-											$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
-											$('#testo_selezionato').text(json.object.value);
-											document.getElementById("modalBox").style.display="block";
-											$('.content2').unbind("click"); //disaccoppio il click al .content2
-											$('.gn-icon-show').attr("onclick", old);
-										}
-								});
-}
-
 function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si pu� fare nient'altro senn� sballa le annotazioni magari, boh!!!
 	var css = document.createElement("style");
 	css.type = "text/css";
@@ -1209,4 +1184,3 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 				}
 		});
 }
-
