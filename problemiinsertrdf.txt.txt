@@ -1,7 +1,0 @@
-almatourism
-
-art.1	una frase non è del tipo "autori(anno)titolo" è senza anno quindi da problemi
-art.2	quasi perfetto	
-art.3	problemi a caso
-art.4	tutti buoni a parte qualche iniziale autore non puntata(GRANDE PROBLEMA)
-art.5	ha "and" invece di "&" cazzo!!!
