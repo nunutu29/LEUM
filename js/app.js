@@ -11,7 +11,7 @@ var self = {},
 	resp;
 
 function makeAjaxRequest() {
-	$.ajax({
+	new $.ajax({
 		type: 'GET',
 		url: "http://tweb2015.cs.unibo.it:8080/data/query?query=" + options.Query,
 		async: options.isAsync,
@@ -57,7 +57,6 @@ function validate() {
 }
 return self;
 }());
-
 
 var api = (function () {
 var self = {},
@@ -131,20 +130,6 @@ function validate() {
 return self;
 }());
 
-function showGetResult( ){
-	 var result = null;
-	 var scriptUrl = "pages/ann.json";
-	 $.ajax({
-		url: scriptUrl,
-		type: 'get',
-		async: false,
-		success: function(data) {
-			result = data;
-		}
-	 });
-	 return result;
-}
-
 var Login = (function (){
 	var self = {};
 	self.toggle = function (){
@@ -194,7 +179,7 @@ var Scrap = (function(){
 	var self = {};
 	var DataObject = {};
 	self.GetNew = function(what, index){
-		var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+		var ann = sessionStorage.getItem('ann');
 		if(ann == undefined || ann == "") return null;
 		var control = "ver1";
 		if(index != 0) control = "cited";
@@ -228,7 +213,6 @@ var Scrap = (function(){
 		return arr.length == 0 ? null : arr;
 	};
 	self.Execute = function(what, array, index){
-		//var json =  api.chiamaServizio({requestUrl: "pages/annotation.json"});
 		var json = JSON.parse(sessionStorage.getItem('annotation'));
 		var control = "ver1";
 		if(index != 0) control = "cited";
@@ -240,7 +224,7 @@ var Scrap = (function(){
 		if(chk.checked){
 		what = self.Decode(what);
 		var content = self.Execute(what, true, index);
-		//var content2 = self.GetNew(what, index);
+		var content2 = self.GetNew(what, index);
 		var content2 = null;
 		if(content2 != null) content = content.concat(content2);
 		if (content != null && content != undefined)
@@ -542,8 +526,8 @@ var Scrap = (function(){
 		}
 	}
 	self.CheckAnnotation = function(from){
-		var ann = api.chiamaServizio({requestUrl: "pages/ann.json"});
-		if(ann == undefined) return from;
+		var ann = sessionStorage.getItem('ann');
+		if(ann == undefined || ann == "") return from;
 		if(typeof ann == "object") ann = [ann];
 		else{
 			ann = ann.replace(/\|/g, ",");

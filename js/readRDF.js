@@ -1,6 +1,6 @@
 function DirectSELECT(querry, callback){
 	querry = querry.replace(/#/g,"%23");
-	new SELECT.GO({Query: querry, callback: function(str){callback(str)}});
+	SELECT.GO({Query: querry, callback: function(str){callback(str)}});
 }
 
 var readRDF= (function (){
