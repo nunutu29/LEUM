@@ -202,10 +202,10 @@ $(document).on('touchstart click', '#login-open', function(event){
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap};
 			var str = "";
-			api11.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
 				self.LoadMenu();
 				self.WriteData(str);
-				Scrap.GetAll(link, from);
+				readRDF.GetData(from, link);
 				self.Uncheck();
 			}});
 
@@ -216,11 +216,11 @@ $(document).on('touchstart click', '#login-open', function(event){
 			$('#GRAPH').val(from);
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap}
-			api3.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
 				self.WriteData(str);
 			}});
 
-			var a = Scrap.GetAll(link, from);
+			readRDF.GetData(from, link);
 			self.Uncheck();
 		};
 		self.WriteData = function (data){
@@ -230,7 +230,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			//api.chiamaServizio({requestUrl: 'pages/proxy.php', isAsync: true, callback: function(str){$('.doc-annotati').html(str);}});
 			readRDF.GetMenu();
 			if(globalLoader){
-				api2.chiamaServizio({requestUrl: 'pages/GetGroupsData.php', isAsync: true, callback: function(gStr){$('#mainMenu').find("#CaricamentoToDelete").remove(); $('#mainMenu').append(gStr);}});
+				api.chiamaServizio({requestUrl: 'pages/GetGroupsData.php', isAsync: true, callback: function(gStr){$('#mainMenu').find("#CaricamentoToDelete").remove(); $('#mainMenu').append(gStr);}});
 				globalLoader = false;
 			}
 		};
