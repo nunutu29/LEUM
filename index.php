@@ -29,9 +29,7 @@
 
 			<div id="tabs">
 				<div class="content2">
-					<div id="test"></div>
 					<?php include('home.php');?>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -202,21 +200,30 @@ $(document).on('touchstart click', '#login-open', function(event){
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap};
 			var str = "";
-			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
-				self.LoadMenu();
+			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+				//readRDF.GetMenu();
 				self.WriteData(str);
+				//readRDF.GetData(from, link);
+				//self.Uncheck();
+				self.Insert(myData, from, link);
+			}});
+
+
+		};
+		self.Insert = function(myData, from, link){
+			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+				readRDF.GetMenu();
+				//self.WriteData(str);
 				readRDF.GetData(from, link);
 				self.Uncheck();
 			}});
-
-		};
-
+		}
 		self.GetData = function(link, titolo, scrap, from){
 			$('#URL').val(link);
 			$('#GRAPH').val(from);
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap}
-			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 				self.WriteData(str);
 			}});
 
@@ -224,10 +231,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			self.Uncheck();
 		};
 		self.WriteData = function (data){
-				$(".content2").html(data);
-		};
-		self.LoadMenu = function(){
-			readRDF.GetMenu();
+			$(".content2").html(data);
 		};
 		self.Uncheck = function(){
 			$('.check-boxs input:checkbox').removeAttr('checked');
@@ -235,7 +239,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 		return self;
 	}());
 	//Caricamento menu
-	window.onload = function() {Page.LoadMenu();};
+	window.onload = function() {readRDF.GetMenu();};
 
 	var str=null;
 	function AnnotaClick(){
