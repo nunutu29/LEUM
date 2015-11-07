@@ -190,11 +190,8 @@ $(document).on('touchstart click', '#login-open', function(event){
 		self.Search = function(){
 			//Cerca il link e se non esiste lo agiunge
 			var link = document.getElementById("iptSearch");
-			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1){
-				$('#URL').val(link.value);
-				$('#GRAPH').val("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
+			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1)
 				self.makeSearch(link.value, "Search...", "1", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
-			}
 			else
 				alert("Solo URI ammessi.");
 			link.value = "";
@@ -206,7 +203,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			var myData = {link: link, StartScrapper: scrap};
 			var str = "";
 			api11.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
-				Page.LoadMenu();
+				self.LoadMenu();
 				self.WriteData(str);
 				Scrap.GetAll(link, from);
 				self.Uncheck();
@@ -264,11 +261,5 @@ $(document).on('touchstart click', '#login-open', function(event){
 $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
 });
-$( document ).ready(function (){
-
-	readRDF.GetData();
-	var data = sessionStorage.getItem('annotation');
-	$("#test").append(data);
-	}());
 </script>
 </html>
