@@ -354,46 +354,46 @@ var Scrap = (function(){
 		return array;
 	}
 	self.Check = function(doc, pers){
-	doc = doc || "";
-	pers = pers || "";
-		if(Normalize(doc.substring(0,5)) == pers.substring(0,5))
-			return 0;
-		else
-			return 1;
+		doc = doc || "";
+		pers = pers || "";
+			if(Normalize(doc.substring(0,5)) == pers.substring(0,5))
+				return 0;
+			else
+				return 1;
 	};
 	self.OnClick = function(arg, id){
-	$(arg).attr('id', 'OpenedSpan');
-	var el = $(arg).attr('data-info');
-	var idToRem = $(arg).attr('name');
-	el = JSON.parse(el);
-		var str = "";
-		var box = {};
-		switch(el.predicate.value){
-			case "http://purl.org/dc/terms/title":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-title',idToRem);
-			break;
-			case "http://purl.org/dc/terms/creator":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-autore',idToRem);
-			break;
-			case "http://prismstandard.org/namespaces/basic/2.0/doi":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-doi',idToRem);
-			break;
-			case "http://purl.org/spar/fabio/hasPublicationYear":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-annop',idToRem);
-			break;
-			case "http://purl.org/spar/fabio/hasURL":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-url',idToRem);
-			break;
-			case "http://schema.org/comment":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-commento',idToRem);
-			break;
-			case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
-				self.CreateBox(el, 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
-			break;
-			case "http://purl.org/spar/cito/cites":
-				self.CreateBox(el, 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
-			break;
-		}
+		$(arg).attr('id', 'OpenedSpan');
+		var el = $(arg).attr('data-info');
+		var idToRem = $(arg).attr('name');
+		el = JSON.parse(el);
+			var str = "";
+			var box = {};
+			switch(el.predicate.value){
+				case "http://purl.org/dc/terms/title":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-title',idToRem);
+				break;
+				case "http://purl.org/dc/terms/creator":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-autore',idToRem);
+				break;
+				case "http://prismstandard.org/namespaces/basic/2.0/doi":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-doi',idToRem);
+				break;
+				case "http://purl.org/spar/fabio/hasPublicationYear":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-annop',idToRem);
+				break;
+				case "http://purl.org/spar/fabio/hasURL":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-url',idToRem);
+				break;
+				case "http://schema.org/comment":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-commento',idToRem);
+				break;
+				case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
+					self.CreateBox(el, 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
+				break;
+				case "http://purl.org/spar/cito/cites":
+					self.CreateBox(el, 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
+				break;
+			}
 	};
 	self.CreateBox = function(el, id, version,  icon, idToRemove){
 		var father = $('#modalBox');
@@ -450,7 +450,7 @@ var Scrap = (function(){
 		var predicate = "", ob = $("#" + id), retObject = "";
 		if(azione == "D"){
 			el.azione = {value: "D"};
-			api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+			self.TryScrap(el);
 			$("span[name="+idToRemove+"]").contents().unwrap();
 			$("span[name="+idToRemove+"]").remove();
 			self.HideModal(id);
@@ -466,7 +466,7 @@ var Scrap = (function(){
 			}
 			if(azione == "U"){
 				el.azione = {value:"D"};
-				api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+				self.TryScrap(el);
 			}
 		}
 		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
@@ -507,7 +507,7 @@ var Scrap = (function(){
 			if(index != 0) control = "cited";
 			el.subject = {value: control};
 		}
-		api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+		self.TryScrap(el);
 		self.HideModal(id);
 
 		if(azione == "I"){
@@ -546,82 +546,82 @@ var Scrap = (function(){
 		return from;
 	}
 	self.EditOpen = function(id, altro, azione){
-		var dati = "";
-		if(id != undefined && id != null){
-			dati = $("#" + id).attr("data-info");
-			dati = JSON.parse(dati);
-			$("#" + id).remove();
-		}
-		else
-			dati = altro;
-		var disp = id == undefined || id == null ? 'none' : 'block';
-		var blockid = "idDiMerda";
-		var bodyLabel = "";
-		var bodyObject = "";
+			var dati = "";
+			if(id != undefined && id != null){
+				dati = $("#" + id).attr("data-info");
+				dati = JSON.parse(dati);
+				$("#" + id).remove();
+			}
+			else
+				dati = altro;
+			var disp = id == undefined || id == null ? 'none' : 'block';
+			var blockid = "idDiMerda";
+			var bodyLabel = "";
+			var bodyObject = "";
 
-		bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
-		try{bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;}catch(e){}
+			bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
+			try{bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;}catch(e){}
 
-		var box = $(document.createElement('div'))
-			.attr("id", blockid)
-			.addClass("ann-details")
-			.addClass("ann-shower")
-			.attr("style", "display:block;")
-			.attr("data-info", JSON.stringify(dati))
-			.attr("name", "inverse-dropdown");
-		box.append('<div class ="commnet-desc">\
-					<form>\
-						<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
-							<option value="hasTitle0">Titolo</option>\
-							<option value="hasAuthor0">Autore</option>\
-							<option value="hasDOI0">DOI</option>\
-							<option value="hasPublicationYear0">Anno di pubblicazione</option>\
-							<option value="hasURL0">URL</option>\
-							<option value="hasComment0">Commenti</option>\
-							<optgroup label="Retorica">\
-								<option value="deo:Introduction0">Introduzione</option>\
-								<option value="skos:Concept0">Concetto</option>\
-								<option value="sro:Abstract0">Astratto</option>\
-								<option value="deo:Materials0">Materiali</option>\
-								<option value="deo:Methods0">Metodi</option>\
-								<option value="deo:Results0">Risultati</option>\
-								<option value="sro:Discussion0">Discussione</option>\
-								<option value="sro:Conclusion0">Conclusione</option>\
-							</optgroup>\
-							<optgroup label="Citazione">\
-								<option value="cites0">Frammento Cit.</option>\
-								<option value="hasTitle1">Titolo Cit.</option>\
-								<option value="hasAuthor1">Autore Cit.</option>\
-								<option value="hasDOI1">DOI Cit.</option>\
-								<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
-								<option value="hasURL1">URL Cit.</option>\
-							</optgroup>\
-						</select>\
-						<div style="float: right; display: '+ disp +';">\
-							<a id="change-target" class="azzuro azzuro1 form-control gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
-						</div>\
-						<div>\
-							<p id="testo_selezionato" style="text-align:center; margin:0px; overflow:auto; max-height:100px;">' + bodyObject +'</p>\
-						</div>\
-						<div>\
-							<textarea id="iperTextArea" name="text-label" cols="40" style="margin: 5%;width:90%;" class="normal-input-white deactive-input-white">'+bodyLabel+'</textarea>\
-						</div>\
-					</form>\
-				</div>\
-				<div class ="commnet-separator">\
-					<ul class ="edit-delete commnet-user">\
-						<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
-						<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\')"></li>\
-						<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
-					</ul>\
-				</div>');
-	var father = $('#modalBox');
-	father.append(box);
-	if(!($(father).is(":visible"))) father.fadeIn('fast');
-	var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
-	$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
-	AddClassBox();
-	SelectBox(dati.predicate.value, dati.subject.value, dati.object.value);
+			var box = $(document.createElement('div'))
+				.attr("id", blockid)
+				.addClass("ann-details")
+				.addClass("ann-shower")
+				.attr("style", "display:block;")
+				.attr("data-info", JSON.stringify(dati))
+				.attr("name", "inverse-dropdown");
+			box.append('<div class ="commnet-desc">\
+						<form>\
+							<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
+								<option value="hasTitle0">Titolo</option>\
+								<option value="hasAuthor0">Autore</option>\
+								<option value="hasDOI0">DOI</option>\
+								<option value="hasPublicationYear0">Anno di pubblicazione</option>\
+								<option value="hasURL0">URL</option>\
+								<option value="hasComment0">Commenti</option>\
+								<optgroup label="Retorica">\
+									<option value="deo:Introduction0">Introduzione</option>\
+									<option value="skos:Concept0">Concetto</option>\
+									<option value="sro:Abstract0">Astratto</option>\
+									<option value="deo:Materials0">Materiali</option>\
+									<option value="deo:Methods0">Metodi</option>\
+									<option value="deo:Results0">Risultati</option>\
+									<option value="sro:Discussion0">Discussione</option>\
+									<option value="sro:Conclusion0">Conclusione</option>\
+								</optgroup>\
+								<optgroup label="Citazione">\
+									<option value="cites0">Frammento Cit.</option>\
+									<option value="hasTitle1">Titolo Cit.</option>\
+									<option value="hasAuthor1">Autore Cit.</option>\
+									<option value="hasDOI1">DOI Cit.</option>\
+									<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
+									<option value="hasURL1">URL Cit.</option>\
+								</optgroup>\
+							</select>\
+							<div style="float: right; display: '+ disp +';">\
+								<a id="change-target" class="azzuro azzuro1 form-control gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
+							</div>\
+							<div>\
+								<p id="testo_selezionato" style="text-align:center; margin:0px; overflow:auto; max-height:100px;">' + bodyObject +'</p>\
+							</div>\
+							<div>\
+								<textarea id="iperTextArea" name="text-label" cols="40" style="margin: 5%;width:90%;" class="normal-input-white deactive-input-white">'+bodyLabel+'</textarea>\
+							</div>\
+						</form>\
+					</div>\
+					<div class ="commnet-separator">\
+						<ul class ="edit-delete commnet-user">\
+							<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
+							<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\')"></li>\
+							<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
+						</ul>\
+					</div>');
+			var father = $('#modalBox');
+			father.append(box);
+			if(!($(father).is(":visible"))) father.fadeIn('fast');
+			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
+			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
+			AddClassBox();
+			SelectBox(dati.predicate.value, dati.subject.value, dati.object.value);
 	};
 	self.Decode = function(what){
 		switch(what){
@@ -805,6 +805,26 @@ var Scrap = (function(){
 			}
 		});
 	};
+	self.TryScrap = function (arg) {
+		if (arg.trim() == "") return ;
+		var content = sessionStorage.getItem("ann");
+		//$data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+		if(content.trim() == "")
+			sessionStorage.setItem("ann",arg);
+		else {
+			var data = JSON.parse(arg);
+			var vars = arg.split('|');
+			var newvar = "";
+			for (var i = 0; i < vars.length-1; i++) {
+				var obj = JSON.parse(vars[i]);
+				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.value.value == data.value.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
+					continue ;
+				newvar += "|"+vars[i];
+			}
+			sessionStorage.setItem("ann",arg + newvar)
+		}
+
+	}
 
 	return self;
 }());
@@ -992,7 +1012,7 @@ function manualAnn() {
 function annota(str, annotazione){  //str � l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto
 	var pData = str;
-	return api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: pData, isAsync:true});
+	self.TryScrap(pData);
 
 }
 
@@ -1050,7 +1070,7 @@ function htmlEntities(str) {
 }
 
 function ViewAnnotation(){
-	var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+	var ann = sessionStorage.getItem('ann');
 	if(ann == undefined || ann == ""){ alert("Annotare qualcosa, grazie."); return null;}
 	else{
 		if(typeof ann == "object") ann = [ann];
@@ -1113,7 +1133,7 @@ function onSuccess(json){
 
 	$('#exit').click(function(){$('#view').text(""); document.getElementById("modalBoxView").style.display="none";}); //elimino la tabella senn??pend sempre
 }
-function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava-->//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
+function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava-.//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
 		var x=confirm("Sicuro di voler eliminare l'annotazione?");
 		if (x == true) {
 
@@ -1123,7 +1143,7 @@ function elimina(id, azione, id_ann){ //non ho passato come parametro direttamen
 			el.name = {value:getCookie("name")};
 			el.email = {value:getCookie("email")};
 			el.at = {value:timeGet()};
-			api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+			self.TryScrap(el);
 			$("span#"+id_ann).text("ANNOTAZIONE (eliminata)");
 			$("span#"+id_ann).attr("style", "color:red");
 			$("#"+id).text("Ripristina");
@@ -1137,14 +1157,14 @@ return 0;
 }
 
 
-function ripristina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava-->//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
+function ripristina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava-.//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
 		var json=$('#'+id).attr('data-info');
 		var el = JSON.parse(json);
 		el.azione = {value:azione};
 		el.name = {value:getCookie("name")};
 		el.email = {value:getCookie("email")};
 		el.at = {value:timeGet()};
-		api.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+		self.TryScrap(el);
 	//	$("span#OpenedSpan").next().contents().unwrap(); 	// non lo trova, ci vorrebbe un collegamento tra l'occhio e la tabella delle annotazioni...data-info??
 	//	$("span#OpenedSpan").remove();
 		$("span#"+id_ann).text("ANNOTAZIONE (ripristinata)");

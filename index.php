@@ -251,7 +251,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 			return 'Ci sono modifiche non salvate!';
 	 };
 	 $(window).on('unload', function(){
-	 	api.chiamaServizio({requestUrl: "pages/deleteann.php"});
+	 	sessionStorage.setItem('ann', "");
 	 });
 $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
