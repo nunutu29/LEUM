@@ -474,9 +474,10 @@ CreatePublicationYear($Exp, $item, $publicationYear, strlen($AllStr->nodeValue) 
 
 //DOI dell'articolo
 $target = $xpath->query("//p[2]")->item(0);
+$target_text = Normalize($target->nodeValue);
 $aux = $xpath->query("//p[2]//text()[(preceding::br)]");
-$doi = substr($aux->item($aux->length - 1)->nodeValue, 4);
-CreateDoi($Exp, $item, $doi, strpos($target->nodeValue, $doi), strpos($target->nodeValue, $doi) + strlen($doi), $target->getAttribute('id'), $uri);
+$doi = Normalize(substr($aux->item($aux->length - 1)->nodeValue, 4));
+CreateDoi($Exp, $item, $doi, strpos($target_text, $doi), strpos($target_text, $doi) + strlen($doi), $target->getAttribute('id'), $uri);
 
 //Citazioni dell'articolo
 $cities = $xpath->query("//h3[text()='References'][1]/following-sibling::p[count(.|//h3[text()='About the Authors'][1]/preceding-sibling::p)=count(//h3[text()='About the Authors'][1]/preceding-sibling::p)]");
