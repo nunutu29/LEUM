@@ -26,10 +26,10 @@
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
 		<div class="content">
+
 			<div id="tabs">
 				<div class="content2">
 					<?php include('home.php');?>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -137,7 +137,6 @@ $('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
 $('#hasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this);});
 $('#hasURL').change(function(){Scrap.ShowArray("hasURL",this);});
 $('#hasComment').change(function(){Scrap.ShowArray("hasComment",this);});
-//Retorica
 $('#hasIntro').change(function(){Scrap.ShowArray("deo:Introduction",this);});
 $('#hasConcept').change(function(){Scrap.ShowArray("skos:Concept",this);});
 $('#hasAbstr').change(function(){Scrap.ShowArray("sro:Abstract",this);});
@@ -189,11 +188,8 @@ $(document).on('touchstart click', '#login-open', function(event){
 		self.Search = function(){
 			//Cerca il link e se non esiste lo agiunge
 			var link = document.getElementById("iptSearch");
-			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1){
-				$('#URL').val(link.value);
-				$('#GRAPH').val("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
+			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1)
 				self.makeSearch(link.value, "Search...", "1", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
-			}
 			else
 				alert("Solo URI ammessi.");
 			link.value = "";
@@ -204,37 +200,38 @@ $(document).on('touchstart click', '#login-open', function(event){
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap};
 			var str = "";
-			api11.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
-				Page.LoadMenu();
+			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+				//readRDF.GetMenu();
 				self.WriteData(str);
-				var a = Scrap.GetAll(link, from);
-				self.Uncheck();
+				//readRDF.GetData(from, link);
+				//self.Uncheck();
+				self.Insert(myData, from, link);
 			}});
 
-		};
 
+		};
+		self.Insert = function(myData, from, link){
+			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+				readRDF.GetMenu();
+				//self.WriteData(str);
+				readRDF.GetData(from, link);
+				self.Uncheck();
+			}});
+		}
 		self.GetData = function(link, titolo, scrap, from){
 			$('#URL').val(link);
 			$('#GRAPH').val(from);
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap}
-			api3.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 				self.WriteData(str);
 			}});
 
-			var a = Scrap.GetAll(link, from);
+			readRDF.GetData(from, link);
 			self.Uncheck();
 		};
 		self.WriteData = function (data){
-				$(".content2").html(data);
-		};
-		self.LoadMenu = function(){
-			//api.chiamaServizio({requestUrl: 'pages/proxy.php', isAsync: true, callback: function(str){$('.doc-annotati').html(str);}});
-			readRDF.GetMenu();
-			if(globalLoader){
-				api2.chiamaServizio({requestUrl: 'pages/GetGroupsData.php', isAsync: true, callback: function(gStr){$('#mainMenu').find("#CaricamentoToDelete").remove(); $('#mainMenu').append(gStr);}});
-				globalLoader = false;
-			}
+			$(".content2").html(data);
 		};
 		self.Uncheck = function(){
 			$('.check-boxs input:checkbox').removeAttr('checked');
@@ -242,7 +239,7 @@ $(document).on('touchstart click', '#login-open', function(event){
 		return self;
 	}());
 	//Caricamento menu
-	window.onload = function() {Page.LoadMenu();};
+	window.onload = function() {readRDF.GetMenu();};
 
 	var str=null;
 	function AnnotaClick(){
@@ -253,12 +250,12 @@ $(document).on('touchstart click', '#login-open', function(event){
 	$('#save-ann').click(function() {var annotazione=$('#s').val();	annota(str,annotazione);});
 
 	 window.onbeforeunload = function(){
-	 	var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+	 	var ann = sessionStorage.getItem('ann');
 	   if(!ann == undefined || !ann == "")
 			return 'Ci sono modifiche non salvate!';
 	 };
 	 $(window).on('unload', function(){
-	 	api.chiamaServizio({requestUrl: "pages/deleteann.php"});
+	 	sessionStorage.setItem('ann', "");
 	 });
 $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
