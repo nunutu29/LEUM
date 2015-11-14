@@ -541,6 +541,10 @@ foreach($aut as $node){
 $astratto = $xpath->query("//p[@id='div1_div2_div2_div3_div4_div1_p1']")->item(0);
 if($astratto != null)
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+else{
+	$astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
+	CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+}
 
 
 //URL
@@ -569,7 +573,7 @@ foreach($cities as $cite){
 	$citExp=$Exp."_cited".$i;
 	$parentesi=strpos($cite->nodeValue, ')');
 	if(!is_numeric(substr($cite->nodeValue, $parentesi - 1, 1))) $parentesi -= 1;
-	$year=substr($cite->nodeValue,$parentesi-4,4);
+	$year=substr($cite->nodeValue,$parentesi-4,4); 							//fare il caso di (2004b)
 	$intera=trim(substr($cite->nodeValue, $parentesi+3, strlen($cite->nodeValue)));
 	$endtitlevirgola=strpos($intera, ',');
 	$endtitlepunto=strpos($intera, '.');
@@ -578,16 +582,22 @@ foreach($cities as $cite){
 	else
 		$title=substr($intera, 0, $endtitlepunto); 		
 
-	$fineautore=strpos($cite->nodeValue, '(');    //D. J. DONNELL, A. BUJA, W. STUETZLE (1994).
-	$fineautore=$fineautore-2;
-	$autori=substr($cite->nodeValue,0,$fineautore+1);
-	$arrayautori = explode(",", $autori);
-	$start=0;
-	foreach($arrayautori as $node){
-			$var = $node;
+	
+	$fineautore=strpos($cite->nodeValue, '(');    //D. J. DONNELL, A. BUJA, W. STUETZLE (1994). 
+	if($fineautore){
+		$fineautore=$fineautore-2;
+		$autori=substr($cite->nodeValue,0,$fineautore+1);
+		$arrayautori = explode(",", $autori);
+		$start=0;
+		foreach($arrayautori as $node){  //PROVARE: per la posizione senza usare start cerca $node nella stringa totale e poi sottrai la pos - strlen $node
+			$var = trim($node); 
+			print($var);
+			print("|\n");
+			print($start + strlen($var));
 			CreateAuthors($citExp, $item, $var, $start, $start + strlen($var), $cite->getAttribute('id'), $uri);
 			$start += strlen($var) + 2;
-		}
+			}
+	}	
 	
 	if($title!=NULL){
 		CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
@@ -600,7 +610,7 @@ foreach($cities as $cite){
 
 
 }
-function InsertJournalsAM($content, $uri, $item, $ArtTitle){
+function InsertJournalsAM($content, $uri, $item, $ArtTitle){	//montesquieu
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
 $Work = $item;
@@ -622,85 +632,46 @@ if($title != NULL){
 //Autori articolo
 $aut= $xpath->query("//em[@id='div1_div2_div2_div3_div3_em1']")->item(0);
 $autTarget = $aut->getAttribute('id');
-$aut = explode(",", $aut->nodeValue);
-$start = 0;
-foreach($aut as $node){
-	$var = trim($node);
-	 CreateAuthors($Exp, $item, $var, $start, $start + strlen($var), $autTarget, $uri);
-	$start += strlen($var) + 2;
-}
+$var=trim($aut->nodeValue);
+CreateAuthors($Exp, $item, $var, 0, strlen($var), $autTarget, $uri);
+
 
 
 //Abstract
-$astratto = $xpath->query("//p[@id='div1_div2_div2_div3_div4_div1_p1']")->item(0);
-if($astratto != null)
+$astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+
 
 
 //URL
 $url = $xpath->query("//a[@id='div1_div2_div2_div3_div6_a1']")->item(0);
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div9_div2_p1_a1']")->item(0);
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div9_div2_p1_a2']")->item(0);
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+
+
 
 
 //Anno di pubblicazione dell'articolo
-$ab = $xpath->query("//p[@id='div1_div2_div2_div3_p2']")->item(0);
-$publicationYear = substr($ab->nodeValue, -4, 4);
- CreatePublicationYear($Exp, $item, $publicationYear, strlen($ab->nodeValue) - 4, strlen($ab->nodeValue), $ab->getAttribute('id'), $uri); 
-
+/*
+$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
+$ab = $xpath->query("//div[@id='div1_div2_div2_div3']//text()[(preceding::br[@id='div1_div2_div2_div3_br5'])]")->item(0);
+//$abb= $xpath->query("//*[@id="div1_div2_div2_div3"]/text()[2]")->item(0);
+$str="2015";
+$pos=strrpos($target->nodeValue, $str); //sempre ultimo 2015 nel testo
+CreatePublicationYear($Exp, $item, $str, $pos-4, $pos, $target->getAttribute('id'), $uri); 
+*/
 
 //DOI dell'articolo
 $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
- CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
-
-//Citazioni dell'articolo
-$cities=$xpath->query("//div[@id='div1_div2_div2_div3_div7_div1']/p");
-$i=1;
-foreach($cities as $cite){
-	$citExp=$Exp."_cited".$i;
-	$parentesi=strpos($cite->nodeValue, ')');
-	if($parentesi==true){   //se trova la parentesi (alcune citazioni non hanno autori e anno)
-		if(!is_numeric(substr($cite->nodeValue, $parentesi - 1, 1))){
-			$parentesi -= 1;
-		}
-		$year=substr($cite->nodeValue,$parentesi-4,4);
-		if(!is_numeric($year)){  	//alcune citazioni non hanno solo l'anno tra parentesi ma sono tipo (Ed.) (2015) quindi bisogna scartare la prima
-			$sub=substr($cite->nodeValue, $parentesi+2, strlen($cite->nodeValue));
-			$parentesi=strpos($sub, ')');
-			$year=substr($cite->nodeValue,$parentesi-4,4);	
-		}
-		// se l'anno non c'è nella citazione? cosa creiamo ?
-
-		$split=str_split($cite->nodeValue);
-		if($split[$parentesi+1]==" "){     //alcune citazioni hanno la virgola o il punto tra anno e titolo, altre non ce l'hanno
-			$intera=trim(substr($cite->nodeValue, $parentesi+2, strlen($cite->nodeValue)));
-		}
-		else{
-			$intera=trim(substr($cite->nodeValue, $parentesi+3, strlen($cite->nodeValue)));
-		 }
-
-		$endtitlepunto=strpos($intera, '.');
-		$title=substr($intera, 0, $endtitlepunto); 
-	}
-	else{  //per una maledetta citazione senza anno
-		$intera=trim($cite->nodeValue);
-		$starttitle=strpos($intera, '.')+2;
-		$endtitle=strpos($intera, ',');
-		$offset=$endtitle-$starttitle;
-		$title=substr($intera, $starttitle, $offset);
-	}			
-	
-	if($title!=NULL){
-		 CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		 CreateTitle($citExp, $item, $title, strpos($cite->nodeValue, $title), strlen($title) + strpos($cite->nodeValue, $title), $cite->getAttribute('id'), $uri);
-		 CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
-	
-	}
-	$i++;
+CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
 
 
-}
+
 function InsertJournalsAT($content, $uri, $item, $ArtTitle){
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
@@ -758,6 +729,10 @@ $doi=$target->nodeValue;
 
 
 }
+
+
+
+
 function InsertStandart($content, $uri, $item, $ArtTitle){
 $arr = explode(".", $item);
 $Work = "";
@@ -773,6 +748,10 @@ CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
 GetUrlName($uri);
 CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 }
+
+
+
+
 function InsertDlib2($content, $uri, $item, $ArtTitle){
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1

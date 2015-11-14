@@ -23,7 +23,7 @@ $isOUR = "";
 //if (strpos($url, "dlib.org/dlib/march14") !== false) $isOUR = "dlib2";
 if(strpos($url, "www.dlib.org") !== false) $isOUR = "dlib";
 elseif(strpos($url, "rivista-statistica.unibo.it") !== false) $isOUR = "RS";
-elseif (strpos($url, "almatourism.unibo.it") !== false) $isOUR = "AM";
+elseif (strpos($url, "montesquieu.unibo.it") !== false) $isOUR = "AM";
 elseif (strpos($url, "antropologiaeteatro.unibo.it") !== false) $isOUR = "AT";
 try{
 	$doc = AddIDs($doc->getElementsByTagName('html')->item(0), "");
