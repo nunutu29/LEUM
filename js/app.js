@@ -1,135 +1,3 @@
-
-var SELECT = (function () {
-var self = {},
-	options = {
-		isAsync: true,
-		callback: null,
-		Query: '',
-		hasModal: false,
-		dataType: 'jsonp'
-	},
-	resp;
-
-function makeAjaxRequest() {
-	new $.ajax({
-		type: 'GET',
-		url: "http://tweb2015.cs.unibo.it:8080/data/query?query=" + options.Query,
-		async: options.isAsync,
-		dataType: options.dataType,
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.GO = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "URL non definito!" };
-		else
-			alert("URL non definito!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.Query.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-
-}
-function makeAjaxRequest() {
-	new $.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "URL non definito!" };
-		else
-			alert("URL non definito!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
 var Login = (function (){
 	var self = {};
 	self.toggle = function (){
@@ -160,6 +28,7 @@ var Login = (function (){
 		else{
 			if(pData.password.trim().length == 0) alert("Password can't be blank.");
 			else{
+				var api = new API();
 				var risposta = api.chiamaServizio({requestUrl: "pages/login.php?user="+pData.user+"&password="+pData.password, methodType: "GET"});
 				 if(risposta.trim() == "")
 				 	location.reload();
@@ -214,6 +83,7 @@ var Scrap = (function(){
 	};
 	self.Execute = function(what, array, index){
 		var json = JSON.parse(sessionStorage.getItem('annotation'));
+		if(json == null) return;
 		var control = "ver1";
 		if(index != 0) control = "cited";
 		return self.GetArray(json.results.bindings, what, control);
@@ -794,6 +664,7 @@ var Scrap = (function(){
 	}
 	self.SalvaTutto = function(){
 		pData = {link: $("#URL").val()};
+		var api =  new API();
 		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true});
 		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";

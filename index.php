@@ -14,6 +14,7 @@
 	<script src="js/classie.js"></script>
 	<script src="js/gnmenu.js"></script>
 	<script src="js/jquery-1.11.2.js"></script>
+	<script src="js/api.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
@@ -200,39 +201,44 @@ $(document).on('touchstart click', '#login-open', function(event){
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap};
 			var str = "";
-			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
-				//readRDF.GetMenu();
+			var process1 = new API();
+			process1.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+				self.DisableCheckBox();
 				self.WriteData(str);
-				//readRDF.GetData(from, link);
-				//self.Uncheck();
-				self.Insert(myData, from, link);
 			}});
-
-
-		};
-		self.Insert = function(myData, from, link){
-			api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, callback: function(str){
+			
+			var process2 = new API();
+			process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
 				readRDF.GetMenu();
-				//self.WriteData(str);
 				readRDF.GetData(from, link);
 				self.Uncheck();
+				self.EnableCheckBox();
 			}});
-		}
+
+		};
 		self.GetData = function(link, titolo, scrap, from){
 			$('#URL').val(link);
 			$('#GRAPH').val(from);
 			window.scrollTo(0,0);
-			var myData = {link: link, StartScrapper: scrap}
+			var myData = {link: link, StartScrapper: scrap};
+			var api = new API();
 			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 				self.WriteData(str);
 			}});
-
 			readRDF.GetData(from, link);
 			self.Uncheck();
 		};
 		self.WriteData = function (data){
 			$(".content2").html(data);
 		};
+		self.DisableCheckBox = function(){
+			$('.check-boxs').wrap("<div style='opacity:0.5;'></div>");
+		}
+		self.EnableCheckBox = function(){
+			var chk = $('.check-boxs');
+			if(chk.parent().is("div"))
+				chk.unwrap();
+		}
 		self.Uncheck = function(){
 			$('.check-boxs input:checkbox').removeAttr('checked');
 		}
