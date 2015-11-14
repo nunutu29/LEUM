@@ -25,6 +25,7 @@ var readRDF= (function (){
   }
   self.CallBackMenu = function(res){
     res = res.results.bindings;
+	$("ul.gn-submenu.doc-annotati").empty();
     if (res.length != 0) {
       for(var i=0; i<res.length; i++ ){
         var title = res[i].title.value;

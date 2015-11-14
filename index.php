@@ -232,12 +232,14 @@ $(document).on('touchstart click', '#login-open', function(event){
 			$(".content2").html(data);
 		};
 		self.DisableCheckBox = function(){
-			$('.check-boxs').wrap("<div style='opacity:0.5;'></div>");
+			var api =  new API();
+			api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
+				$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
+			}});
+			
 		}
 		self.EnableCheckBox = function(){
-			var chk = $('.check-boxs');
-			if(chk.parent().is("div"))
-				chk.unwrap();
+			$('#removeMePlease').remove();
 		}
 		self.Uncheck = function(){
 			$('.check-boxs input:checkbox').removeAttr('checked');
