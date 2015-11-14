@@ -56,7 +56,7 @@
 <div class="login-form initLogin" id="login-form">
 	<div class="login">
 		<div class="inset">
-			
+
 			<div class="login_1 login_2">
 				<ul class="various-grid accout-login2 login_3">
 					<form>
@@ -87,6 +87,9 @@
 $( window ).ready(
 	function (){
 		var screenwidth =$( window ).width();
+		if (screenwidth <=1023) {
+			$(".content2").removeClass().addClass("content2 col-md-12")
+		}
 		if (screenwidth <=643) {
 			$("#annota").empty();
 			$("#view-ann").empty();
@@ -95,7 +98,13 @@ $( window ).ready(
 			$("#logoutjohnny").empty();
 		};
 		$( window ).resize(function() {
-			screenwidth =$( window ).width();
+			screenwidth =window.innerWidth;
+			if (screenwidth <=1023) {
+				$(".content2").removeClass().addClass("content2 col-xs-12")
+			}
+			else {
+				$(".content2").removeClass().addClass("content2 col-md-offset-4 col-md-8")
+			}
 			if (screenwidth <=689) {
 				$("#annota").empty();
 				$("#view-ann").empty();
