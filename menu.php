@@ -13,16 +13,6 @@
 						<ul class="gn-submenu doc-annotati"style="display:none;">
 						</ul>
 					</li>
-					<li id="CaricamentoToDelete">
-						<div id="preloader_1">
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<span id="caricamentogruppi">Caricamento Gruppi...</span>
-					</li>
 				</ul>
 			</div><!-- /gn-scroller -->
 		</nav>

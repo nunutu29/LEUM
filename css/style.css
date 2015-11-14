@@ -310,58 +310,6 @@ textarea {
     max-height: 18em;
 }
 /***************************
-*        groups            *
-*                          *
-****************************/
-#caricamentogruppi {
-    position: relative;
-    top: -35px;
-}
-#CaricamentoToDelete {
-  height: 60px;
-  text-align: center;
-  vertical-align: middle;
-  padding-top: 2em;
-}
-#preloader_1{
-    position:relative;
-    text-align: center;
-    margin-left: 4%;;
-}
-#preloader_1 span{
-    display:block;
-    bottom:0px;
-    width: 9px;
-    height: 5px;
-    background:#5F6F81;
-    position:absolute;
-    animation: preloader_1 1.5s  infinite ease-in-out;
-}
- 
-#preloader_1 span:nth-child(2){
-left:11px;
-animation-delay: .2s;
- 
-}
-#preloader_1 span:nth-child(3){
-left:22px;
-animation-delay: .4s;
-}
-#preloader_1 span:nth-child(4){
-left:33px;
-animation-delay: .6s;
-}
-#preloader_1 span:nth-child(5){
-left:44px;
-animation-delay: .8s;
-}
-@keyframes preloader_1 {
-    0% {height:5px;transform:translateY(0px);background:#5F6F81;}
-    25% {height:30px;transform:translateY(15px);background:#5F6F81;}
-    50% {height:5px;transform:translateY(0px);background:#5F6F81;}
-    100% {height:5px;transform:translateY(0px);background:#5F6F81;}
-}
-/***************************
 *    HIGHLIGHTS             
 *                          
 ***************************/

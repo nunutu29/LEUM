@@ -19,11 +19,19 @@ var Login = (function (){
 			classie.add(loginForm, 'changeLogin');
 		}
 	};
-	self.Try = function(){
-		var pData = {
-			user: document.getElementById('txtuser').value,
-			password: document.getElementById('txtpass').value
-		}
+	self.Try = function(ok, user, pass){
+		ok = ok || false;
+		var pData = {};
+		if(!ok)
+			pData = {
+				user: document.getElementById('txtuser').value,
+				password: document.getElementById('txtpass').value
+			}
+		else
+			pData = {
+				user: user,
+				password: pass
+			}
 		if(pData.user.trim().length == 0) alert("Username can't be blank.");
 		else{
 			if(pData.password.trim().length == 0) alert("Password can't be blank.");
