@@ -103,7 +103,6 @@ var Scrap = (function(){
 		what = self.Decode(what);
 		var content = self.Execute(what, true, index);
 		var content2 = self.GetNew(what, index);
-		var content2 = null;
 		if(content2 != null) content = content.concat(content2);
 		if (content != null && content != undefined)
 			for(var i = 0; i< content.length; i++)
@@ -112,32 +111,47 @@ var Scrap = (function(){
 				}
 		}
 		else
-		{
-			$("span." + self.CheckID(id)).each(function(){
-				if(this.classList.length == 3){
-					if(this.classList.contains("annotation") && this.classList.contains("annotation-overlap")){
-						$(this).contents().unwrap();
-					}
-				}
-				else
-				{
-					if(this.classList.length > 3){
-						$(this).removeClass(id);
-						if(this.classList.length == 3)
-							if(this.classList.contains("annotation") && this.classList.contains("annotation-overlap")){
-								$(this).removeClass("annotation-overlap");
-								$(this).removeAttr("style");
-							}
-					}
-					else{
-						$(this).contents().unwrap();
-					}
-				}
-				$("span.gn-icon-show." + self.CheckID(id)).remove();
-			});
-			//$("span." + self.CheckID(id)).remove();
-			//$("span.gn-icon-show." + self.CheckID(id)).remove();
+			self.Remove(id, ".");
+	}
+	self.Remove = function(id, symbol){ //symbol dev'essere "." per eliminare tutti, name per nome
+		var span = undefined;
+		var EyeSpan = undefined;
+		switch(symbol){
+			case ".":
+				span = $("span." + self.CheckID(id));
+				EyeSpan = $("span.gn-icon-show." + self.CheckID(id));
+			break;
+			case "name":
+				span = $("span[name='" + id + "']");
+				EyeSpan = $("span.gn-icon-show[name='" + id + "']");
+				id = EyeSpan[0].classList[0];
+			break;
 		}
+		if(span == undefined) return;
+		span.each(function(){
+			if(this.classList.length == 3){
+				if(this.classList.contains("annotation") && this.classList.contains("annotation-overlap")){
+					$(this).contents().unwrap();
+				}
+			}
+			else
+			{
+				if(this.classList.length > 3){
+					$(this).removeClass(id);
+					//$(this).removeAttr("name");
+					$(this).attr("name", $.data(document.body, $(this).attr("name")))
+					if(this.classList.length == 3)
+						if(this.classList.contains("annotation") && this.classList.contains("annotation-overlap")){
+							$(this).removeClass("annotation-overlap");
+							$(this).removeAttr("style");
+						}
+				}
+				else{
+					$(this).contents().unwrap();
+				}
+			}
+		});
+		EyeSpan.remove();
 	}
 	self.Highlight = function(annotation, style){
 	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
@@ -152,61 +166,44 @@ var Scrap = (function(){
 			  .toString(16)
 			  .substring(1);
 		  }
-		  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-			s4() + '-' + s4() + s4() + s4();
+		  return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
 		}
 	  var guid = uniqueID();
 	  var span = $(document.createElement("span")).addClass(style).addClass('gn-icon-show').attr("name", guid);
 	  span.attr("data-info", JSON.stringify(annotation));
 	  span.attr("onclick", "Scrap.OnClick(this, '"+ style +"'); return false;");
 	  wrap_node(target_node);
-	  
 	  function wrap_node(node) {
 		$(node).contents().each(function() {
-		  // Text node
-		  if (this.nodeType == 3) {
+		  if (this.nodeType == 3) { // Text node
 			var text = $(this).text();
-
-			// Se l'annotazione è finita passa al nodo successivo
-			if (count >= ann_end)
+			if (count >= ann_end) // Se l'annotazione è finita passa al nodo successivo
 			return;
 
-			// Se l'annotazione non inizia in questo nodo (o non è già iniziata)
-			// incrementa il counter e passa al nodo successivo
-			if ((count + text.length) <= ann_start) {
+			if ((count + text.length) <= ann_start) { // Se l'annotazione non inizia in questo nodo (o non è già iniziata), incrementa il counter e passa al nodo successivo
 			  count += text.length;
 			  return;
 			}
-
 			var start_wrap = 0;
 			var end_wrap = -1;
 
-			// Se l'annotazione inizia in questo nodo
-			if (count < ann_start)
+			if (count < ann_start) // Se l'annotazione inizia in questo nodo
 			start_wrap = ann_start-count;
 
-			// Se l'annotazione finisce in questo nodo
-			if ((count + text.length) > ann_end)
+			if ((count + text.length) > ann_end) // Se l'annotazione finisce in questo nodo
 			end_wrap = ann_end-count;
 
 			var parent = this.parentNode;
-			// Il parent è lo span di un'altra annotazione
-			if (parent.nodeType == 1 && parent.classList.contains('annotation')) {
+			if (parent.nodeType == 1 && parent.classList.contains('annotation')) { // Il parent è lo span di un'altra annotazione
 			  var wrap_mid = $(parent);
 
 			  var ann_target = [];
-			  //for (var i = 0; i < $._data(parent, "events").click[0].data.length; ++i) {
-				//ann_target.push($._data(parent, "events").click[0].data[i]);
-			  //}
 
 			  if (start_wrap > 0) {
 				var wrap_left = $("<span>");
 				wrap_left.attr('class', $(parent).attr('class'));
 				wrap_left.attr('name', $(parent).attr('name'));
 				wrap_left.css('background', $(parent).css('background'));
-				//wrap_left.click(ann_target, function(event) {
-					//Scrap.OnClick(event.data, style, guid);
-				//});
 				wrap_left.text(text.slice(0,start_wrap));
 				wrap_mid.before(wrap_left);
 			  }
@@ -214,11 +211,8 @@ var Scrap = (function(){
 			  if (end_wrap != -1) {
 				var wrap_right = $("<span>");
 				wrap_right.attr('class', $(parent).attr('class'));
-				wrap_left.attr('name', $(parent).attr('name'));
+				wrap_right.attr('name', $(parent).attr('name'));
 				wrap_right.css('background', $(parent).css('background'));
-				//wrap_right.click(ann_target, function(event) {
-					//Scrap.OnClick(event.data, style, guid);
-				//});
 				wrap_right.text(text.slice(end_wrap));
 				wrap_mid.after(wrap_right);
 				wrap_mid.text(text.slice(start_wrap,end_wrap));
@@ -227,10 +221,8 @@ var Scrap = (function(){
 				wrap_mid.text(text.slice(start_wrap));
 			  }
 
-			  if (!wrap_mid.hasClass(style))
-			  wrap_mid.addClass(style);
-			  if (!wrap_mid.hasClass('annotation-overlap'))
-			  wrap_mid.addClass('annotation-overlap');
+			  if (!wrap_mid.hasClass(style)) wrap_mid.addClass(style);
+			  if (!wrap_mid.hasClass('annotation-overlap')) wrap_mid.addClass('annotation-overlap');
 
 			  var rgba_array = [];
 			  var gradient = '';
@@ -243,28 +235,25 @@ var Scrap = (function(){
 				gradient = "to bottom, " + rgba_array[0] + " 0%, " + rgba_array[rgba_array.length-1] + " 100%";
 			
 			  wrap_mid.css('background', 'linear-gradient('+gradient+')');
-
-			  //$._data(parent, "events").click[0].data.push(annotation);
 			  wrap_mid.append(span.attr('style', 'background: none'));
+			  if(wrap_mid.attr("name") != undefined && wrap_mid.attr("name") != null)
+				$.data(document.body, guid, wrap_mid.attr("name"));
+			  wrap_mid.attr("name", guid)
 			}
 			else {
-			  var wrap_element = $("<span class='annotation "+style+"' name='"+guid+"'></span>");
+			  var wrap_element = $("<span class='annotation "+style+"'></span>");
+			  wrap_element.attr("name", guid)
 			  $(this).replaceWith(wrap_element);
 
 			  if (start_wrap > 0)
 			  wrap_element.before(text.slice(0,start_wrap));
 
-			  // L'annotazione finisce in questo nodo
-			  if (end_wrap > 0) {
+			  if (end_wrap > 0) { // L'annotazione finisce in questo nodo
 				wrap_element.text(text.slice(start_wrap,end_wrap));
 				wrap_element.after(text.slice(end_wrap));
 			  }
 			  else
 				wrap_element.text(text.slice(start_wrap));
-			  //wrap_element[0].outerHTML = span[0].outerHTML + wrap_element[0].outerHTML;
-			  //wrap_element.click([annotation], function(event) {
-				//Scrap.OnClick(event.data, style, guid);
-			  //});
 			  wrap_element.append(span);
 			}
 			count += text.length;
@@ -305,8 +294,7 @@ var Scrap = (function(){
 			else
 				return 1;
 	};
-
-	self.OnClick = function(arg, id, idToRem){
+	self.OnClick = function(arg, id){
 		$(arg).attr('id', 'OpenedSpan');
 		var el = $(arg).attr('data-info');
 		var idToRem = $(arg).attr('name');
@@ -390,14 +378,17 @@ var Scrap = (function(){
 		$("#" + id).remove();
 	};
 	self.AddToFile = function(id, azione, idToRemove){
-		var json = $("#" + id).attr("data-info");
+		var json = "";
+		if(id != "idDiMerda")
+			json = $('span.gn-icon-show[name="' + idToRemove + '"]').attr("data-info");
+		else
+			json = $("#" + id).attr("data-info");
 		var el = JSON.parse(json);
 		var predicate = "", ob = $("#" + id), retObject = "";
 		if(azione == "D"){
 			el.azione = {value: "D"};
-			self.TryScrap(el);
-			$("span[name="+idToRemove+"]").contents().unwrap();
-			$("span[name="+idToRemove+"]").remove();
+			self.TryScrap(JSON.stringify(el));
+			self.Remove(idToRemove, "name");
 			self.HideModal(id);
 			return;
 		}
@@ -411,7 +402,7 @@ var Scrap = (function(){
 			}
 			if(azione == "U"){
 				el.azione = {value:"D"};
-				self.TryScrap(el);
+				self.TryScrap(JSON.stringify(el));
 			}
 		}
 		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
@@ -452,7 +443,7 @@ var Scrap = (function(){
 			if(index != 0) control = "cited";
 			el.subject = {value: control};
 		}
-		self.TryScrap(el);
+		self.TryScrap(JSON.stringify(el));
 		self.HideModal(id);
 
 		if(azione == "I"){
@@ -466,10 +457,9 @@ var Scrap = (function(){
 		else
 		{
 			//cancello vecchio data-info
-			//$("span#OpenedSpan").removeAttr('data-info');
-			//$("span#OpenedSpan").attr('data-info', JSON.stringify(el));
-			var span = $("span[name="+idToRemove+"]");
-			span.click([el], function(event){Scrap.OnClick(event.data, "", idToRemove)});
+			var span = $("span.gn-icon-show[name="+idToRemove+"]");
+			span.removeAttr("data-info");
+			span.attr("data-info", JSON.stringify(el));
 		}
 	}
 	self.CheckAnnotation = function(from){
@@ -492,7 +482,7 @@ var Scrap = (function(){
 		}
 		return from;
 	}
-	self.EditOpen = function(id, altro, azione){
+	self.EditOpen = function(id, altro, azione, idToRem){
 			var dati = "";
 			if(id != undefined && id != null){
 				dati = $("#" + id).attr("data-info");
@@ -761,18 +751,17 @@ var Scrap = (function(){
 			sessionStorage.setItem("ann",arg);
 		else {
 			var data = JSON.parse(arg);
-			var vars = arg.split('|');
+			var vars = content.split('|');
 			var newvar = "";
-			for (var i = 0; i < vars.length-1; i++) {
+			for (var i = 0; i < vars.length; i++) {
 				var obj = JSON.parse(vars[i]);
 				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.value.value == data.value.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
-					continue ;
+					continue;
 				newvar += "|"+vars[i];
 			}
 			sessionStorage.setItem("ann",arg + newvar)
 		}
 	}
-	
 	self.getStyle = function(style) {
 		switch(style){
 			case "hasAuthor0": case "hasAuthor1": return "rgba(141, 211, 199, 0.5)";
@@ -979,7 +968,7 @@ function manualAnn() {
 function annota(str, annotazione){  //str � l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto
 	var pData = str;
-	self.TryScrap(pData);
+	Scrap.TryScrap(JSON.stringify(pData));
 
 }
 
@@ -992,7 +981,7 @@ function AddClassBox(){
 function SelectBox(predicate, subject, object){
 	var index = 0;
 	if(subject != "" && subject != undefined && subject.indexOf("cited") != -1) index = 1;
-	ob = $("#idDiMerda");
+	var ob = $("#idDiMerda");
 	if(predicate == undefined || predicate == "")
 		predicate = "http://purl.org/dc/terms/title";
 	if(predicate == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes") predicate = object;
@@ -1110,7 +1099,7 @@ function elimina(id, azione, id_ann){ //non ho passato come parametro direttamen
 			el.name = {value:getCookie("name")};
 			el.email = {value:getCookie("email")};
 			el.at = {value:timeGet()};
-			self.TryScrap(el);
+			Scrap.TryScrap(JSON.stringify(el));
 			$("span#"+id_ann).text("ANNOTAZIONE (eliminata)");
 			$("span#"+id_ann).attr("style", "color:red");
 			$("#"+id).text("Ripristina");
@@ -1131,7 +1120,7 @@ function ripristina(id, azione, id_ann){ //non ho passato come parametro diretta
 		el.name = {value:getCookie("name")};
 		el.email = {value:getCookie("email")};
 		el.at = {value:timeGet()};
-		self.TryScrap(el);
+		Scrap.TryScrap(JSON.stringify(el));
 	//	$("span#OpenedSpan").next().contents().unwrap(); 	// non lo trova, ci vorrebbe un collegamento tra l'occhio e la tabella delle annotazioni...data-info??
 	//	$("span#OpenedSpan").remove();
 		$("span#"+id_ann).text("ANNOTAZIONE (ripristinata)");
