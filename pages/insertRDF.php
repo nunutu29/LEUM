@@ -646,6 +646,7 @@ foreach($cities as $cite){
 			//print($start + strlen($var));
 			CreateAuthors($citExp, $item, $var, $start, $start + $len, $cite->getAttribute('id'), $uri);
 			$start += $len + 2;
+
 			}
 	}	
 	
@@ -720,13 +721,21 @@ $pos=strpos($str, $stony);
 //CreatePublicationYear($Exp, $item, 2015, $pos+strlen($stony)-4, $pos+strlen($stony), $target->getAttribute('id'), $uri); //MALEDETTOOOOOOOOOOOOOOOOOOO ci sono spazi a caso nel testo ed è sfasato ogni articolo diverso!!!
 CreatePublicationYear($Exp, $item, 2015, $pos, $pos+4, $target->getAttribute('id'), $uri);
 
+//Anno di pubblicazione dell'articolo
+/*
+$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
+$ab = $xpath->query("//div[@id='div1_div2_div2_div3']//text()[(preceding::br[@id='div1_div2_div2_div3_br5'])]")->item(0);
+//$abb= $xpath->query("//*[@id="div1_div2_div2_div3"]/text()[2]")->item(0);
+$str="2015";
+$pos=strrpos($target->nodeValue, $str); //sempre ultimo 2015 nel testo
+CreatePublicationYear($Exp, $item, $str, $pos-4, $pos, $target->getAttribute('id'), $uri); 
+*/
+
 //DOI dell'articolo
 $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
 CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
-
-
 
 
 function InsertJournalsAT($content, $uri, $item, $ArtTitle){

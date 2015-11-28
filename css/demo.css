@@ -2,9 +2,9 @@
 @font-face {
 	font-family: 'codropsicons';
 	src: url("../fonts/codropsicons/codropsicons.eot");
-	src: url("../fonts/codropsicons/codropsicons.eot?#iefix") format("embedded-opentype"), 
-	url("../fonts/codropsicons/codropsicons.woff") format("woff"), 
-	url("../fonts/codropsicons/codropsicons.ttf") format("truetype"), 
+	src: url("../fonts/codropsicons/codropsicons.eot?#iefix") format("embedded-opentype"),
+	url("../fonts/codropsicons/codropsicons.woff") format("woff"),
+	url("../fonts/codropsicons/codropsicons.ttf") format("truetype"),
 	url("../fonts/codropsicons/codropsicons.svg#codropsicons") format("svg");
 	font-weight: normal;
 	font-style: normal;
@@ -47,16 +47,15 @@ body {
 }
 
 .container .content {
-	margin: 0 auto;
-	padding: 4em 2em;
-	
+	padding-top: 5em;
+
 }
 
 .container .content  a {
 	color: #566473;
 	text-decoration: none;
 	outline: none;
-	
+
 }
 
 .container .content  a:hover {
@@ -230,7 +229,7 @@ button.codrops-icon-ann-filter:hover {
 	background: rgba(95,111,129,0.8) 	50% 50% 	no-repeat;
 	}
 .modalText {
-	position: relative;  
+	position: relative;
 	top: 190px;  left: 50%;
 	background-color: rgb(214, 218, 222);
 	width: 122px;
@@ -248,10 +247,10 @@ button.codrops-icon-ann-filter:hover {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba( 95,111,129, 0.8 ); 
+  background: rgba( 95,111,129, 0.8 );
 }
 .loading {
-	overflow: hidden;   
+	overflow: hidden;
 }
 .loading .modal {
 	display: block;

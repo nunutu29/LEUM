@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 	<title>Raschietto</title>
-	<link rel="stylesheet" type="text/css" href="css/normalize.css" /><link rel="stylesheet" type="text/css" href="css/demo.css" /><link rel="stylesheet" type="text/css" href="css/component.css" /><link rel="stylesheet" type="text/css" href="css/login.css" /><link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" /><link href="css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="css/jquery-ui.css"><link href="css/flat-ui.min.css" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" /><link rel="stylesheet" type="text/css" href="css/demo.css" /><link rel="stylesheet" type="text/css" href="css/component.css" /><link rel="stylesheet" type="text/css" href="css/login.css" /><link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" /><link href="css/bootstrap.css" rel="stylesheet"><link rel="stylesheet" href="css/jquery-ui.css"><link href="css/flat-ui.min.css" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
 	<!-- NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! -->
 	<script src="js/prefixfree.min.js"></script>
 	<script src="js/modernizr.custom.js"></script>
@@ -27,9 +27,8 @@
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
 		<div class="content">
-
-			<div id="tabs">
-				<div class="content2">
+			<div id="tabs" class="row">
+				<div class="content2 col-md-offset-4 col-md-8">
 					<?php include('home.php');?>
 				</div>
 			</div>
@@ -44,10 +43,10 @@
 <style type="text/css">
 			/*GENERIC ONES*/
 			@media all and (min-width: 1024px) {
-				.content2{
+				/*.content2{
 					max-width: 67%;
 			    	float: right;
-				}
+				}*/
 				#filter-list{
 			  	display: none;
 				}
@@ -105,10 +104,10 @@
 			}
 			/*END GENERIC ONES*/
 			@media all and (min-width: 1220px) {
-				.content2{
+				/*.content2{
 					margin-left: 30%;
 					float: left;
-				}
+				}*/
 			}
 			@media screen and (max-width: 422px) {
 				.gn-menu-wrapper.gn-open-all {
@@ -232,12 +231,14 @@ $(document).on('touchstart click', '#login-open', function(event){
 			$(".content2").html(data);
 		};
 		self.DisableCheckBox = function(){
-			$('.check-boxs').wrap("<div style='opacity:0.5;'></div>");
+			var api =  new API();
+			api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
+				$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
+			}});
+			
 		}
 		self.EnableCheckBox = function(){
-			var chk = $('.check-boxs');
-			if(chk.parent().is("div"))
-				chk.unwrap();
+			$('#removeMePlease').remove();
 		}
 		self.Uncheck = function(){
 			$('.check-boxs input:checkbox').removeAttr('checked');
