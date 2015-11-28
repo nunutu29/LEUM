@@ -20,8 +20,8 @@ catch(Exception $ex){
 }
 $xpath = new DOMXPath($doc); 
 $isOUR = "";
-//if (strpos($url, "dlib.org/dlib/march14") !== false) $isOUR = "dlib2";
-if(strpos($url, "www.dlib.org") !== false) $isOUR = "dlib";
+if (strpos($url, "www.dlib.org/dlib/january14") !== false) $isOUR = "dlib2";
+elseif(strpos($url, "www.dlib.org") !== false) $isOUR = "dlib";
 elseif(strpos($url, "rivista-statistica.unibo.it") !== false) $isOUR = "RS";
 elseif (strpos($url, "montesquieu.unibo.it") !== false) $isOUR = "AM";
 elseif (strpos($url, "antropologiaeteatro.unibo.it") !== false) $isOUR = "AT";
@@ -76,7 +76,7 @@ if($contentTable != null){
 					InsertJournalsAT($xml, $mURL, $nomeDoc, $ArtTitle);
 				break;
 				case "dlib2":
-					//InsertDlib2($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertDlib2($xml, $mURL, $nomeDoc, $ArtTitle);
 				break;
 				default:
 					InsertStandart($xml, $mURL, $nomeDoc, $ArtTitle);
