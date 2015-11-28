@@ -9,7 +9,6 @@ function SearchIfExists($uri, $from = GetGraph){
 	$result = json_decode($result)->results->bindings;
 	return count($result) > 0;
 }
-
 function GetCiteIndex($expression){
 	$query = "SELECT ?cite
 			FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>
@@ -44,70 +43,4 @@ function countAnnotations(){
 	}
 	return $final + 1;
 }
-function GetMenuGroups(){
-// 	//da eliminare qui, perche evito i gruppi
-// 	return "";
-// $Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
-// $result = DirectSELECT($Query);
-// $result = json_decode($result)->results->bindings;
-// //if ($result == null || $result->numRows() ==  0) return "";
-// $menu = "";
-// foreach($result as $r){
-// 	$name = explode("/",$r->uri->value);
-// 	$name = $name[count($name) - 1];
-// 	if ($name == "essepuntato" || $name == "ltw1525" || $name == "ltw1516" || $name == "" || $name == "ltw1508" || $name == "ltw1513" || $name == "ltw1511"  || $name == "ltw1540" || $name == "ltw1536" || $name == "ltw1514" || $name == "ltw1510") continue;
-// 	$name = strtoupper($name);
-// 	$menu .= "<li>";
-// 	$menu .= "<a class=\"gn-icon gn-icon-groups\" onclick=\"ToggleSibling(this)\">$name</a>";
-// 	$menu .= "<ul class=\"gn-submenu\" style=\"display:none;\">";
-// 	$menu .= GetMenu($r->uri->value);
-// 	$menu .= "</ul>";
-// 	$menu .= "</li>";
-// }
-// return $menu;
-}
-
-function GetData($url, $from = GetGraph){
-	$query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-			PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-			PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-			PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-			PREFIX schema: <http://schema.org/>
-			PREFIX oa: <http://www.w3.org/ns/oa#>
-			PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>
-			PREFIX frbr: <http://purl.org/vocab/frbr/core#>
-
-			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key
-			FROM <$from>
-			WHERE {
-					?ann a oa:Annotation ;
-						oa:hasTarget ?target ;
-						oa:hasBody ?body ;
-						oa:annotatedBy ?by ;
-						oa:annotatedAt ?at .
-					OPTIONAL { ?ann rdfs:label ?label }.
-					?target a oa:SpecificResource ;
-							oa:hasSource <$url> ;
-							oa:hasSelector ?sel.
-					?sel a oa:FragmentSelector ;
-							rdf:value ?id.
-					OPTIONAL{?sel oa:start ?start ; oa:end ?end.}.
-					?body a rdf:Statement ;
-							rdf:subject ?subject ;
-							rdf:predicate ?predicate ;
-							rdf:object ?object ;
-					OPTIONAL { ?body rdfs:label ?bLabel }
-					OPTIONAL { SELECT ?by (SAMPLE(?NAME) as ?name)
-								WHERE { ?by foaf:name ?NAME } GROUP BY ?by}.
-					OPTIONAL { ?by schema:email ?email }.
-					OPTIONAL { SELECT ?ann ?body ?object (SAMPLE(?KEY) as ?key)
-								WHERE {
-								?ann oa:hasBody ?body .
-								?body rdf:object ?object .
-								?object rdfs:label ?KEY}
-								GROUP BY ?ann ?body ?object}
-			}";
-	return DirectSELECT($query);
-}
-
 ?>
