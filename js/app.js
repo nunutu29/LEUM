@@ -383,8 +383,7 @@ var Scrap = (function(){
 			json = $('span.gn-icon-show[name="' + idToRemove + '"]').attr("data-info");
 		else
 			json = $("#" + id).attr("data-info");
-		var el = JSON.parse(json);
-		var predicate = "", ob = $("#" + id), retObject = "";
+		var el = JSON.parse(json);			
 		if(azione == "D"){
 			el.azione = {value: "D"};
 			self.TryScrap(JSON.stringify(el));
@@ -392,9 +391,16 @@ var Scrap = (function(){
 			self.HideModal(id);
 			return;
 		}
-
+		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false;
 		if(id == "idDiMerda"){
-			try{predicate = self.Decode(ob.find("#iperSelector").val().substr(0, ob.find("#iperSelector").val().length - 1));}catch(e){predicate = self.Decode("hasTitle");}
+			try
+			{
+				predicate = self.Decode(ob.find("#iperSelector").val().substr(0, ob.find("#iperSelector").val().length - 1));
+			}
+			catch(e)
+			{
+				predicate = self.Decode("hasTitle");
+			}
 			if(self.CheckRet(predicate))
 			{
 				retObject = predicate;
@@ -405,12 +411,15 @@ var Scrap = (function(){
 				self.TryScrap(JSON.stringify(el));
 			}
 		}
-		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
+		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate)){
 			el.object = {value:el.key.value};
+			changeClass = true;
+		}
 		else
-			if(!self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && self.NoLiteralObject(predicate))
+			if(!self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && self.NoLiteralObject(predicate)){
 				el.key = {value: el.object.value};
-
+				changeClass = true;
+			}
 		el.azione = {value:"I"};
 		if(id == "idDiMerda"){
 			if(self.CheckRet(retObject))
@@ -446,7 +455,9 @@ var Scrap = (function(){
 		self.TryScrap(JSON.stringify(el));
 		self.HideModal(id);
 
-		if(azione == "I"){
+		if(azione == "I" || changeClass){
+			if(changeClass) 
+				self.Remove(idToRemove, "name");
 			var id = ob.find("#iperSelector").val();
 			var index = id.substring(id.length - 1);
 			id = id.substring(0, id.length - 1);
