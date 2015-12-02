@@ -548,7 +548,7 @@ var Scrap = (function(){
 					<div class ="commnet-separator">\
 						<ul class ="edit-delete commnet-user">\
 							<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
-							<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\')"></li>\
+							<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')"></li>\
 							<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
 						</ul>\
 					</div>');
@@ -755,7 +755,7 @@ var Scrap = (function(){
 			var newvar = "";
 			for (var i = 0; i < vars.length; i++) {
 				var obj = JSON.parse(vars[i]);
-				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.value.value == data.value.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
+				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.id.value == data.id.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
 					continue;
 				newvar += "|"+vars[i];
 			}
