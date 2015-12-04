@@ -114,6 +114,7 @@ var Scrap = (function(){
 			self.Remove(id, ".");
 	}
 	self.Remove = function(id, symbol){ //symbol dev'essere "." per eliminare tutti, name per nome
+		if (id == undefined) return;
 		var span = undefined;
 		var EyeSpan = undefined;
 		switch(symbol){
@@ -933,8 +934,8 @@ function manualAnn() {
 			StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
 		}
 
-	StartOffset += getOffset(parentNode, StartSearch, false);
-	var EndOffset = getOffset(parentNode, NodeToSearch, boolForEnd);
+	//StartOffset += getOffset(parentNode, StartSearch, false);
+	//var EndOffset = getOffset(parentNode, NodeToSearch, boolForEnd);
 
 
 	var start = selezione.anchorOffset + StartOffset;
