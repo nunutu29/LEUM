@@ -411,15 +411,14 @@ var Scrap = (function(){
 				self.TryScrap(JSON.stringify(el));
 			}
 		}
-		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate)){
+		if(el.predicate.value != predicate) changeClass = true;
+		
+		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
 			el.object = {value:el.key.value};
-			changeClass = true;
-		}
 		else
-			if(!self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && self.NoLiteralObject(predicate)){
+			if(!self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && self.NoLiteralObject(predicate))
 				el.key = {value: el.object.value};
-				changeClass = true;
-			}
+				
 		el.azione = {value:"I"};
 		if(id == "idDiMerda"){
 			if(self.CheckRet(retObject))
