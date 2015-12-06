@@ -1,8 +1,15 @@
 <!--ann-menu-filter-->
 <div id="filter-menu" class ="allow-scroll gn-menu-wrapper gn-open-all latest_tweets ">
 	<div class="gn-scroller mCustomScrollbar _mCS_1 mCS-autoHide" data-mcs-theme="minimal-dark" style="overflow: visible;">
-		<div id="mCSB_1" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0">
-			<div id="mCSB_1_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
+		<div class="col-sm-12">
+			<ul class="tabs">
+				<li class="tab col-sm-4" ><a class="blue-text text-darken-3"  href=""><span>libreria</span></a></li>
+				<li class="tab col-sm-4"><a  class="blue-text text-darken-3" href="#filtri"><span>filtri</span></a></li>
+				<li class="tab col-sm-4"><a class="blue-text text-darken-3" href=""><span>gruppi</span></a></li>
+			</ul>
+		</div>
+		<div id="filtri" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
+			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div class ="check-boxs">
 					<div width ="100%">
 						<div class ="checkbox-grid-left">
@@ -126,6 +133,16 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div id="libreria" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
+			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
+
+			</div>
+		</div>
+		<div id="gruppi" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
+			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
+
 			</div>
 		</div>
 	</div>

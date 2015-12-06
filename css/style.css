@@ -75,11 +75,11 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
   left:0;
   right:0;
   margin-left:auto;
-  margin-right:auto;  
+  margin-right:auto;
 }
 #show-comm, #show-cites {
     max-width: 80%;
-  }  
+  }
 .commnet-desc {
   background-color: #FFF;
   width: 100%;
@@ -113,7 +113,7 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
   font-size:20px;
   color:#414445;
   font-weight:600;
-  display:inline-block; 
+  display:inline-block;
   margin-left: 20px;
 }
 .commnet-desc span.time{
@@ -242,7 +242,7 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
   color:#FFF;
   font-weight:600;
   background:#f34141;
-  padding: 12px 12px 12px 0px; 
+  padding: 12px 12px 12px 0px;
   border:1px solid #D01818;
   border-radius:3px;
   -webkit-border-radius:3px;
@@ -255,7 +255,7 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
 }
 a.tootlip2 {
   background:#46B9E1;
-  border:1px solid #46B9E1 !important; 
+  border:1px solid #46B9E1 !important;
 }
 .tootlip a:hover{
   background-color: #E52626;
@@ -287,7 +287,7 @@ cursor: pointer;
 }
 .normal-input-white{
   background: #e1e4e9;
-  border: none;  
+  border: none;
   margin-bottom:1em;
 }
 .alert-input-white{
@@ -310,8 +310,8 @@ textarea {
     max-height: 18em;
 }
 /***************************
-*    HIGHLIGHTS             
-*                          
+*    HIGHLIGHTS
+*
 ***************************/
 
 .hasAuthor0, .hasAuthor1 {
@@ -510,8 +510,8 @@ textarea {
     rgb(151,34,27) 5px 5px;*/
 }
 /***************************
-*    REGISTER             
-*                          
+*    REGISTER
+*
 ***************************/
 #register-button{
     position: absolute;
@@ -627,8 +627,8 @@ left: 1%;
   color: #8C001A;
 }
 /***************************
-*    HOME             
-*                          
+*    HOME
+*
 ***************************/
 #longLogo h1,h2,h3,h4{
   font-family: 'Lato', Arial, sans-serif;
@@ -662,10 +662,13 @@ left: 1%;
       width: 50%;
       height: 2em;
 }
-
+#filter-menu{
+  position: absolute;
+  z-index: 1;
+}
 /***************************
-*    BACK TO TOP             
-*                          
+*    BACK TO TOP
+*
 ***************************/
 a.cd-top {
   color: #5F6F81;

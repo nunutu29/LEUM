@@ -1,5 +1,5 @@
 <ul id="gn-menu" class="gn-menu-main">
-	<li class="gn-trigger">
+	<!-- <li class="gn-trigger">
 		<a class="gn-icon gn-icon-menu" id="MenuTrigger"><span></span></a>
 		<nav class="allow-scroll gn-menu-wrapper">
 			<div class="gn-scroller mCustomScrollbar" data-mcs-theme="minimal-dark">
@@ -14,9 +14,9 @@
 						</ul>
 					</li>
 				</ul>
-			</div><!-- /gn-scroller -->
+			</div>
 		</nav>
-	</li>
+	</li> -->
 	<?php if(isset($_COOKIE["email"])){ ?>
 	<li>
 		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="annota" class="codrops-icon codrops-icon-ann-add" onclick="AnnotaClick()">ANNOTA</button></a>
