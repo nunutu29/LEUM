@@ -12,7 +12,6 @@
 	<script src="js/prefixfree.min.js"></script>
 	<script src="js/modernizr.custom.js"></script>
 	<script src="js/classie.js"></script>
-	<script src="js/gnmenu.js"></script>
 	<script src="js/jquery-1.11.2.js"></script>
 	<script src="js/api.js"></script>
 	<script src="js/app.js"></script>
@@ -131,7 +130,7 @@
 <script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
 <script type="text/javascript">
 var globalLoader = true;
-new gnMenu(document.getElementById( 'gn-menu' ));
+/*new gnMenu(document.getElementById( 'gn-menu' ));*/
 $('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
 $('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
 $('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});

@@ -17,7 +17,7 @@ var readRDF= (function (){
 				 PREFIX dcterms: <http://purl.org/dc/terms/>\
 				 PREFIX oa: <http://www.w3.org/ns/oa#>\
 				 PREFIX foaf: <http://xmlns.com/foaf/0.1/>';
-	 
+
 	Query += " SELECT DISTINCT ?title ?url\
 			   FROM <"+fromquerry+">\
 			   WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
@@ -25,7 +25,7 @@ var readRDF= (function (){
   }
   self.CallBackMenu = function(res){
     res = res.results.bindings;
-	$("ul.gn-submenu.doc-annotati").empty();
+	$("ul.doc-annotati").empty();
     if (res.length != 0) {
       for(var i=0; i<res.length; i++ ){
         var title = res[i].title.value;
@@ -35,7 +35,7 @@ var readRDF= (function (){
           var shorttittle = title.substr(0, title.substr(0, 30).lastIndexOf(' '))+"...";
         }
         var url = res[i].url.value;
-        $("ul.gn-submenu.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">"+shorttittle+"</a></li");
+        $("ul.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">"+shorttittle+"</a></li");
       }
     }
   }

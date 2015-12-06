@@ -33,19 +33,7 @@
 	color: #222;
 	font-size: 1em;
 }
-input[type=checkbox].css-checkbox1 + label.css-label1 {
-  height: 30px;
-  width: 30px;
-  display: inline-block;
-  line-height: 18px;
-  background-repeat: no-repeat;
-  background-position: 0 -37px;
-  cursor: pointer;
-  background: url(../img/img_sprite.png) no-repeat -14px -78px;
-}
-input[type=checkbox].css-checkbox1:checked + label.css-label1 {
-  background: url(../img/img_sprite.png) no-repeat -47px -78px;
-}
+
 .latest_tweets h3, .compose_twit h3 {
   font-size: 1.2em;
 }
