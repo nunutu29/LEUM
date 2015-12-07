@@ -740,26 +740,24 @@ var Scrap = (function(){
 		}
 		return false;
 	}
-	self.SalvaTutto = function(){
-		pData = {link: $("#URL").val()};
+	self.SalvaTutto = function(what){
+		what = what || "ann";
+		pData = {link: $("#URL").val(), annotations: sessionStorage.getItem(what)};
 		var api =  new API();
-		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true});
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true, callback: function(){
+			sessionStorage.setItem(what,"");
+			readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
+		}});
 		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";
 	}
-	self.RemoveBlankSpan = function(id){
-		$("span[name="+id+"]").each(function(){
-			if (!$(this).text().trim().length && !($(this).hasClass("gn-icon-show"))) {
-				$(this).remove();
-			}
-		});
-	};
-	self.TryScrap = function (arg) {
+	self.TryScrap = function (arg, dove) {
+		dove = dove || "ann";
 		if (arg.trim() == "") return ;
-		var content = sessionStorage.getItem("ann");
+		var content = sessionStorage.getItem(dove);
 		//$data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
-		if(content.trim() == "")
-			sessionStorage.setItem("ann",arg);
+		if(content == null || content.trim() == "")
+			sessionStorage.setItem(dove,arg);
 		else {
 			var data = JSON.parse(arg);
 			var vars = content.split('|');
@@ -770,7 +768,7 @@ var Scrap = (function(){
 					continue;
 				newvar += "|"+vars[i];
 			}
-			sessionStorage.setItem("ann",arg + newvar)
+			sessionStorage.setItem(dove, arg + newvar)
 		}
 	}
 	self.getStyle = function(style) {
@@ -792,6 +790,26 @@ var Scrap = (function(){
 			case "hasConc": return "rgba(204,235,197, 0.5)";
 		}
 		return null;
+	}
+	self.CancellaTutto = function(){
+		var r = confirm("Sei sicuro di voler cancellare tutto ?");
+		if (r == true) {
+			var articolo = $('#URL').val();
+			if(articolo == undefined || articolo == null || articolo == "") 
+				alert("Articolo non valido");
+			else
+			{
+				var nomeSessione = "delAll";
+				sessionStorage.setItem(nomeSessione,"");
+				var json = JSON.parse(sessionStorage.getItem('annotation'));
+				json = json.results.bindings;
+				for(var i = 0; i < json.length; i++){
+					json[i].azione = {value:"D"};
+					self.TryScrap(JSON.stringify(json[i]), nomeSessione);
+				}
+				self.SalvaTutto(nomeSessione);
+			}
+		}
 	}
 	return self;
 }());

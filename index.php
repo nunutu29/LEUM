@@ -28,6 +28,7 @@
 		<?php include('ann-menu.php');?>
 		<div class="content">
 			<div id="tabs" class="row">
+			<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>
 				<div class="content2 col-md-offset-4 col-md-8">
 					<?php include('home.php');?>
 				</div>
@@ -196,7 +197,6 @@ $(document).on('touchstart click', '#login-open', function(event){
 		};
 		self.makeSearch = function(link, titolo, scrap, from){
 			$('#URL').val(link);
-			$('#GRAPH').val(from);
 			window.scrollTo(0,0);
 			var myData = {link: link, StartScrapper: scrap};
 			var str = "";
