@@ -925,44 +925,112 @@ function SearchID(id){
 	return false;
 }
 
+
+function isSpan(nodo){
+	var controllo=0;
+	var span=$(nodo.parentNode).attr("class");		//l'idea è che se facciamo una selezione e ci troviamo dentro lo span(già annotato quindi) lo start lo dve prendere dal suo genitore e non dallo span!
+	if(span){	//se è una selezione su testo non annotato span è indefinito
+	if((span.indexOf("annotation"))>-1){
+		var controllo=1;		//variabile di controllo per saper se stiamo annotando qualcosa che è già annotata
+		}	
+	}
+	return controllo;
+}
+
 function manualAnn() {
     var selezione = document.getSelection();
 	if(selezione == "" || selezione == null || selezione.anchorNode == null || selezione.focusNode == null) {alert("Selezionare qualcosa."); return null;};
-	var nodeStart = selezione.anchorNode.parentNode; //nodo nel quale � avvenuta la selezione
-	var nodeEnd = selezione.focusNode.parentNode;	//nodo nel quale finisce la selezione
+	var inizio_selezione=selezione.anchorOffset;
+	var fine_selezione=selezione.focusOffset;
+	
+	
+	if(selezione.anchorNode==selezione.focusNode){			//nodo uguale
+		if(inizio_selezione > fine_selezione){
+			var focus=selezione.anchorNode;		//inverto i nodi
+			var anchor=selezione.focusNode;
+			var aux=inizio_selezione			//inverto start e end
+			inizio_selezione=fine_selezione;
+			fine_selezione=aux;
+		}
+		else{
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+	}	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//caso di nuovo paragrafo
+		var anchor=selezione.anchorNode;
+		var focus=selezione.focusNode;
+	}
+		
+	else if(selezione.anchorNode!=selezione.focusNode){		//nodo diverso, citato e non citato
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	//debugare questo vedere se entra nel primo caso
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+
+	
+	var controllo=0;		//1 se abbiamo selezionato una citazione, 0 altrimenti 
+	controllo=isSpan(anchor);
+	
+	
+	var nodeStart = anchor.parentNode; //nodo nel quale � avvenuta la selezione
+	var nodeEnd = focus.parentNode;	//nodo nel quale finisce la selezione
 	var target = nodeStart.getAttribute('id');
 	var nameElement = nodeStart.nodeName;
 	var parentNode = nodeStart;
-	var NodeToSearch = selezione.anchorNode;
+	var NodeToSearch = anchor;
 	/*Se ci sono nodi in mezzo calcola*/
-	var StartSearch = selezione.anchorNode;
+	var StartSearch = anchor;
 	var boolForEnd = false;
 	var StartOffset = 0;
 	if(nodeStart != nodeEnd){
 		parentNode = selezione.getRangeAt(0).commonAncestorContainer;
 		target = parentNode.getAttribute('id');
 		NodeToSearch = nodeEnd;
-		if(selezione.anchorNode.nodeName == "#text") StartSearch = selezione.anchorNode.parentNode;
-		StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
+		if(anchor.nodeName == "#text") StartSearch = anchor.parentNode;
+		StartOffset+= $(parentNode).text().indexOf($(anchor).text());	//usato parentNode invece di nodeStart, sennò c'era l'offset che sfasava dato che il padre che hanno in comune ha altri caratteri oltre il nodo che abbiamo selezionato
 	}
-	else
+	else{
 		if(nodeStart.childNodes.length > 0){
-			NodeToSearch = selezione.focusNode.previousSibling;
+			NodeToSearch = focus.previousSibling;
 			boolForEnd = true;
-			StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
+			if(controllo==0){	//se non è dentro un'annotazione
+				StartOffset+= $(nodeStart).text().indexOf($(anchor).text());
+			}
+			else{			//altrimenti
+				StartOffset+= $(nodeStart.parentNode).text().indexOf($(anchor).text());	
+			}
+				
 		}
-
-	//StartOffset += getOffset(parentNode, StartSearch, false);
-	//var EndOffset = getOffset(parentNode, NodeToSearch, boolForEnd);
-
-
-	var start = selezione.anchorOffset + StartOffset;
-	var end = start + selezione.toString().length + selezione.toString().split("\n").length - 1;
-	if(start > end){
-		var aux = start;
-		start = end;
-		end = aux;
 	}
+	var start = inizio_selezione + StartOffset;		//inizio del nodo + offset dal nodo selezionato all'inizio di tutto il testo
+	var end = start + selezione.toString().length + selezione.toString().split("\n").length - 1;
+	
 	var selected=selezione.toString();
 	var autore = getCookie("email") != "" ? getCookie("email") : "http://server/unset-base/anonymus";
 	while(SearchID(nodeStart.getAttribute('class')))
@@ -993,6 +1061,7 @@ function manualAnn() {
 	//var frammento=JSON.parse(json);
 	return array;
 	}
+
 
 function annota(str, annotazione){  //str � l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto

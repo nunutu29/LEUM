@@ -24,6 +24,9 @@
 	<li>
 		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="view-ann" class="codrops-icon codrops-icon-ann-see" onclick="ViewAnnotation()">GUARDA CAMBIAMENTI</button></a>
 	</li>
+	<li>
+		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="salve" class="codrops-icon codrops-icon-ann-add">MODIFICA</button></a>
+	</li>
 	<?php } ?>
 	<li id="filter-list">
 		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="filter" class="codrops-icon codrops-icon-ann-filter" onclick="ToggleFilter()">FILTRO</button></a>
