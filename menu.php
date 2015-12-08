@@ -25,7 +25,7 @@
 		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="view-ann" class="codrops-icon codrops-icon-ann-see" onclick="ViewAnnotation()">GUARDA CAMBIAMENTI</button></a>
 	</li>
 	<li>
-		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="salve" class="codrops-icon codrops-icon-ann-add">MODIFICA</button></a>
+		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="mod_pos" class="codrops-icon codrops-icon-ann-add" style="display:none;">MODIFICA</button></a>
 	</li>
 	<?php } ?>
 	<li id="filter-list">
