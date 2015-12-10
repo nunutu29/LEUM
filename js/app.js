@@ -928,7 +928,7 @@ function SearchID(id){
 
 function isSpan(nodo){
 	var controllo=0;
-	var span=$(nodo.parentNode).attr("class");		//l'idea è che se facciamo una selezione e ci troviamo dentro lo span(già annotato quindi) lo start lo dve prendere dal suo genitore e non dallo span!
+	var span=$(nodo.parentNode).attr("class");		//l'idea è che se facciamo una selezione e ci troviamo dentro lo span(già annotato quindi) lo start lo deve prendere dal suo genitore e non dallo span!
 	if(span){	//se è una selezione su testo non annotato span è indefinito
 	if((span.indexOf("annotation"))>-1){
 		var controllo=1;		//variabile di controllo per saper se stiamo annotando qualcosa che è già annotata
@@ -958,16 +958,16 @@ function manualAnn() {
 		}
 	}	
 	
-	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//caso di nuovo paragrafo
+	/*else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//caso di nuovo paragrafo SE SELEZIONE AL CONTRARIO NON VA MALEDETTO
 		var anchor=selezione.anchorNode;
 		var focus=selezione.focusNode;
-	}
+	}*/
 		
-	else if(selezione.anchorNode!=selezione.focusNode){		//nodo diverso, citato e non citato
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==1 ){		//nodo diverso, tutti e 2 citati differenza nei parentNode
 		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
 		for(i=0;i<=nodo_comune.childNodes.length;i++){
 			var nodo_iniziale=0;
-			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	//debugare questo vedere se entra nel primo caso
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	
 				nodo_iniziale=i;	//posizione del nodo
 				break;
 			}
@@ -992,10 +992,112 @@ function manualAnn() {
 				fine_selezione=aux;
 		}
 	}
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==0){		//nodo diverso, inizio citato e fine no differenza nei parentNode
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode.parentNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==1){	//nodo diverso, inizio non citato e fine si, differenza nei parentNode	
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	//debugare questo vedere se entra nel primo caso
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode.parentNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//nodo diverso, non citato	
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
 
 	
 	var controllo=0;		//1 se abbiamo selezionato una citazione, 0 altrimenti 
-	controllo=isSpan(anchor);
+	if(anchor!=undefined){
+		controllo=isSpan(anchor);
+	}
+	else{
+		alert("errore");
+		return;
+	}
 	
 	
 	var nodeStart = anchor.parentNode; //nodo nel quale � avvenuta la selezione
@@ -1029,7 +1131,7 @@ function manualAnn() {
 		}
 	}
 	var start = inizio_selezione + StartOffset;		//inizio del nodo + offset dal nodo selezionato all'inizio di tutto il testo
-	var end = start + selezione.toString().length + selezione.toString().split("\n").length - 1;
+	var end = start + selezione.toString().length;
 	
 	var selected=selezione.toString();
 	var autore = getCookie("email") != "" ? getCookie("email") : "http://server/unset-base/anonymus";
