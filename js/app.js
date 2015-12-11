@@ -178,21 +178,19 @@ var Scrap = (function(){
 		$(node).contents().each(function() {
 		  if (this.nodeType == 3) { // Text node
 			var text = $(this).text();
-			if (count >= ann_end) // Se l'annotazione è finita passa al nodo successivo
-			return;
-
-			if ((count + text.length) <= ann_start) { // Se l'annotazione non inizia in questo nodo (o non è già iniziata), incrementa il counter e passa al nodo successivo
+			if (count >= ann_end) return; // Se l'annotazione è finita passa al nodo successivo
+			if ((count + text.length) <= ann_start || text.trim() == "") { // Se l'annotazione non inizia in questo nodo (o non è già iniziata), incrementa il counter e passa al nodo successivo
 			  count += text.length;
 			  return;
 			}
 			var start_wrap = 0;
 			var end_wrap = -1;
-
+			
 			if (count < ann_start) // Se l'annotazione inizia in questo nodo
-			start_wrap = ann_start-count;
+				start_wrap = ann_start-count;
 
 			if ((count + text.length) > ann_end) // Se l'annotazione finisce in questo nodo
-			end_wrap = ann_end-count;
+				end_wrap = ann_end-count;
 
 			var parent = this.parentNode;
 			if (parent.nodeType == 1 && parent.classList.contains('annotation')) { // Il parent è lo span di un'altra annotazione
@@ -811,6 +809,19 @@ var Scrap = (function(){
 			}
 		}
 	}
+	self.ContainsOnly = function(str, chr){
+		/*Ipotizzo che se length > 5 allora falso*/
+		if (str.lengh > 5) 
+			return false;
+		else
+		{
+			for(var i = 0; i < str.length; i++){
+				if(str[i] != chr) 
+					return false;
+			}
+		}
+		return true;
+	}
 	return self;
 }());
 
@@ -1131,9 +1142,9 @@ function manualAnn() {
 		}
 	}
 	var start = inizio_selezione + StartOffset;		//inizio del nodo + offset dal nodo selezionato all'inizio di tutto il testo
-	var end = start + selezione.toString().length;
+	var end = start + selezione.getRangeAt(0).toString().length;
 	
-	var selected=selezione.toString();
+	var selected=selezione.getRangeAt(0).toString();
 	var autore = getCookie("email") != "" ? getCookie("email") : "http://server/unset-base/anonymus";
 	while(SearchID(nodeStart.getAttribute('class')))
 		nodeStart = nodeStart.parentNode;
