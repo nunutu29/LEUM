@@ -26,6 +26,7 @@ var readRDF= (function (){
   self.CallBackMenu = function(res){
     res = res.results.bindings;
 	$("ul.doc-annotati").empty();
+  $("div.content2 div.row").empty();
     if (res.length != 0) {
       for(var i=0; i<res.length; i++ ){
         var title = res[i].title.value;
@@ -35,7 +36,9 @@ var readRDF= (function (){
           var shorttittle = title.substr(0, title.substr(0, 30).lastIndexOf(' '))+"...";
         }
         var url = res[i].url.value;
-        $("ul.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">"+shorttittle+"</a></li");
+        $("ul.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file grey-text text-darken-2 latest_tweets\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">"+shorttittle+"</a></li");
+        $("div.content2 div.row").append("<div class=\"card col-sm-5\" style=\"margin-right: 3%; margin-left: 3%;\"><div class=\"card-content\"><span class=\"card-title activator grey-text text-darken-4\">"+shorttittle+"</span><p><a onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">View Annotations</a><span class=\"card-title activator grey-text text-darken-4\"><i class=\"material-icons right\">more_vert</i></span></p></div><div class=\"card-reveal\"><span class=\"card-title grey-text text-darken-4\"><i class=\"material-icons right\">close</i></span><p>"+title+"</p></div></div>");
+
       }
     }
   }

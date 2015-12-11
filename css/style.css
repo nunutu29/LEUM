@@ -638,7 +638,7 @@ left: 1%;
   width: 25em;
 }
 #longLogo .content h2 {
-  color: #5F6F81;
+  color: #8A0707;
 
 }
 #longLogo .content table {
@@ -659,7 +659,7 @@ left: 1%;
 *
 ***************************/
 a.cd-top {
-  color: #5F6F81;
+  color: #8A0707;
   text-decoration: none;
 }
 .cd-top {
@@ -674,7 +674,7 @@ a.cd-top {
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  background: rgba(95,111,129,0.8) url(../img/cd-top-arrow.svg) no-repeat center 50%;
+  background: rgba(138,7,7,0.4) url(../img/cd-top-arrow.svg) no-repeat center 50%;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity .3s 0s, visibility 0s .3s;
@@ -696,7 +696,7 @@ a.cd-top {
   opacity: .5;
 }
 .no-touch .cd-top:hover {
-  background-color: #5F6F81;
+  background-color: #8A0707;
   opacity: 1;
 }
 @media only screen and (min-width: 768px) {

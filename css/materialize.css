@@ -5918,7 +5918,7 @@ small {
     position: absolute;
     bottom: 0;
     height: 2px;
-    background-color: #f6b2b5;
+    background-color: #b71c1c;
     will-change: left, right; }
 
 .hide-tab-scrollbar {
