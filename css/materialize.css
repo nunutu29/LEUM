@@ -5908,7 +5908,8 @@ small {
       -moz-transition: color .28s ease;
       -o-transition: color .28s ease;
       -ms-transition: color .28s ease;
-      transition: color .28s ease; }
+      transition: color .28s ease; 
+      padding-top: 2px;}
       .tabs .tab a:hover {
         color: #f9c9cb; }
     .tabs .tab.disabled a {

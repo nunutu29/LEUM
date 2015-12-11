@@ -185,8 +185,8 @@ button.codrops-icon-ann-filter:hover {
 }
 .codrops-icon-ann-filter:before{
 	content: "\e20c";
-	font-size: 30px;
-	vertical-align: middle;
+    font-size: 3em;
+    vertical-align: top;
 
 }
 .icon-fontawesome-exit:before {
@@ -219,15 +219,17 @@ button.codrops-icon-ann-filter:hover {
 }
 
 .modal {
-	display:    none;
-	position:   absolute;
-	z-index:    1000;
-	top:        0;
-	left:       0;
-	height:     100%;
-	width:      100%;
-	background: rgba(95,111,129,0.8) 	50% 50% 	no-repeat;
-	}
+    display: none;
+    position: absolute!important;
+    z-index: 1000!important;
+    top: 0!important;
+    left: 0!important;
+    height: 100%!important;
+    max-height: 100% !important;
+    width: 100%!important;
+    border-radius: 0 !important;
+    background: rgba(95,111,129,0.8) 50% 50% no-repeat;
+}
 .modalText {
 	position: relative;
 	top: 190px;  left: 50%;

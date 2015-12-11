@@ -437,15 +437,15 @@ input.gn-search:focus {
 }
 
 .gn-icon-groups::before {
-	vertical-align: middle;
-	content: "\e1d1";
-	font-size: xx-large;
+	vertical-align: top;
+    content: "\e1d1";
+    font-size: 3em;
 }
 
 .gn-icon-lib:before {
-	vertical-align: middle;
-	content: "\e16b";
-	font-size: xx-large;
+	vertical-align: top;
+    content: "\e16b";
+    font-size: 3em;
 }
 
 .gn-icon-netfile:before {

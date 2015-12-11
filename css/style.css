@@ -651,7 +651,7 @@ left: 1%;
       height: 2em;
 }
 #filter-menu{
-  position: absolute;
+  position: fixed;
   z-index: 1;
 }
 /***************************
