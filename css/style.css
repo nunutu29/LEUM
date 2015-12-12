@@ -33,19 +33,7 @@
 	color: #222;
 	font-size: 1em;
 }
-input[type=checkbox].css-checkbox1 + label.css-label1 {
-  height: 30px;
-  width: 30px;
-  display: inline-block;
-  line-height: 18px;
-  background-repeat: no-repeat;
-  background-position: 0 -37px;
-  cursor: pointer;
-  background: url(../img/img_sprite.png) no-repeat -14px -78px;
-}
-input[type=checkbox].css-checkbox1:checked + label.css-label1 {
-  background: url(../img/img_sprite.png) no-repeat -47px -78px;
-}
+
 .latest_tweets h3, .compose_twit h3 {
   font-size: 1.2em;
 }
@@ -75,11 +63,11 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
   left:0;
   right:0;
   margin-left:auto;
-  margin-right:auto;  
+  margin-right:auto;
 }
 #show-comm, #show-cites {
     max-width: 80%;
-  }  
+  }
 .commnet-desc {
   background-color: #FFF;
   width: 100%;
@@ -113,7 +101,7 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
   font-size:20px;
   color:#414445;
   font-weight:600;
-  display:inline-block; 
+  display:inline-block;
   margin-left: 20px;
 }
 .commnet-desc span.time{
@@ -242,7 +230,7 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
   color:#FFF;
   font-weight:600;
   background:#f34141;
-  padding: 12px 12px 12px 0px; 
+  padding: 12px 12px 12px 0px;
   border:1px solid #D01818;
   border-radius:3px;
   -webkit-border-radius:3px;
@@ -255,7 +243,7 @@ input[type=checkbox].css-checkbox1:checked + label.css-label1 {
 }
 a.tootlip2 {
   background:#46B9E1;
-  border:1px solid #46B9E1 !important; 
+  border:1px solid #46B9E1 !important;
 }
 .tootlip a:hover{
   background-color: #E52626;
@@ -287,7 +275,7 @@ cursor: pointer;
 }
 .normal-input-white{
   background: #e1e4e9;
-  border: none;  
+  border: none;
   margin-bottom:1em;
 }
 .alert-input-white{
@@ -310,8 +298,8 @@ textarea {
     max-height: 18em;
 }
 /***************************
-*    HIGHLIGHTS             
-*                          
+*    HIGHLIGHTS
+*
 ***************************/
 
 .hasAuthor0, .hasAuthor1 {
@@ -510,8 +498,8 @@ textarea {
     rgb(151,34,27) 5px 5px;*/
 }
 /***************************
-*    REGISTER             
-*                          
+*    REGISTER
+*
 ***************************/
 #register-button{
     position: absolute;
@@ -627,8 +615,8 @@ left: 1%;
   color: #8C001A;
 }
 /***************************
-*    HOME             
-*                          
+*    HOME
+*
 ***************************/
 #longLogo h1,h2,h3,h4{
   font-family: 'Lato', Arial, sans-serif;
@@ -650,7 +638,7 @@ left: 1%;
   width: 25em;
 }
 #longLogo .content h2 {
-  color: #5F6F81;
+  color: #8A0707;
 
 }
 #longLogo .content table {
@@ -662,13 +650,17 @@ left: 1%;
       width: 50%;
       height: 2em;
 }
-
+#filter-menu{
+  position: fixed;
+  z-index: 1;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
 /***************************
-*    BACK TO TOP             
-*                          
+*    BACK TO TOP
+*
 ***************************/
 a.cd-top {
-  color: #5F6F81;
+  color: #8A0707;
   text-decoration: none;
 }
 .cd-top {
@@ -683,7 +675,7 @@ a.cd-top {
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  background: rgba(95,111,129,0.8) url(../img/cd-top-arrow.svg) no-repeat center 50%;
+  background: rgba(138,7,7,0.4) url(../img/cd-top-arrow.svg) no-repeat center 50%;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity .3s 0s, visibility 0s .3s;
@@ -705,9 +697,28 @@ a.cd-top {
   opacity: .5;
 }
 .no-touch .cd-top:hover {
-  background-color: #5F6F81;
+  background-color: #8A0707;
   opacity: 1;
 }
+/***************************
+*    CARDS
+*
+***************************/
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.2s ease-in-out;
+}
+
+.card-1:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+/***************************
+*    CARDS
+*
+***************************/
+   .infront { position: relative;
+    z-index: 20;
+  }
 @media only screen and (min-width: 768px) {
   .cd-top {
     right: 20px;

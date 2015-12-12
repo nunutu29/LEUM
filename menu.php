@@ -1,22 +1,5 @@
 <ul id="gn-menu" class="gn-menu-main">
-	<li class="gn-trigger">
-		<a class="gn-icon gn-icon-menu" id="MenuTrigger"><span></span></a>
-		<nav class="allow-scroll gn-menu-wrapper">
-			<div class="gn-scroller mCustomScrollbar" data-mcs-theme="minimal-dark">
-				<ul class="gn-menu" id = "mainMenu">
-					<li class="gn-search-item">
-						<input placeholder="Cerca" type="search" class="gn-search" id="iptSearch">
-						<a class="gn-icon gn-icon-search" href="#" onclick="Page.Search();"></a>
-					</li>
-					<li>
-						<a class="gn-icon gn-icon-lib" onclick="ToggleSibling(this)">Libreria</a>
-						<ul class="gn-submenu doc-annotati"style="display:none;">
-						</ul>
-					</li>
-				</ul>
-			</div><!-- /gn-scroller -->
-		</nav>
-	</li>
+	
 	<?php if(isset($_COOKIE["email"])){ ?>
 	<li>
 		<a class="gn-icon gn-icon-ann-wrapper-mobile"><button id="annota" class="codrops-icon codrops-icon-ann-add" onclick="AnnotaClick()">ANNOTA</button></a>
@@ -44,6 +27,24 @@
 	</li>
 
 	<?php } ?>
+        <!-- <li class="gn-trigger">
+		<a class="gn-icon gn-icon-menu" id="MenuTrigger"><span></span></a>
+		<nav class="allow-scroll gn-menu-wrapper">
+			<div class="gn-scroller mCustomScrollbar" data-mcs-theme="minimal-dark">
+				<ul class="gn-menu" id = "mainMenu">
+					<li class="gn-search-item">
+						<input placeholder="Cerca" type="search" class="gn-search" id="iptSearch">
+						<a class="gn-icon gn-icon-search" href="#" onclick="Page.Search();"></a>
+					</li>
+					<li>
+						<a class="gn-icon gn-icon-lib" onclick="ToggleSibling(this)">Libreria</a>
+						<ul class="gn-submenu doc-annotati"style="display:none;">
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</li> -->
 </ul>
 <!--start-Login-Form-->
 <div class="login-form initLogin" id="login-form">
