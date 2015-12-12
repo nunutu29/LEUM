@@ -22,7 +22,7 @@ function DeleteAuthors($item, $uri, $label, $annotation_ID, $at, $by, $id, $star
 									oa:hasBody <body-autore$annotation_ID>;
 								    oa:hasTarget  <target-autore$annotation_ID>.
 		<target-autore$annotation_ID> a oa:SpecificResource;
-									oa:hasSource <$item> ;
+									oa:hasSource dlib:$item ;
 									oa:hasSelector <selector-autore$annotation_ID>.
 		<selector-autore$annotation_ID> a oa:FragmentSelector ;
 									  rdf:value '$id' ;
@@ -54,7 +54,7 @@ function DeleteTitle($item, $uri, $label, $annotation_ID, $at, $by, $id, $start,
 										oa:hasBody <body-titolo$annotation_ID>;
 			  							oa:hasTarget  <target-titolo$annotation_ID>. 
 				<target-titolo$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-titolo$annotation_ID>.
 				<selector-titolo$annotation_ID> a oa:FragmentSelector;
 											  rdf:value \"$id\" ;
@@ -83,7 +83,7 @@ function DeletePublicationYear($item, $uri, $label, $annotation_ID, $at, $by, $i
 										oa:hasBody <body-annodp$annotation_ID>;
 			  							oa:hasTarget  <target-annodp$annotation_ID>. 
 				<target-annodp$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-annodp$annotation_ID>.
 				<selector-annodp$annotation_ID> a oa:FragmentSelector;
 											  rdf:value \"$id\" ;
@@ -112,7 +112,7 @@ function DeleteDoi($item, $uri, $label, $annotation_ID, $at, $by, $id, $start, $
 										oa:hasBody <body-doi$annotation_ID>;
 			  							oa:hasTarget  <target-doi$annotation_ID>. 
 				<target-doi$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-doi$annotation_ID>.
 				<selector-doi$annotation_ID> a oa:FragmentSelector;
 											  rdf:value \"$id\" ;
@@ -121,12 +121,12 @@ function DeleteDoi($item, $uri, $label, $annotation_ID, $at, $by, $id, $start, $
 			  <body-doi$annotation_ID> a rdf:Statement;
 										rdf:subject <$subject>;
 										rdf:predicate prism:doi;
-										rdf:object \"$object\";
+										rdf:object \"$object\"^^xsd:string;
 										rdfs:label	\"$bLabel\".
 									}
 								}";
+		
 	$answer = Update($Query);
-	//print "<xmp>$Query</xmp>";
 }
 function DeleteUrl($item, $uri, $label, $annotation_ID, $at, $by, $id, $start, $end, $subject, $object, $bLabel){
 	$Prefix = "PREFIX oa: <http://www.w3.org/ns/oa#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX dlib: <$uri>\nPREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX prism: <http://prismstandard.org/namespaces/basic/2.0/>\nPREFIX fabio: <http://purl.org/spar/fabio/>";
@@ -141,7 +141,7 @@ function DeleteUrl($item, $uri, $label, $annotation_ID, $at, $by, $id, $start, $
 										oa:hasBody <body-url$annotation_ID>;
 			  							oa:hasTarget  <target-url$annotation_ID>. 
 				<target-url$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-url$annotation_ID>.
 				<selector-url$annotation_ID> a oa:FragmentSelector;
 											  rdf:value \"$id\" ;
@@ -170,7 +170,7 @@ function DeleteCites($item, $uri, $label, $annotation_ID, $at, $by, $id, $start,
 											oa:annotatedAt \"$at\";
 											oa:hasBody <body-cito$annotation_ID>.
 				<target-cito$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-cito$annotation_ID>. 
 				<selector-cito$annotation_ID> a oa:FragmentSelector ;
 												rdf:value \"$id\";
@@ -200,7 +200,7 @@ function DeleteComment($item, $uri, $label, $annotation_ID, $at, $by, $id, $star
 										oa:hasBody <body-commento$annotation_ID>;
 			  							oa:hasTarget  <target-commento$annotation_ID>. 
 				<target-commento$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-commento$annotation_ID>.
 				<selector-commento$annotation_ID> a oa:FragmentSelector;
 											  rdf:value \"$id\" ;
@@ -229,7 +229,7 @@ function DeleteRethoric($item, $uri, $label, $annotation_ID, $at, $by, $id, $sta
 										oa:hasBody <body-retorica$annotation_ID>;
 			  							oa:hasTarget  <target-retorica$annotation_ID>. 
 				<target-retorica$annotation_ID> a oa:SpecificResource;
-											oa:hasSource <$item> ;
+											oa:hasSource dlib:$item ;
 											oa:hasSelector <selector-retorica$annotation_ID>.
 				<selector-retorica$annotation_ID> a oa:FragmentSelector;
 											  rdf:value \"$id\" ;

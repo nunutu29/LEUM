@@ -36,10 +36,14 @@ var Singin = (function (){
 			if( !isValidEmailAddress(pData.newemail.trim()) ) { $("#erroremail").text("L'e-mail inserito  inserito è errato");$("#erroremail").slideDown(); }
 			else{
 				if (pData.newpass == pData.newconfpass) {
-					var risposta = api10.chiamaServizio({requestUrl: "pages/register.php", data: pData});
-					if(risposta.trim() == "")
+					var api =  new API();
+					var risposta = api.chiamaServizio({requestUrl: "pages/register.php", data: pData});
+					if(risposta.trim() == ""){
+						Login.Try(true, pData.newemail, pData.newpass);
 						location.reload();
-					else alert(risposta);
+					}
+					else 
+						alert(risposta);
 				}
 				else{
 					$("#erroremail").text("La password non coincide");$("#erroremail").slideDown();

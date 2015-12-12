@@ -394,21 +394,73 @@ if($title != NULL){
 }
 
 //Autori dell'articolo
-$aut = $xpath->query("//table[@cellpadding='6']//b[1]");
-foreach($aut as $node) 
-	CreateAuthors($Exp, $item, $node->nodeValue, 0, strlen($node->nodeValue), $node->getAttribute('id'), $uri);
+//$aut = $xpath->query("//table[@cellpadding='6']//b[1]");
+
+$audID = 'form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2';
+$autArray = $xpath->query("//p[@id='$audID']/text()");
+$autStart = 0;
+function Authors($autori, $del_Len, $autStartTmp, $Exp, $item, $autStart, $audID, $uri){
+	foreach($autori as $node){
+		if(is_array($node) && count($node) > 1) {
+			$autStartTmp=Authors($node, 1, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
+			continue;}
+		if(is_array($node)) {
+			$autStartTmp=Authors($node, 5, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
+			continue;}
+			
+		$end = 0;
+		$autStartTmp = $autStartTmp + (strlen($node) - strlen(ltrim($node)));
+		$end = strlen($node) - strlen(rtrim($node));
+		$node = trim($node);
+		$node = Normalize($node);
+		//print $node." ".$autStart.$autStartTmp."<br>";
+		CreateAuthors($Exp, $item, $node, $autStart + $autStartTmp, $autStart + $autStartTmp + strlen($node), $audID, $uri);
+		$autStartTmp = $autStartTmp + strlen($node) + $end + $del_Len;
+	}
+	return $autStartTmp - $del_Len;
+}
+for($i = 0; $i < $autArray->length; $i++){
+	$aut = $autArray->item($i);
+	if($i != 0 && (strlen($aut->nodeValue) - strlen(ltrim($aut->nodeValue))) != 2) {
+		$autStart = $autStart + strlen($aut->nodeValue);
+		continue;}
+	if($Work == "11kristianto")
+	{
+		$node = $aut->nodeValue;
+		$node = Normalize($node);
+		$pos1 = strpos($node, " ");
+		$pos2 = strpos($node, " ", $pos1 + 1);
+		if($i != 0)
+			$node = substr($node, 0, $pos2);
+		else
+		{
+			$pos3 = strpos($node, " ", $pos2 + 1);
+			$node = substr($node, 0, $pos3);
+		}
+		$node = substr($node, 0, strlen($node) - 1);
+		CreateAuthors($Exp, $item, $node, $autStart, $autStart + strlen($node), $audID, $uri);
+	}
+	else
+	{
+		$aut = MultiDelimiter(array(" and ", ","), $aut->nodeValue);
+		Authors($aut, 5, 0, $Exp, $item, $autStart, $audID, $uri);
+	}
+	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+	$i++;
+	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+}
 
 //Abstract
-$astratto = $xpath->query("//h3[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
+$astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
 if($astratto != null)
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 //URL
-$url = $xpath->query("//a[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
+$url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
 if($url != null)
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
-$url = $xpath->query("//a[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1_a1']")->item(0);
+$url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1_a1']")->item(0);
 if($url != null)
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
@@ -422,30 +474,82 @@ CreatePublicationYear($Exp, $item, $publicationYear, strlen($AllStr->nodeValue) 
 
 //DOI dell'articolo
 $target = $xpath->query("//p[2]")->item(0);
+$target_text = Normalize($target->nodeValue);
 $aux = $xpath->query("//p[2]//text()[(preceding::br)]");
-$doi = substr($aux->item($aux->length - 1)->nodeValue, 4);
-CreateDoi($Exp, $item, $doi, strpos($target->nodeValue, $doi), strpos($target->nodeValue, $doi) + strlen($doi), $target->getAttribute('id'), $uri);
+$doi = Normalize(substr($aux->item($aux->length - 1)->nodeValue, 4));
+$doi = trim($doi);
+CreateDoi($Exp, $item, $doi, strpos($target_text, $doi), strpos($target_text, $doi) + strlen($doi), $target->getAttribute('id'), $uri);
 
 //Citazioni dell'articolo
 $cities = $xpath->query("//h3[text()='References'][1]/following-sibling::p[count(.|//h3[text()='About the Authors'][1]/preceding-sibling::p)=count(//h3[text()='About the Authors'][1]/preceding-sibling::p)]");
 $i = 1;
-file_put_contents("log.txt", $cities->length);
 foreach($cities as $cite){
 	$citExp = $Exp."_cited".$i;
 	$title = $cite->getElementsByTagName('i');
 	$title = $title->length > 0 ? $title->item(0) : NULL;
 	if($title != NULL){
-		CreateCities($title->nodeValue, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		CreateTitle($citExp, $item, $title->nodeValue, 0, strlen($title->nodeValue), $title->getAttribute('id'), $uri);
+		CreateCities($title->nodeValue, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen(Normalize($cite->nodeValue)), $uri);
+		CreateTitle($citExp, $item, $title->nodeValue, 0, strlen(Normalize($title->nodeValue)), $title->getAttribute('id'), $uri);
 		$DOI = $cite->getElementsByTagName('a');
 		$DOI = $DOI->length > 1 ? $DOI->item(1) : NULL;
 		if($DOI != NULL)
 			CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
+		//Anno
+		$node = Normalize($cite->nodeValue);
+		$anni = explode(",", $node);
+		$positionStart = 0;
+		foreach($anni as $anno){
+			if((strlen(trim($anno)) == 4) || (strlen(trim($anno)) == 5 && substr(trim($anno), -1) == ".")){
+				//manipulazione anno
+				$positionStart += strlen($anno) - strlen(ltrim($anno));
+				$anno = trim($anno);
+				if(substr($anno, -1) == ".")
+					$anno = substr($anno, -1);
+				//Inserimento anno
+				CreatePublicationYear($citExp, $item, $anno, $positionStart, $positionStart + strlen($anno), $cite->getAttribute('id'), $uri); 
+				break;
+			}
+			else
+				$positionStart += strlen($anno) + 1; //+1 per la virgola
+		}	
+		//Autori
+		$valoriSplit = explode(" ", $node);
+		$save = false;
+		$authorToSave = "";
+		$positionStart = 0;
+		$positionEnd = 0;
+		$span = 0;
+		foreach($valoriSplit as $autori){
+			// se sono 2 caratteri e l'ultimo = '.', oppure se sono 5 caratteri e il 3 = '-' e ultimo = '.'
+			if((strlen(trim($autori)) == 2 && substr(trim($autori), -1) == ".") || (strlen(trim($autori)) == 5 && substr(trim($autori), -1) == "." && substr(trim($autori), 2, 1) == "-")){
+				$save = true;
+				$authorToSave .= $autori." ";
+			}
+			else{
+				if($save == true){
+					$authorToSave = $authorToSave.$autori;
+					if(substr($authorToSave,-1) == "," || substr($authorToSave,-1) == "."){
+						$authorToSave = substr($authorToSave, 0, strlen($authorToSave) - 1);
+						$span = 1; //la virgola o il punto
+					}
+					$positionEnd = $positionStart + strlen($authorToSave);
+					CreateAuthors($citExp, $item, $authorToSave, $positionStart, $positionEnd, $cite->getAttribute('id'), $uri);
+					//print $positionStart." ".$positionEnd." ".$authorToSave."<br>";
+					$positionStart = $positionEnd + $span + 1; //lo spazio
+					$span = 0;
+					$save = false;
+					$authorToSave = "";
+				}
+				else
+					$positionStart += strlen($autori) + 1; //Per lo split di spazio
+			}
+		}
 	}
 	$i++;	
 }
 }
-function InsertJournals($content, $uri, $item, $ArtTitle){
+
+function InsertJournals($content, $uri, $item, $ArtTitle){ //rivista-statistica
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
 $Work = $item;
@@ -465,7 +569,7 @@ if($title != NULL){
 }
 
 //Autori articolo
-$aut= $xpath->query("//em[@id='html1_body1_div1_div2_div2_div3_div3_em1']")->item(0);
+$aut= $xpath->query("//em[@id='div1_div2_div2_div3_div3_em1']")->item(0);
 $autTarget = $aut->getAttribute('id');
 $aut = explode(",", $aut->nodeValue);
 $start = 0;
@@ -477,60 +581,84 @@ foreach($aut as $node){
 
 
 //Abstract
-$astratto = $xpath->query("//p[@id='html1_body1_div1_div2_div2_div3_div4_div1_p1']")->item(0);
+$astratto = $xpath->query("//p[@id='div1_div2_div2_div3_div4_div1_p1']")->item(0);
 if($astratto != null)
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+else{
+	$astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
+	CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+}
 
 
 //URL
-$url = $xpath->query("//a[@id='html1_body1_div1_div2_div2_div3_div6_a1']")->item(0);
-if($url != null)
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div6_a1']")->item(0);
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_p4_a1']")->item(0);
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 
 
 //Anno di pubblicazione dell'articolo
-$target = $xpath->query("//p[@id='html1_body1_div1_div2_div2_div3_p3']")->item(0);
+$target = $xpath->query("//p[@id='div1_div2_div2_div3_p3']")->item(0);
 $AllStr=$target;
 $publicationYear = substr($AllStr->nodeValue, -18, -14);
 CreatePublicationYear($Exp, $item, $publicationYear, strlen($AllStr->nodeValue) - 18, strlen($AllStr->nodeValue) - 14, $target->getAttribute('id'), $uri); 
 
 
 //DOI dell'articolo
-$target = $xpath->query("//a[@id='html1_body1_div1_div2_div2_div3_a1']")->item(0);
+$target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
 CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 
 //Citazioni dell'articolo
-$cities=$xpath->query("//div[@id='html1_body1_div1_div2_div2_div3_div7_div1']/p");
+$cities=$xpath->query("//div[@id='div1_div2_div2_div3_div7_div1']/p");
+
 $i=1;
 foreach($cities as $cite){
 	$citExp=$Exp."_cited".$i;
-	$parentesi=strpos($cite->nodeValue, ')');
-	if(!is_numeric(substr($cite->nodeValue, $parentesi - 1, 1))) $parentesi -= 1;
-	$year=substr($cite->nodeValue,$parentesi-4,4);
-	$intera=trim(substr($cite->nodeValue, $parentesi+3, strlen($cite->nodeValue)));
+	$citazione=Normalize($cite->nodeValue);
+	$parentesi=strpos($citazione, ')');
+	if(!is_numeric(substr($citazione, $parentesi - 1, 1))) $parentesi -= 1;	//caso (2004b)
+	$year=substr($citazione,$parentesi-4,4);
+	if(!is_numeric($year)) $year=substr($citazione,$parentesi-5,4);		//caso (2004 b)   AMPIAMENTE MIGLIORABILE, FATTO AL VOLO
+	$intera=trim(substr($citazione, $parentesi+3, strlen($citazione)));
 	$endtitlevirgola=strpos($intera, ',');
 	$endtitlepunto=strpos($intera, '.');
 	if($endtitlevirgola<$endtitlepunto)
 		$title=substr($intera, 0, $endtitlevirgola);
 	else
 		$title=substr($intera, 0, $endtitlepunto); 		
+
+	
+	$fineautore=strpos($citazione, '(');    //D. J. DONNELL, A. BUJA, W. STUETZLE (1994). 
+	if($fineautore){
+		$fineautore=$fineautore-2;
+		$autori=substr($citazione,0,$fineautore+1);
+		$arrayautori = explode(",", $autori);
+		$start=0;
+		foreach($arrayautori as $node){  //PROVARE: per la posizione senza usare start cerca $node nella stringa totale e poi sottrai la pos - strlen $node
+			$var = trim($node);
+			$len=strlen($var);
+			if(strpos($var,'Ö')>0||strpos($var,'É')>0||strpos($var,'Ú')>0){		//decremento di uno perchè la pos con questi caratteri risulta +1
+				$len=$len-1;
+			}
+			CreateAuthors($citExp, $item, $var, $start, $start + $len, $cite->getAttribute('id'), $uri);
+			$start += $len + 2;
+
+			}
+	}	
 	
 	if($title!=NULL){
-		 CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		 CreateTitle($citExp, $item, $title, strpos($cite->nodeValue, $title), strlen($title) + strpos($cite->nodeValue, $title), $cite->getAttribute('id')/*correggere*/, $uri);
-		 CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
-	
+		CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);
+		CreateTitle($citExp, $item, $title, strpos($citazione, $title), strlen($title) + strpos($citazione, $title), $cite->getAttribute('id')/*correggere*/, $uri);
+		CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
 	}
 	$i++;
 }
 
 
 }
-function InsertJournalsAM($content, $uri, $item, $ArtTitle){
-//Work = Nome Senza Estensione
-//Exp = Nome Con _ver1
+function InsertJournalsAM($content, $uri, $item, $ArtTitle){	//montesquieu
 $Work = $item;
 $Exp = $Work."_ver1";
 
@@ -548,90 +676,68 @@ if($title != NULL){
 }
 
 //Autori articolo
-$aut= $xpath->query("//em[@id='html1_body1_div1_div2_div2_div3_div3_em1']")->item(0);
+$aut= $xpath->query("//em[@id='div1_div2_div2_div3_div3_em1']")->item(0);
 $autTarget = $aut->getAttribute('id');
-$aut = explode(",", $aut->nodeValue);
-$start = 0;
-foreach($aut as $node){
-	$var = trim($node);
-	 CreateAuthors($Exp, $item, $var, $start, $start + strlen($var), $autTarget, $uri);
-	$start += strlen($var) + 2;
-}
+$var=trim($aut->nodeValue);
+CreateAuthors($Exp, $item, $var, 0, strlen($var), $autTarget, $uri);
+
 
 
 //Abstract
-$astratto = $xpath->query("//p[@id='html1_body1_div1_div2_div2_div3_div4_div1_p1']")->item(0);
-if($astratto != null)
+$astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 
+
 //URL
-$url = $xpath->query("//a[@id='html1_body1_div1_div2_div2_div3_div6_a1']")->item(0);
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div6_a1']")->item(0);
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div9_div2_p1_a1']")->item(0);
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div9_div2_p1_a2']")->item(0);
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 
+/*
+
 //Anno di pubblicazione dell'articolo
-$ab = $xpath->query("//p[@id='html1_body1_div1_div2_div2_div3_p2']")->item(0);
-$publicationYear = substr($ab->nodeValue, -4, 4);
- CreatePublicationYear($Exp, $item, $publicationYear, strlen($ab->nodeValue) - 4, strlen($ab->nodeValue), $ab->getAttribute('id'), $uri); 
+
+$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
+//$ab = $xpath->query("//div[@id='div1_div2_div2_div3']//text()[(preceding::br[@id='div1_div2_div2_div3_br5'])] ")->item(0);
+//$abb= $xpath->query("//*[@id="div1_div2_div2_div3"]/text()[2]")->item(0);
+$str="";
+$str=$target->nodeValue;
+//$string=Normalize($str); //non normalizzare perchè in higlight poi li conta i caratteri e risultano di più li dato che qui li normalizzo
+//$string=trim($str);
+
+$stony="Carte de Tendre";
+//$stony="Copyright (c) 2015";
+$pos=strpos($str, $stony);
+//CreatePublicationYear($Exp, $item, 2015, $pos+strlen($stony)-4, $pos+strlen($stony), $target->getAttribute('id'), $uri); //MALEDETTOOOOOOOOOOOOOOOOOOO ci sono spazi a caso nel testo ed è sfasato ogni articolo diverso!!!
+CreatePublicationYear($Exp, $item, 2015, $pos, $pos+4, $target->getAttribute('id'), $uri);
+
+//Anno di pubblicazione dell'articolo
+/*
+$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
+$ab = $xpath->query("//div[@id='div1_div2_div2_div3']//text()[(preceding::br[@id='div1_div2_div2_div3_br5'])]")->item(0);
+//$abb= $xpath->query("//*[@id="div1_div2_div2_div3"]/text()[2]")->item(0);
+$str="2015";
+$pos=strrpos($target->nodeValue, $str); //sempre ultimo 2015 nel testo
+CreatePublicationYear($Exp, $item, $str, $pos-4, $pos, $target->getAttribute('id'), $uri); 
+//chiudi commento
+
+
+*/
 
 
 //DOI dell'articolo
-$target = $xpath->query("//a[@id='html1_body1_div1_div2_div2_div3_a1']")->item(0);
+$target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
- CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
-
-//Citazioni dell'articolo
-$cities=$xpath->query("//div[@id='html1_body1_div1_div2_div2_div3_div7_div1']/p");
-$i=1;
-foreach($cities as $cite){
-	$citExp=$Exp."_cited".$i;
-	$parentesi=strpos($cite->nodeValue, ')');
-	if($parentesi==true){   //se trova la parentesi (alcune citazioni non hanno autori e anno)
-		if(!is_numeric(substr($cite->nodeValue, $parentesi - 1, 1))){
-			$parentesi -= 1;
-		}
-		$year=substr($cite->nodeValue,$parentesi-4,4);
-		if(!is_numeric($year)){  	//alcune citazioni non hanno solo l'anno tra parentesi ma sono tipo (Ed.) (2015) quindi bisogna scartare la prima
-			$sub=substr($cite->nodeValue, $parentesi+2, strlen($cite->nodeValue));
-			$parentesi=strpos($sub, ')');
-			$year=substr($cite->nodeValue,$parentesi-4,4);	
-		}
-		// se l'anno non c'è nella citazione? cosa creiamo ?
-
-		$split=str_split($cite->nodeValue);
-		if($split[$parentesi+1]==" "){     //alcune citazioni hanno la virgola o il punto tra anno e titolo, altre non ce l'hanno
-			$intera=trim(substr($cite->nodeValue, $parentesi+2, strlen($cite->nodeValue)));
-		}
-		else{
-			$intera=trim(substr($cite->nodeValue, $parentesi+3, strlen($cite->nodeValue)));
-		 }
-
-		$endtitlepunto=strpos($intera, '.');
-		$title=substr($intera, 0, $endtitlepunto); 
-	}
-	else{  //per una maledetta citazione senza anno
-		$intera=trim($cite->nodeValue);
-		$starttitle=strpos($intera, '.')+2;
-		$endtitle=strpos($intera, ',');
-		$offset=$endtitle-$starttitle;
-		$title=substr($intera, $starttitle, $offset);
-	}			
-	
-	if($title!=NULL){
-		 CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		 CreateTitle($citExp, $item, $title, strpos($cite->nodeValue, $title), strlen($title) + strpos($cite->nodeValue, $title), $cite->getAttribute('id'), $uri);
-		 CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
-	
-	}
-	$i++;
+CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
 
 
-}
 function InsertJournalsAT($content, $uri, $item, $ArtTitle){
-//Work = Nome Senza Estensione
-//Exp = Nome Con _ver1
 $Work = $item;
 $Exp = $Work."_ver1";
 
@@ -649,7 +755,7 @@ if($title != NULL){
 }
 
 //Autori articolo
-$aut= $xpath->query("//em[@id='html1_body1_div1_div2_div2_div3_div3_em1']")->item(0);
+$aut= $xpath->query("//em[@id='div1_div2_div2_div3_div3_em1']")->item(0);
 $autTarget = $aut->getAttribute('id');
 $aut = explode(",", $aut->nodeValue);
 $start = 0;
@@ -660,32 +766,36 @@ foreach($aut as $node){
 }
 
 //Abstract
-$astratto = $xpath->query("//div[@id='html1_body1_div1_div2_div2_div3_div4_div1']")->item(0);
+$astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
 if($astratto != null)
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 
 
 //URL
-$url = $xpath->query("//a[@id='html1_body1_div1_div2_div2_div3_div6_a1']")->item(0);
-if($url != null)
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_div6_a1']")->item(0);
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+$url = $xpath->query("//a[@id='div1_div2_div2_div3_p2_a1']")->item(0);
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 
-
 //Anno di pubblicazione dell'articolo
-$ab = $xpath->query("//p[@id='html1_body1_div1_div2_div2_div3_p1']")->item(0);
+$ab = $xpath->query("//p[@id='div1_div2_div2_div3_p1']")->item(0);
 $publicationYear = substr($ab->nodeValue, -4, 4);
  CreatePublicationYear($Exp, $item, $publicationYear, strlen($ab->nodeValue) - 4, strlen($ab->nodeValue), $ab->getAttribute('id'), $uri); 
 
 
 //DOI dell'articolo
-$target = $xpath->query("//a[@id='html1_body1_div1_div2_div2_div3_a1']")->item(0);
+$target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
  CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 
 
 }
+
+
+
+
 function InsertStandart($content, $uri, $item, $ArtTitle){
 $arr = explode(".", $item);
 $Work = "";
@@ -704,8 +814,160 @@ CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 
 
 
-function InsertDlib2($content, $uri, $item, $ArtTitle){
-//Work = Nome Senza Estensione
+
+function InsertDlib2($content, $uri, $item, $ArtTitle){			//http://www.dlib.org/dlib/january14/01contents.html
+	$Work = $item;
+$Exp = $Work."_ver1";
+
+$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+if($get != null) return;
+$content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
+$doc = new DOMDocument();	
+$doc->loadHTML($content);
+$xpath = new DOMXPath($doc);
+
+
+//Titolo dell'articolo
+$title = $doc->getElementsByTagName('h3')->item(1);
+if($title != NULL){
+	CreateTitle($Exp, $item, $title->nodeValue, 0, strlen($title->nodeValue), $title->getAttribute('id'), $uri);
+}
+
+//Autori dell'articolo
+$audID = 'form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2';
+$autArray = $xpath->query("//p[@id='$audID']/text()");
+$autStart = 0;
+function Authors($autori, $del_Len, $autStartTmp, $Exp, $item, $autStart, $audID, $uri){
+	foreach($autori as $node){
+		if(is_array($node) && count($node) > 1) {
+			$autStartTmp=Authors($node, 1, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
+			continue;}
+		if(is_array($node)) {
+			$autStartTmp=Authors($node, 5, $autStartTmp, $Exp, $item, $autStart, $audID, $uri) + 5; 
+			continue;}
+			
+		$end = 0;
+		$autStartTmp = $autStartTmp + (strlen($node) - strlen(ltrim($node)));
+		$end = strlen($node) - strlen(rtrim($node));
+		$node = trim($node);
+		$node = Normalize($node);
+		//print $node." ".$autStart.$autStartTmp."<br>";
+		CreateAuthors($Exp, $item, $node, $autStart + $autStartTmp, $autStart + $autStartTmp + strlen($node), $audID, $uri);
+		$autStartTmp = $autStartTmp + strlen($node) + $end + $del_Len;
+	}
+	return $autStartTmp - $del_Len;
+}
+for($i = 0; $i < $autArray->length; $i++){
+	$aut = $autArray->item($i);
+	if($i != 0 && (strlen($aut->nodeValue) - strlen(ltrim($aut->nodeValue))) != 2) {
+		$autStart = $autStart + strlen($aut->nodeValue);
+		continue;}
+	if($Work == "01kabore")		//provare
+	{
+		$node = $aut->nodeValue;
+		$node = Normalize($node);
+		$pos1 = strpos($node, " ");
+		$pos2 = strpos($node, " ", $pos1 + 1);
+		if($i != 0)
+			$node = substr($node, 0, $pos2);
+		else
+		{
+			$pos3 = strpos($node, " ", $pos2 + 1);
+			$node = substr($node, 0, $pos3);
+		}
+		$node = substr($node, 0, strlen($node) - 1);
+		CreateAuthors($Exp, $item, $node, $autStart, $autStart + strlen($node), $audID, $uri);
+	}
+	else{
+		
+		$aut = MultiDelimiter(array(" and ", ","), $aut->nodeValue);
+		Authors($aut, 5, 0, $Exp, $item, $autStart, $audID, $uri);
+	}	
+	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+	$i++;
+	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+}
+
+//Abstract
+$astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
+if($astratto != null)
+CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+
+
+/*
+//Introduction
+$intro=$xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h34']")->item(0);
+if(($intro->nodeValue.localeCompare("Introduction"))==0){	
+	$introduzione=$xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h34']/following-sibling::p[1]")->item(0);
+	if($introduzione!= null)
+		CreateRethoric($Exp, $item, "deo:Introduction", "Questa è l' introduzione dell'articolo.", 0, strlen($introduzione->nodeValue), $introduzione->getAttribute('id'), $uri);
+}
+*/
+
+
+
+//URL
+$url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
+if($url != null)
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+
+$url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1_a1']")->item(0);
+if($url != null)
+CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+
+
+
+//Anno di pubblicazione dell'articolo
+$target = $xpath->query("//p[1]")->item(0);
+$AllStr = $xpath->query("//p[1]//text()[(following::br)]")->item(0);
+$publicationYear=substr($AllStr->nodeValue, -4);
+CreatePublicationYear($Exp, $item, $publicationYear, strlen($AllStr->nodeValue) - 4, strlen($AllStr->nodeValue), $target->getAttribute('id'), $uri); 
+
+//DOI dell'articolo
+$target = $xpath->query("//p[2]")->item(0);
+$target_text = Normalize($target->nodeValue);
+$aux = $xpath->query("//p[2]//text()[(preceding::br)]");
+$doi = Normalize(substr($aux->item($aux->length - 1)->nodeValue, 4));
+CreateDoi($Exp, $item, $doi, strpos($target_text, $doi), strpos($target_text, $doi) + strlen($doi), $target->getAttribute('id'), $uri);
+
+	
+if($Work=="01musgrave"){
+	$cities1=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p17']")->item(0);
+	$i=1;
+	$citExp=$Exp."_cited".$i;
+	$citazione=Normalize($cities1->nodeValue);	
+	//autori
+	$pos_punto=strpos($citazione, '.');
+	$autori=substr($citazione, 0, $pos_punto);
+	$arr_aut=explode('&', $autori);
+	$start=0;
+	foreach($arr_aut as $node){
+		if(strpos($node, ',')){
+			$var=str_replace(',', ' ', $node);
+			$var=trim($var);
+		}
+		else{
+			$var=trim($node);	
+		}
+		
+		CreateAuthors($citExp, $item, $var, $start, $start + strlen($var), $cite->getAttribute('id'), $uri);
+		$start+=strlen($var)+2;
+		
+	}
+	
+	//anno
+	$anno=substr($citazione, $pos_punto, 5);
+	CreatePublicationYear($Exp, $item, $anno, $pos_punto+1, $pos_punto+5, $target->getAttribute('id'), $uri); 
+
+	
+	
+	
+}
+	
+	
+	
+	
+/*//Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
 $Work = $item;
 $Exp = $Work."_ver1";
@@ -724,7 +986,7 @@ if($title != NULL){
 }
 
 //Autori articolo
-$aut= $xpath->query("//p[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']/text()[(following::br)]")->item(0);
+$aut= $xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']/text()[(following::br)]")->item(0);
 $str=str_replace(" and ", ",", $aut->nodeValue);
 $arr = explode(",", $str);
 $start=0;
@@ -736,15 +998,15 @@ foreach($arr as $node){
 }
 
 //Anno di pubblicazione dell'articolo
-$target=$xpath->query("//p[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1']")->item(0);
-$ab = $xpath->query("//p[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1']/text()[(following::br)]")->item(0);
+$target=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1']")->item(0);
+$ab = $xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1']/text()[(following::br)]")->item(0);
 $publicationYear = substr($ab->nodeValue, -4, 4);
- CreatePublicationYear($Exp, $item, $publicationYear, strlen($ab->nodeValue) - 4, strlen($ab->nodeValue), $target->getAttribute('id'), $uri); 
+ CreatePublicationYear($Exp, $item, $publicationYear, strlen($ab->nodeValue) - 4, strlen($ab->nodeValue)+1, $target->getAttribute('id'), $uri); 
 
 
 //DOI dell'articolo
-$target=$xpath->query("//p[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']")->item(0);
-$ab = $xpath->query("//p[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']/text()[(preceding::br)]");
+$target=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']")->item(0);
+$ab = $xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']/text()[(preceding::br)]");
 foreach($ab as $node){ //scorre all'ultimo br dato che il DOI è sempre dopo l'ultimo br
 $ab=$node;
 }
@@ -754,11 +1016,11 @@ $start=strpos($target->nodeValue,$doi);
 
 
 //Abstract
-$astratto = $xpath->query("//h3[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
+$astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 //URL
-$url = $xpath->query("//a[@id='html1_body1_form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
+$url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 
@@ -777,6 +1039,20 @@ foreach($target as $node){
 		CreateCities($t, $citExp, $Exp, $item, $node->nodeValue, $node->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
 		
 	}
+	
 }
+*/
+
+
+}
+
+function MultiDelimiter($delimiters, $string){
+	$arr = explode($delimiters[0], $string);
+	array_shift($delimiters);
+	if($delimiters != NULL) {
+		foreach($arr as $key => $val)
+             $arr[$key] = MultiDelimiter($delimiters, $val);
+	}
+	return $arr;
 }
 ?>

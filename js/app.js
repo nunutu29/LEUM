@@ -1,802 +1,3 @@
-
-var api = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-
-
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api2 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api3 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api4 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api5 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api6 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api7 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api8 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api9 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api10 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-var api11 = (function () {
-var self = {},
-	options = {
-		isAsync: false,
-		methodType: 'POST',
-		data: '',
-		callback: null,
-		requestUrl: '',
-		hasModal: false
-	},
-	resp;
-function Reset(){
-		options.isAsync= false;
-		options.methodType= 'POST';
-		options.data = '';
-		options.callback= null;
-		options.requestUrl= '';
-		options.hasModal= false;
-	
-}
-function makeAjaxRequest() {
-	$.ajax({
-		type: options.methodType,
-		url: options.requestUrl,
-		data: JSON.stringify(options.data),
-		async: options.isAsync,
-		contentType: "application/json",
-		beforeSend: function(){$("#myLoader").show();},
-		complete: function(){
-			$("#myLoader").hide();
-			Reset();
-		},
-		success: function (response) {
-			if (options.callback)
-				options.callback(response);
-			else resp = response;
-		},
-		error: function (XMLHttpRequest) {
-			if (XMLHttpRequest.responseText) {
-				if (options.callback)
-					options.callback(XMLHttpRequest.responseText);
-				else resp = XMLHttpRequest.responseText;
-
-			}
-		}
-	});
-}
-self.chiamaServizio = function (customOptions) {
-	setOptions(customOptions);
-	if (!validate()) {
-		if (options.callback)
-			return { error: "Service URL not defined!" };
-		else
-			alert("Service URL not defined!");
-	}
-	makeAjaxRequest();
-	if (options.callback === null)
-		return resp;
-};
-function setOptions(cusmtomOptions) {
-	$.extend(options, options, cusmtomOptions);
-};
-function validate() {
-	if (options.requestUrl.length === 0)
-		return false;
-	return true;
-}
-return self;
-}());
-
-function showGetResult( ){
-	 var result = null;
-	 var scriptUrl = "pages/ann.json";
-	 $.ajax({
-		url: scriptUrl,
-		type: 'get',
-		async: false,
-		success: function(data) {
-			result = data;
-		} 
-	 });
-	 return result;
-}
-
 var Login = (function (){
 	var self = {};
 	self.toggle = function (){
@@ -818,15 +19,24 @@ var Login = (function (){
 			classie.add(loginForm, 'changeLogin');
 		}
 	};
-	self.Try = function(){
-		var pData = {
-			user: document.getElementById('txtuser').value,
-			password: document.getElementById('txtpass').value
-		}
+	self.Try = function(ok, user, pass){
+		ok = ok || false;
+		var pData = {};
+		if(!ok)
+			pData = {
+				user: document.getElementById('txtuser').value,
+				password: document.getElementById('txtpass').value
+			}
+		else
+			pData = {
+				user: user,
+				password: pass
+			}
 		if(pData.user.trim().length == 0) alert("Username can't be blank.");
 		else{
 			if(pData.password.trim().length == 0) alert("Password can't be blank.");
 			else{
+				var api = new API();
 				var risposta = api.chiamaServizio({requestUrl: "pages/login.php?user="+pData.user+"&password="+pData.password, methodType: "GET"});
 				 if(risposta.trim() == "")
 				 	location.reload();
@@ -844,17 +54,32 @@ var Login = (function (){
 
 var Scrap = (function(){
 	var self = {};
-	var DataObject = {};
-	self.GetAll = function(uri, from){
-		var pData = {link: uri, from: from};
-		return api.chiamaServizio({requestUrl: "pages/TryScrap.php", data: pData, isAsync:true});
-	};
+	self.ShowArray = function(what, chk, index){
+		index = index || 0;
+		var id = what + index;
+		if(chk.checked){
+		what = self.Decode(what);
+		var content = self.Execute(what, true, index);
+		var content2 = self.GetNew(what, index);
+		
+		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
+		
+		if(content2 != null) content = content.concat(content2);
+		if (content != null && content != undefined)
+			for(var i = 0; i< content.length; i++)
+				if(content[i] != null){
+						self.Highlight(content[i], self.CheckID(id));
+				}
+		}
+		else
+			self.Remove(id, ".");
+	}
 	self.GetNew = function(what, index){
-		var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+		var ann = sessionStorage.getItem('ann');
 		if(ann == undefined || ann == "") return null;
 		var control = "ver1";
-		if(index != 0) control = "cited"; 
-		
+		if(index != 0) control = "cited";
+
 		if(typeof ann == "object") ann = [ann];
 		else{
 			ann = ann.replace(/\|/g, ",");
@@ -863,11 +88,11 @@ var Scrap = (function(){
 		}
 		var arr = [];
 		for(var i = 0; i < ann.length; i++){
-		
+
 			if(self.CheckRet(what))
 			{
 				//Se Retorica fai questo
-				if(ann[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && ann[i].object.value == what && ann[i].azione.value != 'D') 
+				if(ann[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && ann[i].object.value == what && ann[i].azione.value != 'D')
 					arr.push(ann[i]);
 			}
 			else{
@@ -877,136 +102,25 @@ var Scrap = (function(){
 					if(ann[i].predicate.value == what && what == "http://schema.org/comment")
 						arr.push(ann[i]);
 					else
-						if(ann[i].predicate.value == what && ann[i].azione.value != 'D' && ann[i].subject.value.slice(-8).indexOf(control) != -1) 
+						if(ann[i].predicate.value == what && ann[i].azione.value != 'D' && ann[i].subject.value.slice(-8).indexOf(control) != -1)
 							arr.push(ann[i]);
 			}
 		}
 		return arr.length == 0 ? null : arr;
 	};
 	self.Execute = function(what, array, index){
-		var json =  api.chiamaServizio({requestUrl: "pages/annotation.json"});
+		var json = JSON.parse(sessionStorage.getItem('annotation'));
+		if(json == null) return;
 		var control = "ver1";
-		if(index != 0) control = "cited"; 
+		if(index != 0) control = "cited";
 		return self.GetArray(json.results.bindings, what, control);
-	}
-	self.ShowArray = function(what, chk, index){
-		index = index || 0;
-		var id = what + index;
-		if(chk.checked){
-		what = self.Decode(what);
-		var content = self.Execute(what, true, index);
-		var content2 = self.GetNew(what, index);
-		if(content2 != null) content = content.concat(content2);
-		if (content != null && content != undefined)
-			for(var i = 0; i< content.length; i++)
-				if(content[i] != null){
-						self.Highlight(content[i], self.CheckID(id));
-				}
-		}
-		else{
-			$("span." + self.CheckID(id)).contents().unwrap();
-			$("span." + self.CheckID(id)).remove();
-			$("span.gn-icon-show." + self.CheckID(id)).remove();
-			}
-	}
-	self.Highlight = function(elements, style){
-		function guid() {
-		  function s4() {
-			return Math.floor((1 + Math.random()) * 0x10000)
-			  .toString(16)
-			  .substring(1);
-		  }
-		  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-			s4() + '-' + s4() + s4() + s4();
-		}
-		var id = self.GetPrefixID(elements.subject.value, elements.id.value);
-		
-		
-		var element = $("#" + id);
-		if(element.html() == undefined) element = $("#" + id + "1");
-		var html = element.html();
-		var text = element.text();
-		if(html == undefined || text == "") return;
-		var before, after;
-		var origin = text.substring(elements.start.value, elements.end.value);
-		var guid = guid();
-		var span = $(document.createElement("span")).addClass(style).addClass('gn-icon-show').attr("name", guid);
-		span.attr("data-info", JSON.stringify(elements));
-		span.attr("onclick", "Scrap.OnClick(this, '"+ style +"'); return false;");
-		//se non ci sono tag figli in mezzo, semplice.
-		var start = html.lastIndexOf(htmlEntities(origin));
-		var end = start + htmlEntities(origin).length;
-		var startSpan = "<span name='"+guid+"' class='" + style + "'>";
-		if(start != -1){
-			before = html.substring(0, start);
-			after = html.substring(end);
-			origin = html.substring(start, end);
-			origin = startSpan + origin + "</span>";
-			element.html(before + span[0].outerHTML + origin + after);
-			return;
-		}
-		var index = 0;
-		var trovato = false;
-		var stop = false;
-		document.getElementById($(element)[0].id).normalize();
-		Recursive(element);
-		
-		function WRAP(el, first){
-			el.contents().each(function(){
-				if($(this).nodeType === 8) return;
-				else 
-					if($(this)[0].nodeType === 1) ASD($(this, first));
-					else {
-						first = false;
-						$(this).wrap(startSpan + "</span>");
-					}
-			});
-		}
-		
-		function Recursive(el){
-			el.contents().each(function(){
-				if($(this)[0].nodeType === 8) return;
-				if($(this)[0].nodeType === 1) {return Recursive($(this));}
-				if(stop) return false;
-				index += $(this).text().length;
-				if(index == elements.end.value) stop = true;
-				if(index >= elements.start.value && index <= elements.end.value) { //se troviamo il primo nodo
-					if(!trovato){
-						var last = index - elements.start.value;
-						start = $(this).text().length - last;
-						before = $(this).text().substr(0, start);
-						origin = $(this).text().substr(start);
-						if(origin.trim() != "")
-						{
-							$($(this)[0]).replaceWith(before + span[0].outerHTML + startSpan + origin + "</span>");
-							trovato = true;
-						}
-					}
-					else
-						$(this).wrap(startSpan + "</span>"); //se tutto il nodo in mezzo è il nostro testo
-				}
-				else
-				{
-					if(index > elements.end.value){
-						end = index - elements.end.value;
-						end = $(this).text().length - end - 4;
-						after = $(this).text().substr(end);
-						origin = $(this).text().substr(0, end);
-						$($(this)[0]).replaceWith(startSpan + origin + "</span>" + after);
-						stop = true;
-					}
-				}
-			});
-		}
-		var ciao = "";
-		self.RemoveBlankSpan(guid);
 	}
 	self.GetArray = function(from, what, control){
 		var array = [];
 		for(var i = 0; i< from.length; i++){
 			if(self.CheckRet(what))
 			{	//Se Retorica fai questo
-				if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what) 
+				if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
 					array.push(self.CheckAnnotation(from[i]));
 			}
 			else
@@ -1017,53 +131,203 @@ var Scrap = (function(){
 					if(from[i].predicate.value == what && what == "http://schema.org/comment")
 						array.push(self.CheckAnnotation(from[i]));
 					else
-						if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1) 
+						if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
 							array.push(self.CheckAnnotation(from[i]));
 			}
 		}
 		return array;
 	}
-	self.Check = function(doc, pers){
-	doc = doc || "";
-	pers = pers || "";
-		if(Normalize(doc.substring(0,5)) == pers.substring(0,5))
-			return 0;
-		else
-			return 1;
-	};
-	self.OnClick = function(arg, id){
-	$(arg).attr('id', 'OpenedSpan');
-	var el = $(arg).attr('data-info');
-	var idToRem = $(arg).attr('name');
-	el = JSON.parse(el);
-		var str = "";
-		var box = {};
-		switch(el.predicate.value){
-			case "http://purl.org/dc/terms/title":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-title',idToRem);
+	self.Remove = function(id, symbol){ //symbol dev'essere "." per eliminare tutti, name per nome
+		if (id == undefined) return;
+		var span = undefined;
+		var EyeSpan = undefined;
+		switch(symbol){
+			case ".":
+				span = $("span." + self.CheckID(id));
+				EyeSpan = $("span.gn-icon-show." + self.CheckID(id));
 			break;
-			case "http://purl.org/dc/terms/creator":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-autore',idToRem);
-			break;
-			case "http://prismstandard.org/namespaces/basic/2.0/doi":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-doi',idToRem);
-			break;
-			case "http://purl.org/spar/fabio/hasPublicationYear":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-annop',idToRem);
-			break;
-			case "http://purl.org/spar/fabio/hasURL":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-url',idToRem);
-			break;
-			case "http://schema.org/comment":
-				self.CreateBox(el, id, 1, 'gn-icon-ann-commento',idToRem);
-			break;
-			case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
-				self.CreateBox(el, 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
-			break;
-			case "http://purl.org/spar/cito/cites":
-				self.CreateBox(el, 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
+			case "name":
+				span = $("span[name='" + id + "']");
+				EyeSpan = $("span.gn-icon-show[name='" + id + "']");
+				id = EyeSpan[0].classList[0];
 			break;
 		}
+		if(span == undefined) return;
+		span.each(function(){
+			if(this.classList.length == 3){
+				if(this.classList.contains("annotation") && this.classList.contains("annotation-overlap")){
+					$(this).contents().unwrap();
+				}
+			}
+			else
+			{
+				if(this.classList.length > 3){
+					$(this).removeClass(id);
+					//$(this).removeAttr("name");
+					$(this).attr("name", $.data(document.body, $(this).attr("name")))
+					if(this.classList.length == 3)
+						if(this.classList.contains("annotation") && this.classList.contains("annotation-overlap")){
+							$(this).removeClass("annotation-overlap");
+							$(this).removeAttr("style");
+						}
+				}
+				else{
+					$(this).contents().unwrap();
+				}
+			}
+		});
+		EyeSpan.remove();
+	}
+	self.Highlight = function(annotation, style){
+	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
+	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
+	  var ann_start = annotation.start.value;
+	  var ann_end = annotation.end.value;
+
+	  var count = 0;
+	  function uniqueID() {
+		  function s4() {
+			return Math.floor((1 + Math.random()) * 0x10000)
+			  .toString(16)
+			  .substring(1);
+		  }
+		  return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+		}
+	  var guid = uniqueID();
+	  var span = $(document.createElement("span")).addClass(style).addClass('gn-icon-show').attr("name", guid);
+	  span.attr("data-info", JSON.stringify(annotation));
+	  span.attr("onclick", "Scrap.OnClick(this, '"+ style +"'); return false;");
+	  wrap_node(target_node);
+	  function wrap_node(node) {
+		$(node).contents().each(function() {
+		  if (this.nodeType == 3) { // Text node
+			var text = $(this).text();
+			if (count >= ann_end) return; // Se l'annotazione Ã¨ finita passa al nodo successivo
+			if ((count + text.length) <= ann_start || text.trim() == "") { // Se l'annotazione non inizia in questo nodo (o non Ã¨ giÃ  iniziata), incrementa il counter e passa al nodo successivo
+			  count += text.length;
+			  return;
+			}
+			var start_wrap = 0;
+			var end_wrap = -1;
+			
+			if (count < ann_start) // Se l'annotazione inizia in questo nodo
+				start_wrap = ann_start-count;
+
+			if ((count + text.length) > ann_end) // Se l'annotazione finisce in questo nodo
+				end_wrap = ann_end-count;
+
+			var parent = this.parentNode;
+			if (parent.nodeType == 1 && parent.classList.contains('annotation')) { // Il parent Ã¨ lo span di un'altra annotazione
+			  var wrap_mid = $(parent);
+
+			  var ann_target = [];
+
+			  if (start_wrap > 0) {
+				var wrap_left = $("<span>");
+				wrap_left.attr('class', $(parent).attr('class'));
+				wrap_left.attr('name', $(parent).attr('name'));
+				wrap_left.css('background', $(parent).css('background'));
+				wrap_left.text(text.slice(0,start_wrap));
+				wrap_mid.before(wrap_left);
+			  }
+
+			  if (end_wrap != -1) {
+				var wrap_right = $("<span>");
+				wrap_right.attr('class', $(parent).attr('class'));
+				wrap_right.attr('name', $(parent).attr('name'));
+				wrap_right.css('background', $(parent).css('background'));
+				wrap_right.text(text.slice(end_wrap));
+				wrap_mid.after(wrap_right);
+				wrap_mid.text(text.slice(start_wrap,end_wrap));
+			  }
+			  else {
+				wrap_mid.text(text.slice(start_wrap));
+			  }
+
+			  if (!wrap_mid.hasClass(style)) wrap_mid.addClass(style);
+			  if (!wrap_mid.hasClass('annotation-overlap')) wrap_mid.addClass('annotation-overlap');
+
+			  var rgba_array = [];
+			  var gradient = '';
+			  for (i = 0; i < parent.classList.length; ++i) {
+				var color = self.getStyle(parent.classList[i]);
+				if (color != null)
+					rgba_array.push(color);
+			  }
+			  if(rgba_array.length > 0)
+				gradient = "to bottom, " + rgba_array[0] + " 0%, " + rgba_array[rgba_array.length-1] + " 100%";
+			
+			  wrap_mid.css('background', 'linear-gradient('+gradient+')');
+			  wrap_mid.append(span.attr('style', 'background: none'));
+			  if(wrap_mid.attr("name") != undefined && wrap_mid.attr("name") != null)
+				$.data(document.body, guid, wrap_mid.attr("name"));
+			  wrap_mid.attr("name", guid)
+			}
+			else {
+			  var wrap_element = $("<span class='annotation "+style+"'></span>");
+			  wrap_element.attr("name", guid)
+			  $(this).replaceWith(wrap_element);
+
+			  if (start_wrap > 0)
+			  wrap_element.before(text.slice(0,start_wrap));
+
+			  if (end_wrap > 0) { // L'annotazione finisce in questo nodo
+				wrap_element.text(text.slice(start_wrap,end_wrap));
+				wrap_element.after(text.slice(end_wrap));
+			  }
+			  else
+				wrap_element.text(text.slice(start_wrap));
+			  wrap_element.append(span);
+			}
+			count += text.length;
+		  }
+		  else {
+			wrap_node(this);
+		  }
+		});
+	  }
+	}
+	self.Check = function(doc, pers){
+		doc = doc || "";
+		pers = pers || "";
+			if(Normalize(doc.substring(0,5)) == pers.substring(0,5))
+				return 0;
+			else
+				return 1;
+	};
+	self.OnClick = function(arg, id){
+		$(arg).attr('id', 'OpenedSpan');
+		var el = $(arg).attr('data-info');
+		var idToRem = $(arg).attr('name');
+		el = JSON.parse(el);
+			var str = "";
+			var box = {};
+			switch(el.predicate.value){
+				case "http://purl.org/dc/terms/title":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-title',idToRem);
+				break;
+				case "http://purl.org/dc/terms/creator":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-autore',idToRem);
+				break;
+				case "http://prismstandard.org/namespaces/basic/2.0/doi":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-doi',idToRem);
+				break;
+				case "http://purl.org/spar/fabio/hasPublicationYear":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-annop',idToRem);
+				break;
+				case "http://purl.org/spar/fabio/hasURL":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-url',idToRem);
+				break;
+				case "http://schema.org/comment":
+					self.CreateBox(el, id, 1, 'gn-icon-ann-commento',idToRem);
+				break;
+				case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
+					self.CreateBox(el, 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
+				break;
+				case "http://purl.org/spar/cito/cites":
+					self.CreateBox(el, 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
+				break;
+			}
 	};
 	self.CreateBox = function(el, id, version,  icon, idToRemove){
 		var father = $('#modalBox');
@@ -1072,11 +336,11 @@ var Scrap = (function(){
 		var box = "";
 		switch(version){
 			case 1:
-			if(el.name == undefined) 
+			if(el.name == undefined)
 				annotator = " da anonymus ";
 			else
 				annotator = el.email.value == "http://server/unset-base/anonymus" ? " da anonymus " : " " + el.name.value;
-			
+
 				try{
 					label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
 					if(self.CheckRet(el.object.value)) label = self.DecodeRetorica(el.object.value);
@@ -1115,30 +379,41 @@ var Scrap = (function(){
 		$("#" + id).remove();
 	};
 	self.AddToFile = function(id, azione, idToRemove){
-		var json = $("#" + id).attr("data-info");
-		var el = JSON.parse(json);
-		var predicate = "", ob = $("#" + id), retObject = "";
+		var json = "";
+		if(id != "idDiMerda")
+			json = $('span.gn-icon-show[name="' + idToRemove + '"]').attr("data-info");
+		else
+			json = $("#" + id).attr("data-info");
+		var el = JSON.parse(json);			
 		if(azione == "D"){
 			el.azione = {value: "D"};
-			api8.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
-			$("span[name="+idToRemove+"]").contents().unwrap();
-			$("span[name="+idToRemove+"]").remove();
+			self.TryScrap(JSON.stringify(el));
+			self.Remove(idToRemove, "name");
 			self.HideModal(id);
 			return;
 		}
-		
+		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false;
 		if(id == "idDiMerda"){
-			try{predicate = self.Decode(ob.find("#iperSelector").val().substr(0, ob.find("#iperSelector").val().length - 1));}catch(e){predicate = self.Decode("hasTitle");}
-			if(self.CheckRet(predicate)) 
+			try
+			{
+				predicate = self.Decode(ob.find("#iperSelector").val().substr(0, ob.find("#iperSelector").val().length - 1));
+			}
+			catch(e)
+			{
+				predicate = self.Decode("hasTitle");
+			}
+			if(self.CheckRet(predicate))
 			{
 				retObject = predicate;
 				predicate = "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes";
 			}
 			if(azione == "U"){
 				el.azione = {value:"D"};
-				api8.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+				self.TryScrap(JSON.stringify(el));
 			}
 		}
+		if(el.predicate.value != predicate) changeClass = true;
+		
 		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
 			el.object = {value:el.key.value};
 		else
@@ -1155,9 +430,9 @@ var Scrap = (function(){
 			el.predicate = {value:predicate};
 			el.label = {value:ob.find("#iperSelector option:selected").text()};
 			el.bLabel = {value:ob.find("#iperTextArea").val()};
-			
+
 			try{
-				var pos=$('#testo_selezionato').attr('data-info'); //mi prendo la nuova posizione e il nuovo testo che si trovano in un data-info del testo selezionato  nel box 
+				var pos=$('#testo_selezionato').attr('data-info'); //mi prendo la nuova posizione e il nuovo testo che si trovano in un data-info del testo selezionato  nel box
 					var j=JSON.parse(pos);
 					if(j.start.value != el.start.value && j.end.value != el.end.value){
 						el.id={value:j.id.value}; //rimpiazza con i nuovi valori
@@ -1174,13 +449,15 @@ var Scrap = (function(){
 		if(azione == "I"){
 			var index = ob.find("#iperSelector").val().slice(-1);
 			var control = "ver1";
-			if(index != 0) control = "cited"; 
+			if(index != 0) control = "cited";
 			el.subject = {value: control};
 		}
-		api5.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+		self.TryScrap(JSON.stringify(el));
 		self.HideModal(id);
-		
-		if(azione == "I"){
+
+		if(azione == "I" || changeClass){
+			if(changeClass) 
+				self.Remove(idToRemove, "name");
 			var id = ob.find("#iperSelector").val();
 			var index = id.substring(id.length - 1);
 			id = id.substring(0, id.length - 1);
@@ -1191,13 +468,14 @@ var Scrap = (function(){
 		else
 		{
 			//cancello vecchio data-info
-			$("span#OpenedSpan").removeAttr('data-info');
-			$("span#OpenedSpan").attr('data-info', JSON.stringify(el));
+			var span = $("span.gn-icon-show[name="+idToRemove+"]");
+			span.removeAttr("data-info");
+			span.attr("data-info", JSON.stringify(el));
 		}
 	}
 	self.CheckAnnotation = function(from){
-		var ann = api7.chiamaServizio({requestUrl: "pages/ann.json"});
-		if(ann == undefined) return from;
+		var ann = sessionStorage.getItem('ann');
+		if(ann == undefined || ann == "") return from;
 		if(typeof ann == "object") ann = [ann];
 		else{
 			ann = ann.replace(/\|/g, ",");
@@ -1215,83 +493,83 @@ var Scrap = (function(){
 		}
 		return from;
 	}
-	self.EditOpen = function(id, altro, azione){
-		var dati = "";
-		if(id != undefined && id != null){
-			dati = $("#" + id).attr("data-info");
-			dati = JSON.parse(dati);
-			$("#" + id).remove();
-		}
-		else
-			dati = altro;
-		var disp = id == undefined || id == null ? 'none' : 'block';
-		var blockid = "idDiMerda";
-		var bodyLabel = "";
-		var bodyObject = "";
-		
-		bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
-		try{bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;}catch(e){}
-	
-		var box = $(document.createElement('div'))
-			.attr("id", blockid)
-			.addClass("ann-details")
-			.addClass("ann-shower")
-			.attr("style", "display:block;")
-			.attr("data-info", JSON.stringify(dati))
-			.attr("name", "inverse-dropdown");
-		box.append('<div class ="commnet-desc">\
-					<form>\
-						<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
-							<option value="hasTitle0">Titolo</option>\
-							<option value="hasAuthor0">Autore</option>\
-							<option value="hasDOI0">DOI</option>\
-							<option value="hasPublicationYear0">Anno di pubblicazione</option>\
-							<option value="hasURL0">URL</option>\
-							<option value="hasComment0">Commenti</option>\
-							<optgroup label="Retorica">\
-								<option value="deo:Introduction0">Introduzione</option>\
-								<option value="skos:Concept0">Concetto</option>\
-								<option value="sro:Abstract0">Astratto</option>\
-								<option value="deo:Materials0">Materiali</option>\
-								<option value="deo:Methods0">Metodi</option>\
-								<option value="deo:Results0">Risultati</option>\
-								<option value="sro:Discussion0">Discussione</option>\
-								<option value="sro:Conclusion0">Conclusione</option>\
-							</optgroup>\
-							<optgroup label="Citazione">\
-								<option value="cites0">Frammento Cit.</option>\
-								<option value="hasTitle1">Titolo Cit.</option>\
-								<option value="hasAuthor1">Autore Cit.</option>\
-								<option value="hasDOI1">DOI Cit.</option>\
-								<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
-								<option value="hasURL1">URL Cit.</option>\
-							</optgroup>\
-						</select>\
-						<div style="float: right; display: '+ disp +';">\
-							<a id="change-target" class="azzuro azzuro1 form-control gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
-						</div>\
-						<div>\
-							<p id="testo_selezionato" style="text-align:center; margin:0px; overflow:auto; max-height:100px;">' + bodyObject +'</p>\
-						</div>\
-						<div>\
-							<textarea id="iperTextArea" name="text-label" cols="40" style="margin: 5%;width:90%;" class="normal-input-white deactive-input-white">'+bodyLabel+'</textarea>\
-						</div>\
-					</form>\
-				</div>\
-				<div class ="commnet-separator">\
-					<ul class ="edit-delete commnet-user">\
-						<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
-						<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\')"></li>\
-						<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
-					</ul>\
-				</div>');
-	var father = $('#modalBox');
-	father.append(box);
-	if(!($(father).is(":visible"))) father.fadeIn('fast');
-	var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
-	$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
-	AddClassBox();
-	SelectBox(dati.predicate.value, dati.subject.value, dati.object.value);
+	self.EditOpen = function(id, altro, azione, idToRem){
+			var dati = "";
+			if(id != undefined && id != null){
+				dati = $("#" + id).attr("data-info");
+				dati = JSON.parse(dati);
+				$("#" + id).remove();
+			}
+			else
+				dati = altro;
+			var disp = id == undefined || id == null ? 'none' : 'block';
+			var blockid = "idDiMerda";
+			var bodyLabel = "";
+			var bodyObject = "";
+
+			bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
+			try{bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;}catch(e){}
+
+			var box = $(document.createElement('div'))
+				.attr("id", blockid)
+				.addClass("ann-details")
+				.addClass("ann-shower")
+				.attr("style", "display:block;")
+				.attr("data-info", JSON.stringify(dati))
+				.attr("name", "inverse-dropdown");
+			box.append('<div class ="commnet-desc">\
+						<form>\
+							<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
+								<option value="hasTitle0">Titolo</option>\
+								<option value="hasAuthor0">Autore</option>\
+								<option value="hasDOI0">DOI</option>\
+								<option value="hasPublicationYear0">Anno di pubblicazione</option>\
+								<option value="hasURL0">URL</option>\
+								<option value="hasComment0">Commenti</option>\
+								<optgroup label="Retorica">\
+									<option value="deo:Introduction0">Introduzione</option>\
+									<option value="skos:Concept0">Concetto</option>\
+									<option value="sro:Abstract0">Astratto</option>\
+									<option value="deo:Materials0">Materiali</option>\
+									<option value="deo:Methods0">Metodi</option>\
+									<option value="deo:Results0">Risultati</option>\
+									<option value="sro:Discussion0">Discussione</option>\
+									<option value="sro:Conclusion0">Conclusione</option>\
+								</optgroup>\
+								<optgroup label="Citazione">\
+									<option value="cites0">Frammento Cit.</option>\
+									<option value="hasTitle1">Titolo Cit.</option>\
+									<option value="hasAuthor1">Autore Cit.</option>\
+									<option value="hasDOI1">DOI Cit.</option>\
+									<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
+									<option value="hasURL1">URL Cit.</option>\
+								</optgroup>\
+							</select>\
+							<div style="float: right; display: '+ disp +';">\
+								<a id="change-target" class="azzuro azzuro1 form-control gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
+							</div>\
+							<div>\
+								<p id="testo_selezionato" style="text-align:center; margin:0px; overflow:auto; max-height:100px;">' + bodyObject +'</p>\
+							</div>\
+							<div>\
+								<textarea id="iperTextArea" name="text-label" cols="40" style="margin: 5%;width:90%;" class="normal-input-white deactive-input-white">'+bodyLabel+'</textarea>\
+							</div>\
+						</form>\
+					</div>\
+					<div class ="commnet-separator">\
+						<ul class ="edit-delete commnet-user">\
+							<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
+							<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')"></li>\
+							<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
+						</ul>\
+					</div>');
+			var father = $('#modalBox');
+			father.append(box);
+			if(!($(father).is(":visible"))) father.fadeIn('fast');
+			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
+			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
+			AddClassBox();
+			SelectBox(dati.predicate.value, dati.subject.value, dati.object.value);
 	};
 	self.Decode = function(what){
 		switch(what){
@@ -1369,11 +647,11 @@ var Scrap = (function(){
 			case "sro:Abstract0": return "hasAbstr";
 			case "deo:Materials":
 			case "deo:Materials0": return "hasMateria";
-			case "deo:Methods": 
+			case "deo:Methods":
 			case "deo:Methods0": return "hasMeth";
-			case "deo:Results": 
+			case "deo:Results":
 			case "deo:Results0": return "hasRes";
-			case "sro:Discussion": 
+			case "sro:Discussion":
 			case "sro:Discussion0": return "hasDisc";
 			case "sro:Conclusion":
 			case "sro:Conclusion0":	return "hasConc";
@@ -1408,37 +686,36 @@ var Scrap = (function(){
 	};
 	self.GetPrefixID = function(subject, id)	{
 		var prefix = "";
-		if(id.indexOf('html1') == 0) return id;
-		if(subject.indexOf("www.dlib.org") != -1) 
+		if(id.indexOf('form1') == 0 || id.indexOf('div1') == 0) return id;
+		if(subject.indexOf("www.dlib.org") != -1)
 			prefix = "dlib";
-		else 
-			if(subject.indexOf("rivista-statistica.unibo.it") != -1) 
+		else
+			if(subject.indexOf("rivista-statistica.unibo.it") != -1)
 				prefix = "RS";
-			else 
-				if (subject.indexOf("almatourism.unibo.it") != -1) 
+			else
+				if (subject.indexOf("almatourism.unibo.it") != -1)
 					prefix = "AM";
-				else 
-					if (subject.indexOf("antropologiaeteatro.unibo.it") != -1) 
+				else
+					if (subject.indexOf("antropologiaeteatro.unibo.it") != -1)
 						prefix = "AT";
-					else 
-						if (subject.indexOf("dlib.org/dlib/march14") != -1) 
+					else
+						if (subject.indexOf("dlib.org/dlib/march14") != -1)
 							prefix = "dlib";
 							else
 								if(subject.indexOf("http://eqa.unibo.it/") != -1)
 									prefix = "eqa";
-		
-		
+
+
 		id = Clear(id);
 		switch(prefix)
 		{
 			case "dlib":
-				return "html1_body1_form1_table3_tr1_td1_" + Crea(id.substring(id.indexOf("table5")));
+				return "form1_table3_tr1_td1_" + Crea(id.substring(id.indexOf("table5")));
 			case "AT":
 			case "AM":
 			case "RS":
 			case "eqa":
-				return "html1_body1_" + Crea(id.substring(id.indexOf("div1")));
-			
+				return Crea(id.substring(id.indexOf("div1")));
 		}
 		function Clear(string){
 			string = string.replace(/\[/g,'');
@@ -1463,20 +740,142 @@ var Scrap = (function(){
 		}
 		return false;
 	}
-	self.SalvaTutto = function(){
-		pData = {link: $("#URL").val()};
-		api9.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true});
-		$('#view').text(""); 
+	self.SalvaTutto = function(what){
+		what = what || "ann";
+		pData = {link: $("#URL").val(), annotations: sessionStorage.getItem(what)};
+		var api =  new API();
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true, callback: function(){
+			sessionStorage.setItem(what,"");
+			readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
+		}});
+		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";
 	}
-	self.RemoveBlankSpan = function(id){
-		$("span[name="+id+"]").each(function(){
-			if (!$(this).text().trim().length && !($(this).hasClass("gn-icon-show"))) {
-				$(this).remove();
+	self.TryScrap = function (arg, dove) {
+		dove = dove || "ann";
+		if (arg.trim() == "") return ;
+		var content = sessionStorage.getItem(dove);
+		//$data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+		if(content == null || content.trim() == "")
+			sessionStorage.setItem(dove,arg);
+		else {
+			var data = JSON.parse(arg);
+			var vars = content.split('|');
+			var newvar = "";
+			for (var i = 0; i < vars.length; i++) {
+				var obj = JSON.parse(vars[i]);
+				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.id.value == data.id.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
+					continue;
+				newvar += "|"+vars[i];
 			}
-		});
-	};
-	
+			sessionStorage.setItem(dove, arg + newvar)
+		}
+	}
+	self.getStyle = function(style) {
+		switch(style){
+			case "hasAuthor0": case "hasAuthor1": return "rgba(141, 211, 199, 0.5)";
+			case "hasPublicationYear0": case "hasPublicationYear1": return "rgba(190, 186, 218, 0.5)";
+			case "hasTitle0": case "hasTitle1": return "rgba(128, 177, 211, 0.5)";
+			case "hasDOI0": case "hasDOI1": return "rgba(253, 180, 98, 0.5)";
+			case "hasURL0": case "hasURL1": return "rgba(252, 205, 229, 0.5)";
+			case "hasComment0": case "hasComment1": return "rgba(179,222,105, 0.5)";
+			case "cites0": return "rgba(215,48,39,0.5)";
+			case "hasIntro": return "rgba(255,237,111,0.5)";
+			case "hasConcept": return "rgba(251,128,114, 0.5)";
+			case "hasAbstr": return "rgba(255,255,179, 0.5)";
+			case "hasMateria": return "rgba(217,217,217, 0.5)";
+			case "hasMeth": return "rgba(117,147,173, 0.5)";
+			case "hasRes": return "rgba(191,129,45, 0.5)";
+			case "hasDisc": return "rgba(128,205,193, 0.5)";
+			case "hasConc": return "rgba(204,235,197, 0.5)";
+		}
+		return null;
+	}
+	self.CancellaTutto = function(){
+		var r = confirm("Sei sicuro di voler cancellare tutto ?");
+		if (r == true) {
+			var articolo = $('#URL').val();
+			if(articolo == undefined || articolo == null || articolo == "") 
+				alert("Articolo non valido");
+			else
+			{
+				var nomeSessione = "delAll";
+				sessionStorage.setItem(nomeSessione,"");
+				var json = JSON.parse(sessionStorage.getItem('annotation'));
+				json = json.results.bindings;
+				for(var i = 0; i < json.length; i++){
+					json[i].azione = {value:"D"};
+					self.TryScrap(JSON.stringify(json[i]), nomeSessione);
+				}
+				self.SalvaTutto(nomeSessione);
+			}
+		}
+	}
+	self.Groups = (function(){
+		var me = {};
+		me.Load = function(GroupID, article){
+			var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + GroupID;
+			readRDF.GetData(groupURL, article);
+		};
+		me.ReadSingle = function(GroupID, what, index){
+			/* Usato quando si seleziona la categoria delle annotazioni da vedere, e se sono gruppi selezionati */
+			/*--------------------------------------------------------------------------------------------------*/
+			var FullArray = [], SingleArray = [];
+			/*Qui definire il ciclo sui gruppi selezionati*/
+			var json = sessionStorage.getItem('ann'+GroupID);
+			
+			/*se annotazioni non trovate passas al gruppo successivo selezionato*/
+			if(json == null || json == "") return; 
+			
+			var control = "ver1";
+			if(index != 0) control = "cited";
+			SingleArray = me.GetAnnotations(json.results.bindings, what, control);
+			if(SingleArray.length > 0)
+				FullArray = FullArray.concat(SingleArray);
+			/*Fine Ciclo*/
+			return FullArray;
+		};
+		me.ReadMulti = function(GroupID){
+			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
+			var array = [];
+			var json = sessionStorage.getItem('ann'+GroupID);
+			if(json == null || json == "") return; 
+			//var diff = $(old_array).not(new_array).get();
+			$(".checkbox-grid-left input[type='checkbox']").children("input:checked").each(function(){
+				var events = $._data($(this)[0], 'events' );
+				array = me.GetAnnotations(json.results.bindings/*, what, control*/);
+				if(array.length > 0){
+					for(var i = 0; i< array.length; i++)
+						Scrap.Highlight(array[i]/*, style*/);
+				}
+			});
+		};
+		me.GetAnnotations = function(from, what, control){
+			/*from[i].predicate.value == what -> se abbiamo trovato il tipo*/
+			/*from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited" -> se non fa parte delle citazioni in caso in cui si Ã¨ selezionato quello dell'articolo*/
+			var array = [];
+			for(var i = 0; i< from.length; i++){
+				if(self.CheckRet(what))
+				{	//Se Retorica fai questo
+					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+						array.push(from[i]);
+				}
+				else
+				{
+					if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
+						array.push(from[i]);
+					else
+						if(from[i].predicate.value == what && what == "http://schema.org/comment")
+							array.push(from[i]);
+						else
+							if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
+								array.push(from[i]);
+				}
+			}
+			return array;
+		}
+		return me;
+	}());
 	return self;
 }());
 
@@ -1591,55 +990,224 @@ function SearchID(id){
 	return false;
 }
 
+function isSpan(nodo){
+	var controllo=0;
+	var span=$(nodo.parentNode).attr("class");		//l'idea Ã¨ che se facciamo una selezione e ci troviamo dentro lo span(giÃ  annotato quindi) lo start lo deve prendere dal suo genitore e non dallo span!
+	if(span){	//se Ã¨ una selezione su testo non annotato span Ã¨ indefinito
+	if((span.indexOf("annotation"))>-1){
+		var controllo=1;		//variabile di controllo per saper se stiamo annotando qualcosa che Ã¨ giÃ  annotata
+		}	
+	}
+	return controllo;
+}
+
 function manualAnn() {
-    var selezione = document.getSelection(); 
+    var selezione = document.getSelection();
 	if(selezione == "" || selezione == null || selezione.anchorNode == null || selezione.focusNode == null) {alert("Selezionare qualcosa."); return null;};
-	var nodeStart = selezione.anchorNode.parentNode; //nodo nel quale è avvenuta la selezione
-	var nodeEnd = selezione.focusNode.parentNode;	//nodo nel quale finisce la selezione
+	var inizio_selezione=selezione.anchorOffset;
+	var fine_selezione=selezione.focusOffset;
+	
+	
+	if(selezione.anchorNode==selezione.focusNode){			//nodo uguale
+		if(inizio_selezione > fine_selezione){
+			var focus=selezione.anchorNode;		//inverto i nodi
+			var anchor=selezione.focusNode;
+			var aux=inizio_selezione			//inverto start e end
+			inizio_selezione=fine_selezione;
+			fine_selezione=aux;
+		}
+		else{
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+	}	
+	
+	/*else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//caso di nuovo paragrafo SE SELEZIONE AL CONTRARIO NON VA MALEDETTO
+		var anchor=selezione.anchorNode;
+		var focus=selezione.focusNode;
+	}*/
+		
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==1 ){		//nodo diverso, tutti e 2 citati differenza nei parentNode
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==0){		//nodo diverso, inizio citato e fine no differenza nei parentNode
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode.parentNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==1){	//nodo diverso, inizio non citato e fine si, differenza nei parentNode	
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	//debugare questo vedere se entra nel primo caso
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode.parentNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//nodo diverso, non citato	
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+
+	
+	var controllo=0;		//1 se abbiamo selezionato una citazione, 0 altrimenti 
+	if(anchor!=undefined){
+		controllo=isSpan(anchor);
+	}
+	else{
+		alert("errore");
+		return;
+	}
+	
+	
+	var nodeStart = anchor.parentNode; //nodo nel quale ï¿½ avvenuta la selezione
+	var nodeEnd = focus.parentNode;	//nodo nel quale finisce la selezione
 	var target = nodeStart.getAttribute('id');
 	var nameElement = nodeStart.nodeName;
 	var parentNode = nodeStart;
-	var NodeToSearch = selezione.anchorNode;
+	var NodeToSearch = anchor;
 	/*Se ci sono nodi in mezzo calcola*/
-	var StartSearch = selezione.anchorNode;
+	var StartSearch = anchor;
 	var boolForEnd = false;
 	var StartOffset = 0;
 	if(nodeStart != nodeEnd){
 		parentNode = selezione.getRangeAt(0).commonAncestorContainer;
 		target = parentNode.getAttribute('id');
 		NodeToSearch = nodeEnd;
-		if(selezione.anchorNode.nodeName == "#text") StartSearch = selezione.anchorNode.parentNode;
-		StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
+		if(anchor.nodeName == "#text") StartSearch = anchor.parentNode;
+		StartOffset+= $(parentNode).text().indexOf($(anchor).text());	//usato parentNode invece di nodeStart, sennÃ² c'era l'offset che sfasava dato che il padre che hanno in comune ha altri caratteri oltre il nodo che abbiamo selezionato
 	}
-	else
+	else{
 		if(nodeStart.childNodes.length > 0){
-			NodeToSearch = selezione.focusNode.previousSibling;
+			NodeToSearch = focus.previousSibling;
 			boolForEnd = true;
-			StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
+			if(controllo==0){	//se non Ã¨ dentro un'annotazione
+				StartOffset+= $(nodeStart).text().indexOf($(anchor).text());
+			}
+			else{			//altrimenti
+				StartOffset+= $(nodeStart.parentNode).text().indexOf($(anchor).text());	
+			}
+				
 		}
-	
-	StartOffset += getOffset(parentNode, StartSearch, false);
-	var EndOffset = getOffset(parentNode, NodeToSearch, boolForEnd);
-	
-	
-	var start = selezione.anchorOffset + StartOffset;
-	var end = start + selezione.toString().length + selezione.toString().split("\n").length - 1;
-	if(start > end){
-		var aux = start;
-		start = end;
-		end = aux;
 	}
-	var selected=selezione.toString();
+	var start = inizio_selezione + StartOffset;		//inizio del nodo + offset dal nodo selezionato all'inizio di tutto il testo
+	var end = start + selezione.getRangeAt(0).toString().length;
+	
+	var selected=selezione.getRangeAt(0).toString();
 	var autore = getCookie("email") != "" ? getCookie("email") : "http://server/unset-base/anonymus";
 	while(SearchID(nodeStart.getAttribute('class')))
 		nodeStart = nodeStart.parentNode;
-	if(target == "" || target == undefined || target == null)	
+	if(target == "" || target == undefined || target == null)
 		target = nodeStart.getAttribute('id');
 	var array = {
 				id :{value: target},
 				start :{value: start},
 				end :{value: end},
-				azione:{value:"I"}, 
+				azione:{value:"I"},
 				object: {value:selected},
 				email : {value: autore},
 				at :{value: timeGet()},
@@ -1650,20 +1218,21 @@ function manualAnn() {
 				key: {value:""},
 				name: {value: getCookie("name")}
 				};
-	
-	//var array = {azione:"i", body: {object:selected}, target:{id:target, 
-	//start:start, end:end}, annotazione:"" , 
-	//provenance :{name: getCookie("name"), 
+
+	//var array = {azione:"i", body: {object:selected}, target:{id:target,
+	//start:start, end:end}, annotazione:"" ,
+	//provenance :{name: getCookie("name"),
 	//email: getCookie("email"), time: timeGet()}};
 	//var json = JSON.stringify(array);
 	//var frammento=JSON.parse(json);
 	return array;
 	}
 
-function annota(str, annotazione){  //str è l'array con i valori che ci servono
+
+function annota(str, annotazione){  //str ï¿½ l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto
 	var pData = str;
-	return api4.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: pData, isAsync:true});
+	Scrap.TryScrap(JSON.stringify(pData));
 
 }
 
@@ -1676,7 +1245,7 @@ function AddClassBox(){
 function SelectBox(predicate, subject, object){
 	var index = 0;
 	if(subject != "" && subject != undefined && subject.indexOf("cited") != -1) index = 1;
-	ob = $("#idDiMerda");
+	var ob = $("#idDiMerda");
 	if(predicate == undefined || predicate == "")
 		predicate = "http://purl.org/dc/terms/title";
 	if(predicate == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes") predicate = object;
@@ -1721,7 +1290,7 @@ function htmlEntities(str) {
 }
 
 function ViewAnnotation(){
-	var ann = api.chiamaServizio({requestUrl: "pages/GetNew.php"});
+	var ann = sessionStorage.getItem('ann');
 	if(ann == undefined || ann == ""){ alert("Annotare qualcosa, grazie."); return null;}
 	else{
 		if(typeof ann == "object") ann = [ann];
@@ -1730,21 +1299,21 @@ function ViewAnnotation(){
 			ann = "[" + ann + "]";
 			ann = JSON.parse(ann);
 		}
-		onSuccess(ann); //se control è 1 procedi con la visione della tabella di tutte le annotazioni
+		onSuccess(ann); //se control ï¿½ 1 procedi con la visione della tabella di tutte le annotazioni
 		/*else if(control2==1){
 			var x=confirm("Hai eliminato tutte le annotazioni.\nVuoi eliminarle definitivamente?");
-			if (r == true) { //ok	
-			} 
+			if (r == true) { //ok
+			}
 			else { //annulla
-			} 		
-		
+			}
+
 		}*/
 		//else alert("Hai eliminato tutte le annotazioni.");
 	}
 }
 
 function onSuccess(json){
-	
+
 	document.getElementById("modalBoxView").style.display="block";
 	$('#view').append("<div class ='commnet-separator'>\
 		<ul class ='edit-delete commnet-user'>\
@@ -1761,40 +1330,40 @@ function onSuccess(json){
 		<div id='riepilogo_ann' class='mCustomScrollbar'>\
 		</div>\
 		</div>");
-	for(i=0;i<json.length; i++){	
-		
-		if(json[i].azione.value=="I"){  
+	for(i=0;i<json.length; i++){
+
+		if(json[i].azione.value=="I"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:green'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");	
+				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:green'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");
 			}
-			else{ 
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:green' float:'left'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??				
-				}	
-		}	
-		else if(json[i].azione.value=="D"){  
+			else{
+				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:green' float:'left'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				}
+		}
+		else if(json[i].azione.value=="D"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1'  onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");	
+				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1'  onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");
 			}
-			else{ 
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??				
-				}	
-		}	
-		$("#butt_ann_"+i).attr("data-info", JSON.stringify(json[i]));			
+			else{
+				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				}
+		}
+		$("#butt_ann_"+i).attr("data-info", JSON.stringify(json[i]));
 	} //chiude for
-	
+
 	$('#exit').click(function(){$('#view').text(""); document.getElementById("modalBoxView").style.display="none";}); //elimino la tabella senn??pend sempre
 }
-function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perchè con onclick nel button "cancella" si incazzava-->//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
+function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perchï¿½ con onclick nel button "cancella" si incazzava-.//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
 		var x=confirm("Sicuro di voler eliminare l'annotazione?");
-		if (x == true) { 	
-					
+		if (x == true) {
+
 			var json=$('#'+id).attr('data-info');
 			var el = JSON.parse(json);
 			el.azione = {value:azione};
 			el.name = {value:getCookie("name")};
 			el.email = {value:getCookie("email")};
 			el.at = {value:timeGet()};
-			api5.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+			Scrap.TryScrap(JSON.stringify(el));
 			$("span#"+id_ann).text("ANNOTAZIONE (eliminata)");
 			$("span#"+id_ann).attr("style", "color:red");
 			$("#"+id).text("Ripristina");
@@ -1802,81 +1371,60 @@ function elimina(id, azione, id_ann){ //non ho passato come parametro direttamen
 		}
 		/*if (($('#riepilogo_ann').text()=="")){ //se hai cancellato l'ultima annotazione chiudi la tabella
 			$('#view').text("");
-			document.getElementById("modalBoxView").style.display="none";		
+			document.getElementById("modalBoxView").style.display="none";
 		}*/
 return 0;
 }
 
 
-function ripristina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perchè con onclick nel button "cancella" si incazzava-->//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
+function ripristina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perchï¿½ con onclick nel button "cancella" si incazzava-.//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
 		var json=$('#'+id).attr('data-info');
 		var el = JSON.parse(json);
 		el.azione = {value:azione};
 		el.name = {value:getCookie("name")};
 		el.email = {value:getCookie("email")};
 		el.at = {value:timeGet()};
-		api5.chiamaServizio({requestUrl: "pages/TryScrap2.php", data: el, isAsync:true});
+		Scrap.TryScrap(JSON.stringify(el));
 	//	$("span#OpenedSpan").next().contents().unwrap(); 	// non lo trova, ci vorrebbe un collegamento tra l'occhio e la tabella delle annotazioni...data-info??
 	//	$("span#OpenedSpan").remove();
 		$("span#"+id_ann).text("ANNOTAZIONE (ripristinata)");
 		$("span#"+id_ann).attr("style", "color:yellow");
 		$("#"+id).text("Elimina");
 		$("#"+id).attr("onclick", "elimina('"+id+"','D','"+id_ann+"')");
-		
+
 		/*if (($('#riepilogo_ann').text()=="")){ //se hai cancellato l'ultima annotazione chiudi la tabella
 			$('#view').text("");
-			document.getElementById("modalBoxView").style.display="none";		
+			document.getElementById("modalBoxView").style.display="none";
 		}*/
 return 0;
 }
 
-function modificaPosizioneOld(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si può fare nient'altro sennò sballa le annotazioni magari, boh!!!
+function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si puï¿½ fare nient'altro sennï¿½ sballa le annotazioni magari, boh!!!
 	var css = document.createElement("style");
 	css.type = "text/css";
-	css.innerHTML = "#annota{ opacity: 0.5; pointer-events:none; background-color:#EEEEEE;} #view-ann{ opacity: 0.5; pointer-events:none; background-color:#EEEEEE;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
+	css.innerHTML = "#filter-menu{opacity: 0.7; pointer-events:none;} #MenuTrigger{opacity: 0.7; pointer-events:none;} #logout{opacity: 0.7; pointer-events:none;} #annota{opacity: 0.7; pointer-events:none;} #view-ann{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
+	//#gn-menu{ opacity: 0.7; pointer-events:none;}
+	document.getElementById("mod_pos").style.display="block";
 	document.body.appendChild(css);
 	var old=$('.gn-icon-show').attr("onclick");  //salvo vecchio valore onclick
-	$('.gn-icon-show').attr("onclick", null); 	//evito il click sull'occhiolino mentre selezioni sennò fa casini
+	$('.gn-icon-show').attr("onclick", null); 	//evito il click sull'occhiolino mentre selezioni sennï¿½ fa casini
 	document.getElementById("modalBox").style.display="none";
-	
 
-	$('.content2').click(function(){	var str=manualAnn();
-										if(str.object.value!=""){
-											css.innerHTML ="";
-											str=JSON.stringify(str);
-											var json=JSON.parse(str);	
-											var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
-											$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
-											$('#testo_selezionato').text(json.object.value);
-											document.getElementById("modalBox").style.display="block";
-											$('.content2').unbind("click"); //disaccoppio il click al .content2
-											$('.gn-icon-show').attr("onclick", old);
-										}
-								});	
-}
 
-function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si può fare nient'altro sennò sballa le annotazioni magari, boh!!!
-	var css = document.createElement("style");
-	css.type = "text/css";
-	css.innerHTML = "#gn-menu{ opacity: 0.7; pointer-events:none;} #filter-menu{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
-	document.body.appendChild(css);
-	var old=$('.gn-icon-show').attr("onclick");  //salvo vecchio valore onclick
-	$('.gn-icon-show').attr("onclick", null); 	//evito il click sull'occhiolino mentre selezioni sennò fa casini
-	document.getElementById("modalBox").style.display="none"; 
-	
-
-	$('.content2').first().click(function(){
+	//$('.content2').first().click(function(){
+	$('#mod_pos').click(function(){
 					var str=manualAnn();
 					if(str.object.value!=""){
 					css.innerHTML ="";
 					str=JSON.stringify(str);
-					var json=JSON.parse(str);	
+					var json=JSON.parse(str);
 					var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
 					$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
 					$('#testo_selezionato').text(json.object.value);
 					document.getElementById("modalBox").style.display="block";
+					document.getElementById("mod_pos").style.display="none";
 					$('.content2').first().unbind("click"); //disaccoppio il click al .content2
 					$('.gn-icon-show').attr("onclick", old);
 				}
-		});	
+		});
 }

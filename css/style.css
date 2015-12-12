@@ -310,64 +310,12 @@ textarea {
     max-height: 18em;
 }
 /***************************
-*        groups            *
-*                          *
-****************************/
-#caricamentogruppi {
-    position: relative;
-    top: -35px;
-}
-#CaricamentoToDelete {
-  height: 60px;
-  text-align: center;
-  vertical-align: middle;
-  padding-top: 2em;
-}
-#preloader_1{
-    position:relative;
-    text-align: center;
-    margin-left: 4%;;
-}
-#preloader_1 span{
-    display:block;
-    bottom:0px;
-    width: 9px;
-    height: 5px;
-    background:#5F6F81;
-    position:absolute;
-    animation: preloader_1 1.5s  infinite ease-in-out;
-}
- 
-#preloader_1 span:nth-child(2){
-left:11px;
-animation-delay: .2s;
- 
-}
-#preloader_1 span:nth-child(3){
-left:22px;
-animation-delay: .4s;
-}
-#preloader_1 span:nth-child(4){
-left:33px;
-animation-delay: .6s;
-}
-#preloader_1 span:nth-child(5){
-left:44px;
-animation-delay: .8s;
-}
-@keyframes preloader_1 {
-    0% {height:5px;transform:translateY(0px);background:#5F6F81;}
-    25% {height:30px;transform:translateY(15px);background:#5F6F81;}
-    50% {height:5px;transform:translateY(0px);background:#5F6F81;}
-    100% {height:5px;transform:translateY(0px);background:#5F6F81;}
-}
-/***************************
 *    HIGHLIGHTS             
 *                          
 ***************************/
 
 .hasAuthor0, .hasAuthor1 {
-    background-color: #8DD3C7 !important;
+    background-color: #8DD3C7;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -380,7 +328,7 @@ animation-delay: .8s;
     rgb(98,147,139) 5px 5px;*/
 }
 .hasPublicationYear0, .hasPublicationYear1 {
-    background-color: #BEBADA !important;
+    background-color: #BEBADA;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -393,7 +341,7 @@ animation-delay: .8s;
     rgb(134,132,154) 5px 5px;*/
 }
 .hasTitle0, .hasTitle1 {
-    background-color: #80b1d3 !important;
+    background-color: #80b1d3;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -406,7 +354,7 @@ animation-delay: .8s;
     rgb(89,124,147) 5px 5px;*/
 }
 .hasDOI0, .hasDOI1 {
-    background-color: #fdb462 !important;
+    background-color: #fdb462;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -419,7 +367,7 @@ animation-delay: .8s;
     rgb(189,135,73) 5px 5px;*/
 }
 .hasURL0, .hasURL1 {
-    background-color: #fccde5 !important;
+    background-color: #fccde5;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #86ABAF;
     overflow: hidden;
@@ -432,7 +380,7 @@ animation-delay: .8s;
     rgb(188,153,171) 5px 5px*/
 }
 .hasComment0,.hasComment1 {
-    background-color: #b3de69 !important;
+    background-color: #b3de69;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -445,7 +393,7 @@ animation-delay: .8s;
     rgb(128,158,75) 5px 5px;*/
 }
 .cites0 {
-    background-color: #d73027 !important;
+    background-color: #d73027;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -458,7 +406,7 @@ animation-delay: .8s;
     rgb(149,171,144) 5px 5px;*/
 }
 .hasIntro {
-    background-color: #ffed6f !important;
+    background-color: #ffed6f;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #856FFF;
     overflow: hidden;
@@ -471,7 +419,7 @@ animation-delay: .8s;
     rgb(191,178,83) 5px 5px;*/
 }
 .hasConcept {
-    background-color: #fb8072 !important;
+    background-color: #fb8072;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -484,7 +432,7 @@ animation-delay: .8s;
     rgb(187,95,85) 5px 5px;*/
 }
 .hasAbstr {
-    background-color: #ffffb3 !important;
+    background-color: #ffffb3;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #D8B3FF;
     overflow: hidden;
@@ -497,7 +445,7 @@ animation-delay: .8s;
     rgb(191,191,134) 5px 5px;*/
 }
 .hasMateria {
-    background-color: #D9D9D9 !important;
+    background-color: #D9D9D9;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #7E878C;
     overflow: hidden;
@@ -510,7 +458,7 @@ animation-delay: .8s;
     rgb(153,153,153) 5px 5px;*/
 }
 .hasMeth {
-    background-color: #bc80bd !important;
+    background-color: #bc80bd;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -523,7 +471,7 @@ animation-delay: .8s;
     rgb(125,85,125) 5px 5px;*/
 }
 .hasRes {
-    background-color: #bf812d !important;
+    background-color: #bf812d;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -536,7 +484,7 @@ animation-delay: .8s;
     rgb(126,86,30) 5px 5px;*/
 }
 .hasDisc {
-    background-color: #80cdc1 !important;
+    background-color: #80cdc1;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     overflow: hidden;
@@ -549,7 +497,7 @@ animation-delay: .8s;
     rgb(88,141,133) 5px 5px;*/
 }
 .hasConc {
-    background-color: #ccebc5 !important;
+    background-color: #ccebc5;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #9E897D;
     overflow: hidden;
