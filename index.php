@@ -224,73 +224,43 @@ var Page = (function (){
 			self.DisableCheckBox();
 			self.WriteData(str);
 		}});
-	var Page = (function (){
-		var self = {};
-		self.Search = function(){
-			//Cerca il link e se non esiste lo agiunge
-			var link = document.getElementById("iptSearch");
-			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1)
-				self.makeSearch(link.value, "Search...", "1", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
-			else
-				alert("Solo URI ammessi.");
-			link.value = "";
-		};
-		self.makeSearch = function(link, titolo, scrap, from){
-			$('#URL').val(link);
-			window.scrollTo(0,0);
-			var myData = {link: link, StartScrapper: scrap};
-			var str = "";
-			var process1 = new API();
-			process1.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
-				self.DisableCheckBox();
-				self.WriteData(str);
-			}});
-			
-			var process2 = new API();
-			process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
-				readRDF.GetMenu();
-				readRDF.GetData(from, link);
-				self.Uncheck();
-				self.EnableCheckBox();
-			}});
-var process2 = new API();
-process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
-	readRDF.GetMenu();
+		var process2 = new API();
+		process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
+			readRDF.GetMenu();
+			readRDF.GetData(from, link);
+			self.Uncheck();
+			self.EnableCheckBox();
+		}});
+
+	};
+	self.GetData = function(link, titolo, scrap, from){
+		$('#URL').val(link);
+		$('#GRAPH').val(from);
+		window.scrollTo(0,0);
+		var myData = {link: link, StartScrapper: scrap};
+		var api = new API();
+		api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+			self.WriteData(str);
+		}});
 	readRDF.GetData(from, link);
 	self.Uncheck();
-	self.EnableCheckBox();
-}});
-
-};
-self.GetData = function(link, titolo, scrap, from){
-	$('#URL').val(link);
-	$('#GRAPH').val(from);
-	window.scrollTo(0,0);
-	var myData = {link: link, StartScrapper: scrap};
-	var api = new API();
-	api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
-		self.WriteData(str);
-	}});
-readRDF.GetData(from, link);
-self.Uncheck();
-};
-self.WriteData = function (data){
-	$(".content2").html(data);
-};
-self.DisableCheckBox = function(){
-	var api =  new API();
-	api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
-		$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
-	}});
-
-}
-self.EnableCheckBox = function(){
-	$('#removeMePlease').remove();
-}
-self.Uncheck = function(){
-	$('.check-boxs input:checkbox').removeAttr('checked');
-}
-return self;
+	};
+	self.WriteData = function (data){
+		$(".content2").html(data);
+	};
+	self.DisableCheckBox = function(){
+		var api =  new API();
+		api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
+			$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
+		}});
+	}
+	self.EnableCheckBox = function(){
+		$('#removeMePlease').remove();
+	}
+	self.Uncheck = function(){
+		$('.check-boxs input:checkbox').removeAttr('checked');
+	}
+	return self;
 }());
 //Caricamento menu
 window.onload = function() {readRDF.GetMenu();};
