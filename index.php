@@ -19,7 +19,7 @@
 	<script src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="js/select2.full.min.js"></script>
 </head>
-<body>
+<body class="blue-grey lighten-4">
 	<input type="text" name="URL" id="URL" style="display:none;">
 	<input type="text" name="GRAPH" id="GRAPH" style="display:none;">
 	<div class="container" id="container">
@@ -28,6 +28,12 @@
 		<div class="content">
 			<div id="tabs" class="row">
 				<div class="content2 col-md-offset-4 col-md-8">
+					<div class="infront input-field" style="border:solid 1px black;">
+			          <input placeholder="Cerca" id="iptSearch" type="search"class="gn-search" required>
+			          <label for="search"></label>
+			          <a class="gn-icon gn-icon-search" href="#" onclick="Page.Search();"></a>
+			          <i class="material-icons">close</i>
+				     </div>
 					<?php //include('home.php');?>
 					<div class="row">
 					</div>

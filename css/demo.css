@@ -20,9 +20,10 @@
     background-position-y: 249px;
 }*/
 body {
-	background: url('../img/blacktemplate.svg');
-  	  background-repeat: repeat;
-  	  background-size: cover;
+	-webkit-background-clip: border-box;
+	-moz-background-clip: border-box;
+	background-clip: border-box;
+	
   	}
 .container .content {
 	color: #fff;
