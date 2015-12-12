@@ -44,3 +44,4 @@ function countAnnotations(){
 	return $final + 1;
 }
 ?>
+
