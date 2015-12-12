@@ -54,7 +54,26 @@ var Login = (function (){
 
 var Scrap = (function(){
 	var self = {};
-	var DataObject = {};
+	self.ShowArray = function(what, chk, index){
+		index = index || 0;
+		var id = what + index;
+		if(chk.checked){
+		what = self.Decode(what);
+		var content = self.Execute(what, true, index);
+		var content2 = self.GetNew(what, index);
+		
+		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
+		
+		if(content2 != null) content = content.concat(content2);
+		if (content != null && content != undefined)
+			for(var i = 0; i< content.length; i++)
+				if(content[i] != null){
+						self.Highlight(content[i], self.CheckID(id));
+				}
+		}
+		else
+			self.Remove(id, ".");
+	}
 	self.GetNew = function(what, index){
 		var ann = sessionStorage.getItem('ann');
 		if(ann == undefined || ann == "") return null;
@@ -96,22 +115,27 @@ var Scrap = (function(){
 		if(index != 0) control = "cited";
 		return self.GetArray(json.results.bindings, what, control);
 	}
-	self.ShowArray = function(what, chk, index){
-		index = index || 0;
-		var id = what + index;
-		if(chk.checked){
-		what = self.Decode(what);
-		var content = self.Execute(what, true, index);
-		var content2 = self.GetNew(what, index);
-		if(content2 != null) content = content.concat(content2);
-		if (content != null && content != undefined)
-			for(var i = 0; i< content.length; i++)
-				if(content[i] != null){
-						self.Highlight(content[i], self.CheckID(id));
-				}
+	self.GetArray = function(from, what, control){
+		var array = [];
+		for(var i = 0; i< from.length; i++){
+			if(self.CheckRet(what))
+			{	//Se Retorica fai questo
+				if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+					array.push(self.CheckAnnotation(from[i]));
+			}
+			else
+			{
+				if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
+					array.push(self.CheckAnnotation(from[i]));
+				else
+					if(from[i].predicate.value == what && what == "http://schema.org/comment")
+						array.push(self.CheckAnnotation(from[i]));
+					else
+						if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
+							array.push(self.CheckAnnotation(from[i]));
+			}
 		}
-		else
-			self.Remove(id, ".");
+		return array;
 	}
 	self.Remove = function(id, symbol){ //symbol dev'essere "." per eliminare tutti, name per nome
 		if (id == undefined) return;
@@ -262,28 +286,6 @@ var Scrap = (function(){
 		  }
 		});
 	  }
-	}
-	self.GetArray = function(from, what, control){
-		var array = [];
-		for(var i = 0; i< from.length; i++){
-			if(self.CheckRet(what))
-			{	//Se Retorica fai questo
-				if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
-					array.push(self.CheckAnnotation(from[i]));
-			}
-			else
-			{
-				if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
-					array.push(self.CheckAnnotation(from[i]));
-				else
-					if(from[i].predicate.value == what && what == "http://schema.org/comment")
-						array.push(self.CheckAnnotation(from[i]));
-					else
-						if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
-							array.push(self.CheckAnnotation(from[i]));
-			}
-		}
-		return array;
 	}
 	self.Check = function(doc, pers){
 		doc = doc || "";
@@ -809,19 +811,71 @@ var Scrap = (function(){
 			}
 		}
 	}
-	self.ContainsOnly = function(str, chr){
-		/*Ipotizzo che se length > 5 allora falso*/
-		if (str.lengh > 5) 
-			return false;
-		else
-		{
-			for(var i = 0; i < str.length; i++){
-				if(str[i] != chr) 
-					return false;
+	self.Groups = (function(){
+		var me = {};
+		me.Load = function(GroupID, article){
+			var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + GroupID;
+			readRDF.GetData(groupURL, article);
+		};
+		me.ReadSingle = function(GroupID, what, index){
+			/* Usato quando si seleziona la categoria delle annotazioni da vedere, e se sono gruppi selezionati */
+			/*--------------------------------------------------------------------------------------------------*/
+			var FullArray = [], SingleArray = [];
+			/*Qui definire il ciclo sui gruppi selezionati*/
+			var json = sessionStorage.getItem('ann'+GroupID);
+			
+			/*se annotazioni non trovate passas al gruppo successivo selezionato*/
+			if(json == null || json == "") return; 
+			
+			var control = "ver1";
+			if(index != 0) control = "cited";
+			SingleArray = me.GetAnnotations(json.results.bindings, what, control);
+			if(SingleArray.length > 0)
+				FullArray = FullArray.concat(SingleArray);
+			/*Fine Ciclo*/
+			return FullArray;
+		};
+		me.ReadMulti = function(GroupID){
+			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
+			var array = [];
+			var json = sessionStorage.getItem('ann'+GroupID);
+			if(json == null || json == "") return; 
+			//var diff = $(old_array).not(new_array).get();
+			$(".checkbox-grid-left input[type='checkbox']").children("input:checked").each(function(){
+				var events = $._data($(this)[0], 'events' );
+				array = me.GetAnnotations(json.results.bindings/*, what, control*/);
+				if(array.length > 0){
+					for(var i = 0; i< array.length; i++)
+						Scrap.Highlight(array[i]/*, style*/);
+				}
+			});
+		};
+		me.GetAnnotations = function(from, what, control){
+			/*from[i].predicate.value == what -> se abbiamo trovato il tipo*/
+			/*from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited" -> se non fa parte delle citazioni in caso in cui si è selezionato quello dell'articolo*/
+			var array = [];
+			for(var i = 0; i< from.length; i++){
+				if(self.CheckRet(what))
+				{	//Se Retorica fai questo
+					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+						array.push(from[i]);
+				}
+				else
+				{
+					if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
+						array.push(from[i]);
+					else
+						if(from[i].predicate.value == what && what == "http://schema.org/comment")
+							array.push(from[i]);
+						else
+							if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
+								array.push(from[i]);
+				}
 			}
+			return array;
 		}
-		return true;
-	}
+		return me;
+	}());
 	return self;
 }());
 
@@ -935,7 +989,6 @@ function SearchID(id){
 	}
 	return false;
 }
-
 
 function isSpan(nodo){
 	var controllo=0;

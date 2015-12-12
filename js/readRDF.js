@@ -6,6 +6,7 @@ function DirectSELECT(querry, callback){
 
 var readRDF= (function (){
   var self ={};
+  var ReadingGraph = "";
   self.GetGraph = function () {
     return "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516"
   }
@@ -79,11 +80,20 @@ var readRDF= (function (){
   								?body rdf:object ?object .\
   								?object rdfs:label ?KEY}\
   								GROUP BY ?ann ?body ?object} }";
-      var res = DirectSELECT(Query, self.CallBackData);
+	if(fromquerry == self.GetGraph())
+		DirectSELECT(Query, self.CallBackData);
+	else
+	{
+		ReadingGraph = fromquerry.split('/').pop();
+		DirectSELECT(Query, self.CallBackDataGroup);
+	}
   }
   self.CallBackData = function (res) {
     sessionStorage.setItem('ann', "");
     sessionStorage.setItem('annotation', JSON.stringify(res));
+  }
+  self.CallBackDataGroup = function(res){
+	sessionStorage.setItem('ann-'+ReadingGraph, JSON.stringify(res));
   }
   self.countAnnotations = function function_name(argument) {
     var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
