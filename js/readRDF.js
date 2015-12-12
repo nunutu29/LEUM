@@ -106,5 +106,24 @@ var readRDF= (function (){
   						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
     var res = DirectSELECT(Query, self.CallBackcountAnn);
   }
- return self;
+  self.ReadGroups = function(){
+	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
+	DirectSELECT(Query, function(res){
+		var json = res.results.bindings;
+		if(json.length > 0){
+			$("#ListaGruppi").empty();
+			for(var i = 0; i < json.length; i++){
+				var name = json[i].uri.value.split('/').pop();
+				if(name == "essepuntato" || name == "ltw1516") continue;
+				name = name;
+				$("#ListaGruppi").append(
+					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox"))
+							 .append($("<label>").attr("for", name))
+							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
+				);
+			}
+		}
+	});
+  }
+  return self;
 }());

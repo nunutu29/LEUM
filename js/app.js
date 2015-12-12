@@ -841,7 +841,7 @@ var Scrap = (function(){
 			var json = sessionStorage.getItem('ann'+GroupID);
 			if(json == null || json == "") return; 
 			//var diff = $(old_array).not(new_array).get();
-			$(".checkbox-grid-left input[type='checkbox']").children("input:checked").each(function(){
+			$("#filtri input[type='checkbox']").children("input:checked").each(function(){
 				var events = $._data($(this)[0], 'events' );
 				array = me.GetAnnotations(json.results.bindings/*, what, control*/);
 				if(array.length > 0){

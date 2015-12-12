@@ -147,7 +147,11 @@
 		</div>
 		<div id="gruppi" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
-
+				<div class ="checkbox-grid-left">
+					<ul id="ListaGruppi" class="gn-menu">
+						
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

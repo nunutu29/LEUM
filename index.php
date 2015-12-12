@@ -263,7 +263,10 @@ var Page = (function (){
 	return self;
 }());
 //Caricamento menu
-window.onload = function() {readRDF.GetMenu();};
+window.onload = function() {
+	readRDF.GetMenu();
+	readRDF.ReadGroups();
+};
 
 var str=null;
 function AnnotaClick(){
