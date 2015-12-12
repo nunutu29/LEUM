@@ -27,6 +27,7 @@
 		<?php include('ann-menu.php');?>
 		<div class="content">
 			<div id="tabs" class="row">
+			<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>
 				<div class="content2 col-md-offset-4 col-md-8">
 					<div class="infront input-field" style="border:solid 1px black;">
 			          <input placeholder="Cerca" id="iptSearch" type="search"class="gn-search" required>
@@ -223,7 +224,35 @@ var Page = (function (){
 			self.DisableCheckBox();
 			self.WriteData(str);
 		}});
-
+	var Page = (function (){
+		var self = {};
+		self.Search = function(){
+			//Cerca il link e se non esiste lo agiunge
+			var link = document.getElementById("iptSearch");
+			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1)
+				self.makeSearch(link.value, "Search...", "1", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
+			else
+				alert("Solo URI ammessi.");
+			link.value = "";
+		};
+		self.makeSearch = function(link, titolo, scrap, from){
+			$('#URL').val(link);
+			window.scrollTo(0,0);
+			var myData = {link: link, StartScrapper: scrap};
+			var str = "";
+			var process1 = new API();
+			process1.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+				self.DisableCheckBox();
+				self.WriteData(str);
+			}});
+			
+			var process2 = new API();
+			process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
+				readRDF.GetMenu();
+				readRDF.GetData(from, link);
+				self.Uncheck();
+				self.EnableCheckBox();
+			}});
 var process2 = new API();
 process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
 	readRDF.GetMenu();

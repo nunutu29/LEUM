@@ -54,7 +54,26 @@ var Login = (function (){
 
 var Scrap = (function(){
 	var self = {};
-	var DataObject = {};
+	self.ShowArray = function(what, chk, index){
+		index = index || 0;
+		var id = what + index;
+		if(chk.checked){
+		what = self.Decode(what);
+		var content = self.Execute(what, true, index);
+		var content2 = self.GetNew(what, index);
+		
+		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
+		
+		if(content2 != null) content = content.concat(content2);
+		if (content != null && content != undefined)
+			for(var i = 0; i< content.length; i++)
+				if(content[i] != null){
+						self.Highlight(content[i], self.CheckID(id));
+				}
+		}
+		else
+			self.Remove(id, ".");
+	}
 	self.GetNew = function(what, index){
 		var ann = sessionStorage.getItem('ann');
 		if(ann == undefined || ann == "") return null;
@@ -96,22 +115,27 @@ var Scrap = (function(){
 		if(index != 0) control = "cited";
 		return self.GetArray(json.results.bindings, what, control);
 	}
-	self.ShowArray = function(what, chk, index){
-		index = index || 0;
-		var id = what + index;
-		if(chk.checked){
-		what = self.Decode(what);
-		var content = self.Execute(what, true, index);
-		var content2 = self.GetNew(what, index);
-		if(content2 != null) content = content.concat(content2);
-		if (content != null && content != undefined)
-			for(var i = 0; i< content.length; i++)
-				if(content[i] != null){
-						self.Highlight(content[i], self.CheckID(id));
-				}
+	self.GetArray = function(from, what, control){
+		var array = [];
+		for(var i = 0; i< from.length; i++){
+			if(self.CheckRet(what))
+			{	//Se Retorica fai questo
+				if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+					array.push(self.CheckAnnotation(from[i]));
+			}
+			else
+			{
+				if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
+					array.push(self.CheckAnnotation(from[i]));
+				else
+					if(from[i].predicate.value == what && what == "http://schema.org/comment")
+						array.push(self.CheckAnnotation(from[i]));
+					else
+						if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
+							array.push(self.CheckAnnotation(from[i]));
+			}
 		}
-		else
-			self.Remove(id, ".");
+		return array;
 	}
 	self.Remove = function(id, symbol){ //symbol dev'essere "." per eliminare tutti, name per nome
 		if (id == undefined) return;
@@ -178,21 +202,19 @@ var Scrap = (function(){
 		$(node).contents().each(function() {
 		  if (this.nodeType == 3) { // Text node
 			var text = $(this).text();
-			if (count >= ann_end) // Se l'annotazione è finita passa al nodo successivo
-			return;
-
-			if ((count + text.length) <= ann_start) { // Se l'annotazione non inizia in questo nodo (o non è già iniziata), incrementa il counter e passa al nodo successivo
+			if (count >= ann_end) return; // Se l'annotazione è finita passa al nodo successivo
+			if ((count + text.length) <= ann_start || text.trim() == "") { // Se l'annotazione non inizia in questo nodo (o non è già iniziata), incrementa il counter e passa al nodo successivo
 			  count += text.length;
 			  return;
 			}
 			var start_wrap = 0;
 			var end_wrap = -1;
-
+			
 			if (count < ann_start) // Se l'annotazione inizia in questo nodo
-			start_wrap = ann_start-count;
+				start_wrap = ann_start-count;
 
 			if ((count + text.length) > ann_end) // Se l'annotazione finisce in questo nodo
-			end_wrap = ann_end-count;
+				end_wrap = ann_end-count;
 
 			var parent = this.parentNode;
 			if (parent.nodeType == 1 && parent.classList.contains('annotation')) { // Il parent è lo span di un'altra annotazione
@@ -264,28 +286,6 @@ var Scrap = (function(){
 		  }
 		});
 	  }
-	}
-	self.GetArray = function(from, what, control){
-		var array = [];
-		for(var i = 0; i< from.length; i++){
-			if(self.CheckRet(what))
-			{	//Se Retorica fai questo
-				if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
-					array.push(self.CheckAnnotation(from[i]));
-			}
-			else
-			{
-				if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
-					array.push(self.CheckAnnotation(from[i]));
-				else
-					if(from[i].predicate.value == what && what == "http://schema.org/comment")
-						array.push(self.CheckAnnotation(from[i]));
-					else
-						if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
-							array.push(self.CheckAnnotation(from[i]));
-			}
-		}
-		return array;
 	}
 	self.Check = function(doc, pers){
 		doc = doc || "";
@@ -740,26 +740,24 @@ var Scrap = (function(){
 		}
 		return false;
 	}
-	self.SalvaTutto = function(){
-		pData = {link: $("#URL").val()};
+	self.SalvaTutto = function(what){
+		what = what || "ann";
+		pData = {link: $("#URL").val(), annotations: sessionStorage.getItem(what)};
 		var api =  new API();
-		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true});
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true, callback: function(){
+			sessionStorage.setItem(what,"");
+			readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
+		}});
 		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";
 	}
-	self.RemoveBlankSpan = function(id){
-		$("span[name="+id+"]").each(function(){
-			if (!$(this).text().trim().length && !($(this).hasClass("gn-icon-show"))) {
-				$(this).remove();
-			}
-		});
-	};
-	self.TryScrap = function (arg) {
+	self.TryScrap = function (arg, dove) {
+		dove = dove || "ann";
 		if (arg.trim() == "") return ;
-		var content = sessionStorage.getItem("ann");
+		var content = sessionStorage.getItem(dove);
 		//$data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
-		if(content.trim() == "")
-			sessionStorage.setItem("ann",arg);
+		if(content == null || content.trim() == "")
+			sessionStorage.setItem(dove,arg);
 		else {
 			var data = JSON.parse(arg);
 			var vars = content.split('|');
@@ -770,7 +768,7 @@ var Scrap = (function(){
 					continue;
 				newvar += "|"+vars[i];
 			}
-			sessionStorage.setItem("ann",arg + newvar)
+			sessionStorage.setItem(dove, arg + newvar)
 		}
 	}
 	self.getStyle = function(style) {
@@ -793,6 +791,91 @@ var Scrap = (function(){
 		}
 		return null;
 	}
+	self.CancellaTutto = function(){
+		var r = confirm("Sei sicuro di voler cancellare tutto ?");
+		if (r == true) {
+			var articolo = $('#URL').val();
+			if(articolo == undefined || articolo == null || articolo == "") 
+				alert("Articolo non valido");
+			else
+			{
+				var nomeSessione = "delAll";
+				sessionStorage.setItem(nomeSessione,"");
+				var json = JSON.parse(sessionStorage.getItem('annotation'));
+				json = json.results.bindings;
+				for(var i = 0; i < json.length; i++){
+					json[i].azione = {value:"D"};
+					self.TryScrap(JSON.stringify(json[i]), nomeSessione);
+				}
+				self.SalvaTutto(nomeSessione);
+			}
+		}
+	}
+	self.Groups = (function(){
+		var me = {};
+		me.Load = function(GroupID, article){
+			var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + GroupID;
+			readRDF.GetData(groupURL, article);
+		};
+		me.ReadSingle = function(GroupID, what, index){
+			/* Usato quando si seleziona la categoria delle annotazioni da vedere, e se sono gruppi selezionati */
+			/*--------------------------------------------------------------------------------------------------*/
+			var FullArray = [], SingleArray = [];
+			/*Qui definire il ciclo sui gruppi selezionati*/
+			var json = sessionStorage.getItem('ann'+GroupID);
+			
+			/*se annotazioni non trovate passas al gruppo successivo selezionato*/
+			if(json == null || json == "") return; 
+			
+			var control = "ver1";
+			if(index != 0) control = "cited";
+			SingleArray = me.GetAnnotations(json.results.bindings, what, control);
+			if(SingleArray.length > 0)
+				FullArray = FullArray.concat(SingleArray);
+			/*Fine Ciclo*/
+			return FullArray;
+		};
+		me.ReadMulti = function(GroupID){
+			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
+			var array = [];
+			var json = sessionStorage.getItem('ann'+GroupID);
+			if(json == null || json == "") return; 
+			//var diff = $(old_array).not(new_array).get();
+			$(".checkbox-grid-left input[type='checkbox']").children("input:checked").each(function(){
+				var events = $._data($(this)[0], 'events' );
+				array = me.GetAnnotations(json.results.bindings/*, what, control*/);
+				if(array.length > 0){
+					for(var i = 0; i< array.length; i++)
+						Scrap.Highlight(array[i]/*, style*/);
+				}
+			});
+		};
+		me.GetAnnotations = function(from, what, control){
+			/*from[i].predicate.value == what -> se abbiamo trovato il tipo*/
+			/*from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited" -> se non fa parte delle citazioni in caso in cui si è selezionato quello dell'articolo*/
+			var array = [];
+			for(var i = 0; i< from.length; i++){
+				if(self.CheckRet(what))
+				{	//Se Retorica fai questo
+					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+						array.push(from[i]);
+				}
+				else
+				{
+					if(from[i].predicate.value == what && what == "http://purl.org/dc/terms/creator" && from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited")
+						array.push(from[i]);
+					else
+						if(from[i].predicate.value == what && what == "http://schema.org/comment")
+							array.push(from[i]);
+						else
+							if(from[i].predicate.value == what && from[i].subject.value.slice(-8).indexOf(control) != -1)
+								array.push(from[i]);
+				}
+			}
+			return array;
+		}
+		return me;
+	}());
 	return self;
 }());
 
@@ -907,45 +990,214 @@ function SearchID(id){
 	return false;
 }
 
+function isSpan(nodo){
+	var controllo=0;
+	var span=$(nodo.parentNode).attr("class");		//l'idea è che se facciamo una selezione e ci troviamo dentro lo span(già annotato quindi) lo start lo deve prendere dal suo genitore e non dallo span!
+	if(span){	//se è una selezione su testo non annotato span è indefinito
+	if((span.indexOf("annotation"))>-1){
+		var controllo=1;		//variabile di controllo per saper se stiamo annotando qualcosa che è già annotata
+		}	
+	}
+	return controllo;
+}
+
 function manualAnn() {
     var selezione = document.getSelection();
 	if(selezione == "" || selezione == null || selezione.anchorNode == null || selezione.focusNode == null) {alert("Selezionare qualcosa."); return null;};
-	var nodeStart = selezione.anchorNode.parentNode; //nodo nel quale � avvenuta la selezione
-	var nodeEnd = selezione.focusNode.parentNode;	//nodo nel quale finisce la selezione
+	var inizio_selezione=selezione.anchorOffset;
+	var fine_selezione=selezione.focusOffset;
+	
+	
+	if(selezione.anchorNode==selezione.focusNode){			//nodo uguale
+		if(inizio_selezione > fine_selezione){
+			var focus=selezione.anchorNode;		//inverto i nodi
+			var anchor=selezione.focusNode;
+			var aux=inizio_selezione			//inverto start e end
+			inizio_selezione=fine_selezione;
+			fine_selezione=aux;
+		}
+		else{
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+	}	
+	
+	/*else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//caso di nuovo paragrafo SE SELEZIONE AL CONTRARIO NON VA MALEDETTO
+		var anchor=selezione.anchorNode;
+		var focus=selezione.focusNode;
+	}*/
+		
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==1 ){		//nodo diverso, tutti e 2 citati differenza nei parentNode
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==0){		//nodo diverso, inizio citato e fine no differenza nei parentNode
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode.parentNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==1){	//nodo diverso, inizio non citato e fine si, differenza nei parentNode	
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	//debugare questo vedere se entra nel primo caso
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode.parentNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+	
+	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//nodo diverso, non citato	
+		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_iniziale=0;
+			if(selezione.anchorNode.parentNode==nodo_comune.childNodes[i]||selezione.anchorNode==nodo_comune.childNodes[i]){	
+				nodo_iniziale=i;	//posizione del nodo
+				break;
+			}
+			
+		}
+		for(i=0;i<=nodo_comune.childNodes.length;i++){
+			var nodo_finale=0;
+			if(selezione.focusNode.parentNode==nodo_comune.childNodes[i]||selezione.focusNode==nodo_comune.childNodes[i]){ 
+				nodo_finale=i;	//posizione del nodo
+				break;
+			}	
+		}
+		if(nodo_iniziale<nodo_finale){
+			var anchor=selezione.anchorNode;
+			var focus=selezione.focusNode;
+		}
+		else if(nodo_iniziale>nodo_finale){
+			var focus=selezione.anchorNode;		//inverto i nodi
+				var anchor=selezione.focusNode;
+				var aux=inizio_selezione			//inverto start e end
+				inizio_selezione=fine_selezione;
+				fine_selezione=aux;
+		}
+	}
+	
+	
+
+	
+	var controllo=0;		//1 se abbiamo selezionato una citazione, 0 altrimenti 
+	if(anchor!=undefined){
+		controllo=isSpan(anchor);
+	}
+	else{
+		alert("errore");
+		return;
+	}
+	
+	
+	var nodeStart = anchor.parentNode; //nodo nel quale � avvenuta la selezione
+	var nodeEnd = focus.parentNode;	//nodo nel quale finisce la selezione
 	var target = nodeStart.getAttribute('id');
 	var nameElement = nodeStart.nodeName;
 	var parentNode = nodeStart;
-	var NodeToSearch = selezione.anchorNode;
+	var NodeToSearch = anchor;
 	/*Se ci sono nodi in mezzo calcola*/
-	var StartSearch = selezione.anchorNode;
+	var StartSearch = anchor;
 	var boolForEnd = false;
 	var StartOffset = 0;
 	if(nodeStart != nodeEnd){
 		parentNode = selezione.getRangeAt(0).commonAncestorContainer;
 		target = parentNode.getAttribute('id');
 		NodeToSearch = nodeEnd;
-		if(selezione.anchorNode.nodeName == "#text") StartSearch = selezione.anchorNode.parentNode;
-		StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
+		if(anchor.nodeName == "#text") StartSearch = anchor.parentNode;
+		StartOffset+= $(parentNode).text().indexOf($(anchor).text());	//usato parentNode invece di nodeStart, sennò c'era l'offset che sfasava dato che il padre che hanno in comune ha altri caratteri oltre il nodo che abbiamo selezionato
 	}
-	else
+	else{
 		if(nodeStart.childNodes.length > 0){
-			NodeToSearch = selezione.focusNode.previousSibling;
+			NodeToSearch = focus.previousSibling;
 			boolForEnd = true;
-			StartOffset+= $(nodeStart).text().indexOf($(selezione.anchorNode).text());
+			if(controllo==0){	//se non è dentro un'annotazione
+				StartOffset+= $(nodeStart).text().indexOf($(anchor).text());
+			}
+			else{			//altrimenti
+				StartOffset+= $(nodeStart.parentNode).text().indexOf($(anchor).text());	
+			}
+				
 		}
-
-	//StartOffset += getOffset(parentNode, StartSearch, false);
-	//var EndOffset = getOffset(parentNode, NodeToSearch, boolForEnd);
-
-
-	var start = selezione.anchorOffset + StartOffset;
-	var end = start + selezione.toString().length + selezione.toString().split("\n").length - 1;
-	if(start > end){
-		var aux = start;
-		start = end;
-		end = aux;
 	}
-	var selected=selezione.toString();
+	var start = inizio_selezione + StartOffset;		//inizio del nodo + offset dal nodo selezionato all'inizio di tutto il testo
+	var end = start + selezione.getRangeAt(0).toString().length;
+	
+	var selected=selezione.getRangeAt(0).toString();
 	var autore = getCookie("email") != "" ? getCookie("email") : "http://server/unset-base/anonymus";
 	while(SearchID(nodeStart.getAttribute('class')))
 		nodeStart = nodeStart.parentNode;
@@ -975,6 +1227,7 @@ function manualAnn() {
 	//var frammento=JSON.parse(json);
 	return array;
 	}
+
 
 function annota(str, annotazione){  //str � l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto
@@ -1149,14 +1402,17 @@ return 0;
 function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si pu� fare nient'altro senn� sballa le annotazioni magari, boh!!!
 	var css = document.createElement("style");
 	css.type = "text/css";
-	css.innerHTML = "#gn-menu{ opacity: 0.7; pointer-events:none;} #filter-menu{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
+	css.innerHTML = "#filter-menu{opacity: 0.7; pointer-events:none;} #MenuTrigger{opacity: 0.7; pointer-events:none;} #logout{opacity: 0.7; pointer-events:none;} #annota{opacity: 0.7; pointer-events:none;} #view-ann{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
+	//#gn-menu{ opacity: 0.7; pointer-events:none;}
+	document.getElementById("mod_pos").style.display="block";
 	document.body.appendChild(css);
 	var old=$('.gn-icon-show').attr("onclick");  //salvo vecchio valore onclick
 	$('.gn-icon-show').attr("onclick", null); 	//evito il click sull'occhiolino mentre selezioni senn� fa casini
 	document.getElementById("modalBox").style.display="none";
 
 
-	$('.content2').first().click(function(){
+	//$('.content2').first().click(function(){
+	$('#mod_pos').click(function(){
 					var str=manualAnn();
 					if(str.object.value!=""){
 					css.innerHTML ="";
@@ -1166,6 +1422,7 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 					$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
 					$('#testo_selezionato').text(json.object.value);
 					document.getElementById("modalBox").style.display="block";
+					document.getElementById("mod_pos").style.display="none";
 					$('.content2').first().unbind("click"); //disaccoppio il click al .content2
 					$('.gn-icon-show').attr("onclick", old);
 				}

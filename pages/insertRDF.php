@@ -477,12 +477,12 @@ $target = $xpath->query("//p[2]")->item(0);
 $target_text = Normalize($target->nodeValue);
 $aux = $xpath->query("//p[2]//text()[(preceding::br)]");
 $doi = Normalize(substr($aux->item($aux->length - 1)->nodeValue, 4));
+$doi = trim($doi);
 CreateDoi($Exp, $item, $doi, strpos($target_text, $doi), strpos($target_text, $doi) + strlen($doi), $target->getAttribute('id'), $uri);
 
 //Citazioni dell'articolo
 $cities = $xpath->query("//h3[text()='References'][1]/following-sibling::p[count(.|//h3[text()='About the Authors'][1]/preceding-sibling::p)=count(//h3[text()='About the Authors'][1]/preceding-sibling::p)]");
 $i = 1;
-file_put_contents("log.txt", $cities->length);
 foreach($cities as $cite){
 	$citExp = $Exp."_cited".$i;
 	$title = $cite->getElementsByTagName('i');

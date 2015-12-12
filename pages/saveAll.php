@@ -1,12 +1,10 @@
 <?php 
 require_once("insertRDF.php");
 require_once("deleteRDF.php");
-$file="ann.json";
-$content = file_get_contents($file);
 //Creazione di expression
 $data = json_decode(file_get_contents("php://input"),true);
 $url = $data['link']; 
-
+$content = $data['annotations'];
 $mURL = getURL($url); //INDIRIZZO senza nome
 $files = explode("/", $url);
 $item = $files[count($files) - 1];
@@ -34,14 +32,18 @@ foreach($vars as $c){
 		break;
 	}	
 }
-file_put_contents($file, ""); //Pulisco il file
-$read = GetData($url);
-file_put_contents("annotation.json", $read);
 return;
 
 function DELETEAnnotation($obj){
 	global $item, $mURL;
-	$id = strrev( (int)strrev( $obj->ann->value ) );
+	$id = 0;
+	$str = "";
+	$i = strlen($obj->ann->value) - 1;
+	while(is_numeric($obj->ann->value[$i]) && $i > 0){
+		$str .= $obj->ann->value[$i];
+		$i--;
+	}
+	$id = (int)strrev($str);
 	switch($obj->predicate->value){
 		case "http://purl.org/dc/terms/title":
 			DeleteTitle($item, $mURL, $obj->label->value, $id, $obj->at->value, $obj->by->value, $obj->id->value, $obj->start->value, $obj->end->value, $obj->subject->value, $obj->object->value, $obj->bLabel->value);
