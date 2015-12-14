@@ -61,10 +61,11 @@ var Scrap = (function(){
 		what = self.Decode(what);
 		var content = self.Execute(what, true, index);
 		var content2 = self.GetNew(what, index);
-		
 		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
+		var content3 = self.Groups.ReadSingle(what, index);
 		
 		if(content2 != null) content = content.concat(content2);
+		if(content3 != null) content = content.concat(content3);
 		if (content != null && content != undefined)
 			for(var i = 0; i< content.length; i++)
 				if(content[i] != null){
@@ -179,6 +180,7 @@ var Scrap = (function(){
 		EyeSpan.remove();
 	}
 	self.Highlight = function(annotation, style){
+	  annotation.id.value = self.GetMyID(annotation.id.value);
 	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
 	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
 	  var ann_start = annotation.start.value;
@@ -813,27 +815,34 @@ var Scrap = (function(){
 	}
 	self.Groups = (function(){
 		var me = {};
-		me.Load = function(GroupID, article){
-			var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + GroupID;
-			readRDF.GetData(groupURL, article);
+		me.Load = function(chk, article){
+			if(chk.checked){
+				article = article || $('#URL').val();
+				var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + chk.getAttribute("id");
+				readRDF.GetData(groupURL, article);
+			}
+			else
+				sessionStorage.setItem("ann"+chk.getAttribute("id"), "")
 		};
-		me.ReadSingle = function(GroupID, what, index){
+		me.ReadSingle = function(what, index){
 			/* Usato quando si seleziona la categoria delle annotazioni da vedere, e se sono gruppi selezionati */
 			/*--------------------------------------------------------------------------------------------------*/
 			var FullArray = [], SingleArray = [];
-			/*Qui definire il ciclo sui gruppi selezionati*/
-			var json = sessionStorage.getItem('ann'+GroupID);
-			
-			/*se annotazioni non trovate passas al gruppo successivo selezionato*/
-			if(json == null || json == "") return; 
-			
-			var control = "ver1";
-			if(index != 0) control = "cited";
-			SingleArray = me.GetAnnotations(json.results.bindings, what, control);
-			if(SingleArray.length > 0)
-				FullArray = FullArray.concat(SingleArray);
+			$("#ListaGruppi input[type='checkbox']:checked").each(function(){
+				var json = sessionStorage.getItem('ann'+$(this).attr('id'));
+				/*se annotazioni non trovate passas al gruppo successivo selezionato*/
+				if(json == null || json == "") return; 
+				var control = "ver1";
+				if(index != 0) control = "cited";
+				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control);
+				if(SingleArray.length > 0)
+					FullArray = FullArray.concat(SingleArray);
+			});
 			/*Fine Ciclo*/
-			return FullArray;
+			if(FullArray.length > 0)
+				return FullArray;
+			else
+				return null;
 		};
 		me.ReadMulti = function(GroupID){
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
@@ -841,9 +850,9 @@ var Scrap = (function(){
 			var json = sessionStorage.getItem('ann'+GroupID);
 			if(json == null || json == "") return; 
 			//var diff = $(old_array).not(new_array).get();
-			$("#filtri input[type='checkbox']").children("input:checked").each(function(){
+			$("#filtri input[type='checkbox']:checked").each(function(){
 				var events = $._data($(this)[0], 'events' );
-				array = me.GetAnnotations(json.results.bindings/*, what, control*/);
+				array = me.GetAnnotations(JSON.parse(json).results.bindings/*, what, control*/);
 				if(array.length > 0){
 					for(var i = 0; i< array.length; i++)
 						Scrap.Highlight(array[i]/*, style*/);
@@ -876,6 +885,28 @@ var Scrap = (function(){
 		}
 		return me;
 	}());
+	self.GetMyID = function(id)	{
+		function Clear(string){
+			string = string.replace(/\[/g,'');
+			string = string.replace(/]/g,'');
+			string = string.replace(/\//g,'_');
+			return string;
+		}
+		function Crea(string){
+			var asd = string.split("_");
+			for(var i = 0; i< asd.length; i++){
+					if(isNaN(asd[i].slice(-1)))
+						asd[i] += "1";
+			}
+			return asd.join("_");
+		}
+		id = Clear(id);
+		id = Crea(id);
+		id = id.replace("_html1_body1_","");
+		id = id.replace("html1_body1_","");
+		
+		return id;
+	}
 	return self;
 }());
 
@@ -1227,7 +1258,6 @@ function manualAnn() {
 	//var frammento=JSON.parse(json);
 	return array;
 	}
-
 
 function annota(str, annotazione){  //str � l'array con i valori che ci servono
 	str.annotazione=annotazione;	//aggiungiamo all'array l'annotazione che abbiamo fatto

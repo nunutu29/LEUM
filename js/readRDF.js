@@ -96,7 +96,7 @@ var readRDF= (function (){
     sessionStorage.setItem('annotation', JSON.stringify(res));
   }
   self.CallBackDataGroup = function(res){
-	sessionStorage.setItem('ann-'+ReadingGraph, JSON.stringify(res));
+	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
   }
   self.countAnnotations = function function_name(argument) {
     var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
@@ -117,7 +117,7 @@ var readRDF= (function (){
 				if(name == "essepuntato" || name == "ltw1516") continue;
 				name = name;
 				$("#ListaGruppi").append(
-					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox"))
+					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
 							 .append($("<label>").attr("for", name))
 							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
 				);

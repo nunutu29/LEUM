@@ -21,7 +21,6 @@
 </head>
 <body class="blue-grey lighten-4">
 	<input type="text" name="URL" id="URL" style="display:none;">
-	<input type="text" name="GRAPH" id="GRAPH" style="display:none;">
 	<div class="container" id="container">
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
@@ -140,152 +139,139 @@
 				}
 			}
 		</style>
-
-
-	</body>
-	<script type="text/javascript" src="js/materialize.min.js"></script>
-	<script type="text/javascript" src="js/readRDF.js"></script>
-	<script type="text/javascript" src="js/ann-menu.js"></script>
-	<script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
-	<script type="text/javascript">
-		var globalLoader = true;
-		/*new gnMenu(document.getElementById( 'gn-menu' ));*/
-		$('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
-		$('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
-		$('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
-		$('#hasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this);});
-		$('#hasURL').change(function(){Scrap.ShowArray("hasURL",this);});
-		$('#hasComment').change(function(){Scrap.ShowArray("hasComment",this);});
-		$('#hasIntro').change(function(){Scrap.ShowArray("deo:Introduction",this);});
-		$('#hasConcept').change(function(){Scrap.ShowArray("skos:Concept",this);});
-		$('#hasAbstr').change(function(){Scrap.ShowArray("sro:Abstract",this);});
-		$('#hasMateria').change(function(){Scrap.ShowArray("deo:Materials",this);});
-		$('#hasMeth').change(function(){Scrap.ShowArray("deo:Methods",this);});
-		$('#hasRes').change(function(){Scrap.ShowArray("deo:Results",this);});
-		$('#hasDisc').change(function(){Scrap.ShowArray("sro:Discussion",this);});
-		$('#hasConc').change(function(){Scrap.ShowArray("sro:Conclusion",this);});
-
-		$('#chasBody').change(function(){Scrap.ShowArray("cites", this, 0);});
-		$('#chasTitle').change(function(){Scrap.ShowArray("hasTitle", this, 1);});
-		$('#chasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this, 1);});
-		$('#chasDOI').change(function(){Scrap.ShowArray("hasDOI",this, 1);});
-		$('#chasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this, 1);});
-		$('#chasURL').change(function(){Scrap.ShowArray("hasURL",this, 1);});
-
-		// $('#MenuTrigger').on('touchstart', function(){Login.Remove();});
-		// document.querySelector( "#MenuTrigger" ).addEventListener( "click", function() {
-			//   this.classList.toggle( "active" );
-			// });
-$(document).on('touchstart click', '#login-open', function(event){
-	event.stopPropagation();
-	event.preventDefault();
-	if(event.handled !== true) {
-		Login.Show();
-		event.handled = true;
-	} else {
-		return false;
-	}
-});
-//Nascondiamo il login se si click fuori dalla form o dal botton
-$(document).mousedown(function (e){
-	var container = $('#login-form');
-	var btnLogin = $('#login-open');
-	if (!container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
-	Login.Remove();
-});
-
-$('#logout').on({click: function(){Login.LogOut();}});
-$('#login-button').on({click: function(){Login.Try();}});
-$('#salvaReg').on({click: function(){Singin.Try()}});
-$('#register-button').on({click: function(){
-	//crea modale per registrazione
-	$("#modalBox").show();
-	$("#modalBox").append('<div id="modalReg" class="ann-details ann-shower" style ="display: block"><div class ="commnet-desc"><div class="login_1 login_2"><ul class="various-grid accout-login2 login_3"><form><li><input type="text" class="text" placeholder="Nome e Cognome" id="newname"><a class="icon user"></a></li><li><input type="password" placeholder="Password" id="newpass"><a class="icon lock"></a></li><li><input type="password" placeholder="Conferma Password" id="newconfpass"> <a class=" icon confirm"></a></li><li><input type="text" class="text" placeholder ="E-mail" id="newemail"><a class=" icon mail"></a></li></form></ul></div><span id="erroremail" class="gn-icon gn-icon-regalert">E-mail già registrato. Prova con una nuova</span></div><div class ="commnet-separator"><ul class ="edit-delete commnet-user"><li class="gn-icon gn-icon-register"></li><li style="display: table-cell;"><input style="position: absolute;right: 1em;" id="cancellaReg" class="azzuro grey grey1" type="button" onclick="Scrap.HideModal(\'modalReg\')" value="Anulla"></li><li style="display: table-cell;"><input style="position: absolute;right: 7em;"id="salvaReg" class="azzuro azzuro2" type="button" value="Registrati" onclick="Singin.Try()"></li></ul></div></div>');
-}});
-var Page = (function (){
-	var self = {};
-	self.Search = function(){
-		//Cerca il link e se non esiste lo agiunge
-		var link = document.getElementById("iptSearch");
-		if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1)
-		self.makeSearch(link.value, "Search...", "1", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
-		else
-		alert("Solo URI ammessi.");
-		link.value = "";
+</body>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/readRDF.js"></script>
+<script type="text/javascript" src="js/ann-menu.js"></script>
+<script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
+<script type="text/javascript">
+	var globalLoader = true;
+	//Caricamento menu
+	window.onload = function() {
+		readRDF.GetMenu();
+		readRDF.ReadGroups();
 	};
-	self.makeSearch = function(link, titolo, scrap, from){
-		$('#URL').val(link);
-		$('#GRAPH').val(from);
-		window.scrollTo(0,0);
-		var myData = {link: link, StartScrapper: scrap};
-		var str = "";
-		var process1 = new API();
-		process1.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
-			self.DisableCheckBox();
-			self.WriteData(str);
-		}});
-		var process2 = new API();
-		process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
-			readRDF.GetMenu();
-			readRDF.GetData(from, link);
-			self.Uncheck();
-			self.EnableCheckBox();
-		}});
-
+	window.onbeforeunload = function(){
+		var ann = sessionStorage.getItem('ann');
+		if(!ann == undefined || !ann == "")
+		return 'Ci sono modifiche non salvate!';
 	};
-	self.GetData = function(link, titolo, scrap, from){
-		$('#URL').val(link);
-		$('#GRAPH').val(from);
-		window.scrollTo(0,0);
-		var myData = {link: link, StartScrapper: scrap};
-		var api = new API();
-		api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
-			self.WriteData(str);
-		}});
-	readRDF.GetData(from, link);
-	self.Uncheck();
-	};
-	self.WriteData = function (data){
-		$(".content2").html(data);
-	};
-	self.DisableCheckBox = function(){
-		var api =  new API();
-		api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
-			$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
-		}});
-	}
-	self.EnableCheckBox = function(){
-		$('#removeMePlease').remove();
-	}
-	self.Uncheck = function(){
-		$('.check-boxs input:checkbox').removeAttr('checked');
-	}
-	return self;
-}());
-//Caricamento menu
-window.onload = function() {
-	readRDF.GetMenu();
-	readRDF.ReadGroups();
-};
+	$(window).on('unload', function(){
+		sessionStorage.setItem('ann', "");
+	});
+	$(document).on('touchstart click', '#login-open', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+			Login.Show();
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+	//Nascondiamo il login se si click fuori dalla form o dal botton
+	$(document).mousedown(function (e){
+		var container = $('#login-form');
+		var btnLogin = $('#login-open');
+		if (!container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
+		Login.Remove();
+	});
+	/* Assegnamento delle funzioni*/
+	$('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
+	$('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
+	$('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
+	$('#hasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this);});
+	$('#hasURL').change(function(){Scrap.ShowArray("hasURL",this);});
+	$('#hasComment').change(function(){Scrap.ShowArray("hasComment",this);});
+	$('#hasIntro').change(function(){Scrap.ShowArray("deo:Introduction",this);});
+	$('#hasConcept').change(function(){Scrap.ShowArray("skos:Concept",this);});
+	$('#hasAbstr').change(function(){Scrap.ShowArray("sro:Abstract",this);});
+	$('#hasMateria').change(function(){Scrap.ShowArray("deo:Materials",this);});
+	$('#hasMeth').change(function(){Scrap.ShowArray("deo:Methods",this);});
+	$('#hasRes').change(function(){Scrap.ShowArray("deo:Results",this);});
+	$('#hasDisc').change(function(){Scrap.ShowArray("sro:Discussion",this);});
+	$('#hasConc').change(function(){Scrap.ShowArray("sro:Conclusion",this);});
 
-var str=null;
-function AnnotaClick(){
-	var str=manualAnn();
-	if (str != null)
-	Scrap.EditOpen(null, str, "I");
-};
-$('#save-ann').click(function() {var annotazione=$('#s').val();	annota(str,annotazione);});
+	$('#chasBody').change(function(){Scrap.ShowArray("cites", this, 0);});
+	$('#chasTitle').change(function(){Scrap.ShowArray("hasTitle", this, 1);});
+	$('#chasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this, 1);});
+	$('#chasDOI').change(function(){Scrap.ShowArray("hasDOI",this, 1);});
+	$('#chasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this, 1);});
+	$('#chasURL').change(function(){Scrap.ShowArray("hasURL",this, 1);});
+	
+	$('#logout').on({click: function(){Login.LogOut();}});
+	$('#login-button').on({click: function(){Login.Try();}});
+	$('#salvaReg').on({click: function(){Singin.Try()}});
+	$('#register-button').on({click: function(){
+		//crea modale per registrazione
+		$("#modalBox").show();
+		$("#modalBox").append('<div id="modalReg" class="ann-details ann-shower" style ="display: block"><div class ="commnet-desc"><div class="login_1 login_2"><ul class="various-grid accout-login2 login_3"><form><li><input type="text" class="text" placeholder="Nome e Cognome" id="newname"><a class="icon user"></a></li><li><input type="password" placeholder="Password" id="newpass"><a class="icon lock"></a></li><li><input type="password" placeholder="Conferma Password" id="newconfpass"> <a class=" icon confirm"></a></li><li><input type="text" class="text" placeholder ="E-mail" id="newemail"><a class=" icon mail"></a></li></form></ul></div><span id="erroremail" class="gn-icon gn-icon-regalert">E-mail già registrato. Prova con una nuova</span></div><div class ="commnet-separator"><ul class ="edit-delete commnet-user"><li class="gn-icon gn-icon-register"></li><li style="display: table-cell;"><input style="position: absolute;right: 1em;" id="cancellaReg" class="azzuro grey grey1" type="button" onclick="Scrap.HideModal(\'modalReg\')" value="Anulla"></li><li style="display: table-cell;"><input style="position: absolute;right: 7em;"id="salvaReg" class="azzuro azzuro2" type="button" value="Registrati" onclick="Singin.Try()"></li></ul></div></div>');
+	}});
+	$('#save-ann').click(function() {var annotazione=$('#s').val();	annota(str,annotazione);});
+	$("#iptSearch").keypress(function(){if ( event.which == 13 ) {Page.Search();}});
+	var Page = (function (){
+		var self = {};
+		self.Search = function(){
+			//Cerca il link e se non esiste lo agiunge
+			var link = document.getElementById("iptSearch");
+			if(link.value.indexOf("http://") != -1 || link.value.indexOf("www.") != -1)
+			self.makeSearch(link.value, "Search...", "1", "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516");
+			else
+			alert("Solo URI ammessi.");
+			link.value = "";
+		};
+		self.makeSearch = function(link, titolo, scrap, from){
+			$('#URL').val(link);
+			window.scrollTo(0,0);
+			var myData = {link: link, StartScrapper: scrap};
+			var str = "";
+			var process1 = new API();
+			process1.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+				self.DisableCheckBox();
+				self.WriteData(str);
+			}});
+			var process2 = new API();
+			process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
+				readRDF.GetMenu();
+				readRDF.GetData(from, link);
+				self.Uncheck();
+				self.EnableCheckBox();
+			}});
 
-window.onbeforeunload = function(){
-	var ann = sessionStorage.getItem('ann');
-	if(!ann == undefined || !ann == "")
-	return 'Ci sono modifiche non salvate!';
-};
-$(window).on('unload', function(){
-	sessionStorage.setItem('ann', "");
-});
-$("#iptSearch").keypress(function(){
-	if ( event.which == 13 ) {Page.Search();}
-});
+		};
+		self.GetData = function(link, titolo, scrap, from){
+			$('#URL').val(link);
+			window.scrollTo(0,0);
+			var myData = {link: link, StartScrapper: scrap};
+			var api = new API();
+			api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
+				self.WriteData(str);
+			}});
+		readRDF.GetData(from, link);
+		self.Uncheck();
+		};
+		self.WriteData = function (data){
+			$(".content2").html(data);
+		};
+		self.DisableCheckBox = function(){
+			var api =  new API();
+			api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
+				$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
+			}});
+		}
+		self.EnableCheckBox = function(){
+			$('#removeMePlease').remove();
+		}
+		self.Uncheck = function(){
+			$('.check-boxs input:checkbox').removeAttr('checked');
+		}
+		return self;
+	}());
+	var str=null;
+	function AnnotaClick(){
+		var str=manualAnn();
+		if (str != null)
+		Scrap.EditOpen(null, str, "I");
+	};
 </script>
 </html>
