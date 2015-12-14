@@ -54,7 +54,7 @@ var readRDF= (function (){
   			PREFIX oa: <http://www.w3.org/ns/oa#>\
   			PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>\
   			PREFIX frbr: <http://purl.org/vocab/frbr/core#>\
-  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key\
+  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key ?grafo\
   			FROM <"+fromquerry+">\
   			WHERE {\
   					?ann a oa:Annotation ;\
@@ -97,6 +97,7 @@ var readRDF= (function (){
   }
   self.CallBackDataGroup = function(res){
 	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
+	Scrap.Groups.ReadMulti(ReadingGraph);
   }
   self.countAnnotations = function function_name(argument) {
     var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\

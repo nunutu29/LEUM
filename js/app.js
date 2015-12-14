@@ -69,7 +69,7 @@ var Scrap = (function(){
 		if (content != null && content != undefined)
 			for(var i = 0; i< content.length; i++)
 				if(content[i] != null){
-						self.Highlight(content[i], self.CheckID(id));
+					self.Highlight(content[i], self.CheckID(id));
 				}
 		}
 		else
@@ -180,6 +180,9 @@ var Scrap = (function(){
 		EyeSpan.remove();
 	}
 	self.Highlight = function(annotation, style){
+	  var gruppo = "";
+	  if(annotation.gruppo != undefined && annotation.gruppo != null)
+		  gruppo = annotation.gruppo.value;
 	  annotation.id.value = self.GetMyID(annotation.id.value);
 	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
 	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
@@ -822,7 +825,10 @@ var Scrap = (function(){
 				readRDF.GetData(groupURL, article);
 			}
 			else
+			{
 				sessionStorage.setItem("ann"+chk.getAttribute("id"), "")
+				me.ReadMulti(chk.getAttribute("id"), false);
+			}
 		};
 		me.ReadSingle = function(what, index){
 			/* Usato quando si seleziona la categoria delle annotazioni da vedere, e se sono gruppi selezionati */
@@ -834,7 +840,7 @@ var Scrap = (function(){
 				if(json == null || json == "") return; 
 				var control = "ver1";
 				if(index != 0) control = "cited";
-				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control);
+				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control, $(this).attr('id'));
 				if(SingleArray.length > 0)
 					FullArray = FullArray.concat(SingleArray);
 			});
@@ -844,26 +850,22 @@ var Scrap = (function(){
 			else
 				return null;
 		};
-		me.ReadMulti = function(GroupID){
+		me.ReadMulti = function(GroupID, show){
+			show = show || true; 
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
-			var array = [];
-			var json = sessionStorage.getItem('ann'+GroupID);
-			if(json == null || json == "") return; 
-			//var diff = $(old_array).not(new_array).get();
 			$("#filtri input[type='checkbox']:checked").each(function(){
-				var events = $._data($(this)[0], 'events' );
-				array = me.GetAnnotations(JSON.parse(json).results.bindings/*, what, control*/);
-				if(array.length > 0){
-					for(var i = 0; i< array.length; i++)
-						Scrap.Highlight(array[i]/*, style*/);
-				}
+				$(this)[0].checked = false;
+				$(this).trigger("change");
+				$(this)[0].checked = true;
+				$(this).trigger("change");
 			});
 		};
-		me.GetAnnotations = function(from, what, control){
+		me.GetAnnotations = function(from, what, control, group){
 			/*from[i].predicate.value == what -> se abbiamo trovato il tipo*/
 			/*from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited" -> se non fa parte delle citazioni in caso in cui si è selezionato quello dell'articolo*/
 			var array = [];
 			for(var i = 0; i< from.length; i++){
+				from[i].gruppo = {value: group};
 				if(self.CheckRet(what))
 				{	//Se Retorica fai questo
 					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
