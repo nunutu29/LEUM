@@ -27,7 +27,7 @@
 		<?php include('ann-menu.php');?>
 		<div class="content">
 			<div id="tabs" class="row">
-			<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>
+				<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>
 				<div class="content2 col-md-offset-4 col-md-8">
 					<div class="infront input-field" style="border:solid 1px black;">
 			          <input placeholder="Cerca" id="iptSearch" type="search"class="gn-search" required>
@@ -35,7 +35,6 @@
 			          <a class="gn-icon gn-icon-search" href="#" onclick="Page.Search();"></a>
 			          <i class="material-icons">close</i>
 				     </div>
-					<?php //include('home.php');?>
 					<div class="row">
 					</div>
 				</div>
@@ -149,7 +148,6 @@
 	<script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
 	<script type="text/javascript">
 		var globalLoader = true;
-		/*new gnMenu(document.getElementById( 'gn-menu' ));*/
 		$('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
 		$('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
 		$('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
