@@ -5918,9 +5918,10 @@ small {
   .tabs .indicator {
     position: absolute;
     bottom: 0;
-    height: 2px;
+    height: 4px;
     background-color: #b71c1c;
-    will-change: left, right; }
+    will-change: left, right;
+    z-index: 1;}
 
 .hide-tab-scrollbar {
   position: relative;

@@ -1,12 +1,11 @@
 <!--ann-menu-filter-->
-<div id="filter-menu" class ="allow-scroll gn-menu-wrapper gn-open-all latest_tweets ">
+<div id="filter-menu" class ="allow-scroll gn-menu-wrapper gn-open-all latest_tweets "><!-- hide -->
 	<div class="gn-scroller mCustomScrollbar _mCS_1 mCS-autoHide" data-mcs-theme="minimal-dark" style="overflow: visible;">
-		<div class="col-sm-12">
+		<div id="tabnav" class="col-sm-12 red darken-2">
 			<ul class="tabs">
-				<li class="tab col-sm-4"><a class="red-text text-darken-2  active"  href="#libreria"><span class="gn-icon gn-icon-lib"></span></a></li>
-				<li class="tab col-sm-4"><a  class="red-text text-darken-2" href="#filtri"><span class="codrops-icon codrops-icon-ann-filter"></span></a></li>
-				<li class="tab col-sm-4"><a class="red-text text-darken-2" href="#gruppi"><span class="gn-icon gn-icon-groups"></span></span></a></li>
-				<div class="indicator" style="right: 207px; left: 0px;"></div>
+				<li class="tab col-sm-4 waves-effect waves-light red darken-2"><a class="white-text"  href="#libreria"><span class="gn-icon gn-icon-lib"></span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red darken-2"><a  class="white-text " href="#filtri"><span class="codrops-icon codrops-icon-ann-filter"></span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red darken-2"><a class="white-text " href="#gruppi"><span class="gn-icon gn-icon-groups"></span></span></a></li>
 			</ul>
 		</div>
 
@@ -18,6 +17,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div id="filtri" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div class ="check-boxs">
@@ -145,14 +145,18 @@
 				</div>
 			</div>
 		</div>
+		
 		<div id="gruppi" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
-				<div class ="checkbox-grid-left">
-					<ul id="ListaGruppi" class="gn-menu">
-						
-					</ul>
+				<div class ="check-boxs">
+					<div class ="checkbox-grid-left">
+						<ul id="ListaGruppi" class="gn-menu">
+
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 </div>
