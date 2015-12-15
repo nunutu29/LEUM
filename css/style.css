@@ -303,6 +303,21 @@ textarea {
     overflow-y: scroll;
     max-height: 18em;
 }
+.clean-arrow{
+	width:30px !important;
+	height:30px !important;
+	background:none !important;
+}
+.clean-arrow ::before{
+	width:15px !important;
+	height:18px !important;
+}
+.clean-arrow.left{
+left:-30px;
+}
+.clean-arrow.right{
+right:-30px;
+}
 /***************************
 *    HIGHLIGHTS
 *

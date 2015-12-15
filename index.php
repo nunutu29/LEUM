@@ -10,13 +10,14 @@
 	<link rel="stylesheet" type="text/css" href="css/normalize.css" /><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link rel="stylesheet" href="css/materialize.css" media="screen" title="no title" charset="utf-8"><link rel="stylesheet" type="text/css" href="css/demo.css" /><link rel="stylesheet" type="text/css" href="css/component.css" /><link rel="stylesheet" type="text/css" href="css/login.css" /><link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" /><link href="css/bootstrap.css" rel="stylesheet"><link rel="stylesheet" href="css/jquery-ui.css"><link href="css/flat-ui.min.css" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
 	<!-- NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! -->
 	<script src="js/prefixfree.min.js"></script>
-	<script src="js/modernizr.custom.js"></script>
+	<!--<script src="js/modernizr.custom.js"></script>-->
 	<script src="js/classie.js"></script>
 	<script src="js/jquery-1.11.2.js"></script>
 	<script src="js/api.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/select2.full.min.js"></script>
 </head>
 <body class="blue-grey lighten-4">
@@ -137,7 +138,7 @@
 			}
 		</style>
 	</body>
-	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/materialize.js"></script>
 	<script type="text/javascript" src="js/readRDF.js"></script>
 	<script type="text/javascript" src="js/ann-menu.js"></script>
 	<script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
@@ -253,7 +254,10 @@ var Page = (function (){
 	return self;
 }());
 //Caricamento menu
-window.onload = function() {readRDF.GetMenu();};
+window.onload = function() {
+	readRDF.GetMenu();
+	readRDF.ReadGroups();
+};
 var str=null;
 function AnnotaClick(){
 	var str=manualAnn();

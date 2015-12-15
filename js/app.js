@@ -109,6 +109,7 @@ var Scrap = (function(){
 			GroupJson = JSON.parse(GroupJson).results.bindings;
 			for(var i = 0; i < GroupJson.length; i++)
 				if(el.id.value == self.GetMyID(GroupJson[i].id.value) && el.start.value == GroupJson[i].start.value && el.end.value == GroupJson[i].end.value){
+					GroupJson[i].gruppo = $(this).attr('id'); 
 					FullList.push(GroupJson[i]);
 			}
 		});
@@ -219,9 +220,6 @@ var Scrap = (function(){
 		EyeSpan.remove();
 	}
 	self.Highlight = function(annotation, style){
-	  var gruppo = "";
-	  if(annotation.gruppo != undefined && annotation.gruppo != null)
-		  gruppo = annotation.gruppo.value;
 	  annotation.id.value = self.GetMyID(annotation.id.value);
 	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
 	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
@@ -245,7 +243,7 @@ var Scrap = (function(){
 		  end:{value:annotation.end.value}
 	  };
 	  span.attr("data-info", JSON.stringify(spanData));
-	  span.attr("onclick", "Scrap.OnClick(this, '"+ style +"'); return false;");
+	  span.attr("onclick", "Scrap.OnClick(this); return false;");
 	  wrap_node(target_node);
 	  function wrap_node(node) {
 		$(node).contents().each(function() {
@@ -344,87 +342,97 @@ var Scrap = (function(){
 			else
 				return 1;
 	};
-	self.OnClick = function(arg, id){
+	self.OnClick = function(arg){
 		$(arg).attr('id', 'OpenedSpan');
 		var el = $(arg).attr('data-info');
 		var idToRem = $(arg).attr('name');
 		el = JSON.parse(el);
 		var elements = self.GetList(el);
+		var father = $('#modalBox');
+		var Mainbox = $(document.createElement('div')).attr("id", "CarouselViewMain").addClass("ann-details ann-shower").attr("style","display:block;");
+		var CarouselView = $(document.createElement('div')).attr("id","CarouselView").addClass("carousel slide").attr("data-interval","false")
+		var CarouselInner = $(document.createElement('div')).addClass("carousel-inner").attr("role","listbox");
+		var box = "";
 		for(var i = 0; i < elements.length; i++){
-			var str = "";
-			var box = {};
 			switch(elements[i].predicate.value){
 				case "http://purl.org/dc/terms/title":
-					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-title',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-title', idToRem, i);
 				break;
 				case "http://purl.org/dc/terms/creator":
-					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-autore',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-autore', idToRem, i);
 				break;
 				case "http://prismstandard.org/namespaces/basic/2.0/doi":
-					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-doi',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-doi', idToRem, i);
 				break;
 				case "http://purl.org/spar/fabio/hasPublicationYear":
-					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-annop',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-annop', idToRem, i);
 				break;
 				case "http://purl.org/spar/fabio/hasURL":
-					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-url',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-url', idToRem, i);
 				break;
 				case "http://schema.org/comment":
-					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-commento',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-commento', idToRem, i);
 				break;
 				case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
-					self.CreateBox(elements[i], 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-retorica', idToRem, i);
 				break;
 				case "http://purl.org/spar/cito/cites":
-					self.CreateBox(elements[i], 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
+					box = self.CreateBox(elements[i], 'gn-icon-ann-cites', idToRem, i);
 				break;
 			}
+			CarouselInner.append(box);
 		}
+		CarouselView.append(CarouselInner);
+		CarouselView.append($("<a>").addClass("clean-arrow left carousel-control").attr("href","#CarouselView").attr("role", "button").attr("data-slide","prev")
+							.append($("<span>").addClass("gn-icon gn-icon-arrow-left").attr("aria-hidden","true")));
+		CarouselView.append($("<a>").addClass("clean-arrow right carousel-control").attr("href","#CarouselView").attr("role", "button").attr("data-slide","next")
+							.append($("<span>").addClass("gn-icon gn-icon-arrow-right").attr("aria-hidden","true")));
+		Mainbox.append(CarouselView);
+		father.append(Mainbox);
+		father.fadeIn('fast');
 	};
-	self.CreateBox = function(el, id, version,  icon, idToRemove){
-		var father = $('#modalBox');
+	self.CreateBox = function(el, icon, idToRemove, index){
+		var active = index == 0 ? " active" : "";
 		var annotator = "";
 		var label = "";
-		var box = "";
-		switch(version){
-			case 1:
-			if(el.name == undefined)
-				annotator = " da anonymus ";
-			else
-				annotator = el.email.value == "http://server/unset-base/anonymus" ? " da anonymus " : " " + el.name.value;
-
-				try{
-					label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
-					if(self.CheckRet(el.object.value)) label = self.DecodeRetorica(el.object.value);
-					}catch(e){
-					if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-						label = self.DecodeRetorica(el.object.value);
-				};
-				var mod = '<li style="float: right"><input id ="delete-ann" class="azzuro red red1" type="button" value="Cancella" onclick="Scrap.AddToFile(\''+id+'\', \'D\', \''+idToRemove+'\')"></li>\
-						   <li style="float: right"><input id ="edit-ann" class="azzuro green green1" type="button" value="Modifica" onclick="Scrap.EditOpen(\''+id+'\', \'\', \'U\', \''+idToRemove+'\')"></li>';
-				if($("#GRAPH").val() != "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516" || getCookie("email") == "") mod = "";
-				box = $(document.createElement('div'))
-					.attr("id", id)
-					.addClass("ann-details")
-					.addClass("ann-shower")
-					.attr("style","display:block;")
-					.attr("data-info", JSON.stringify(el));
-				box.append('<div class ="commnet-desc" style="overflow:auto; max-height:100px;">\
-								<p id="a-lable">'+ label +'</p>\
-							</div>\
-							<div class ="commnet-desc">\
-								<span class ="time">Annotato il ' + el.at.value + annotator + '  </span>\
-							</div>\
-							<div class ="commnet-separator">\
-								<ul class ="edit-delete commnet-user">\
-									<li class ="gn-icon '+icon+'" style="float: left">' + el.label.value + '</li>'+mod+'\
-									<li style="float: right"><a id ="hide-ann" class ="gn-icon gn-icon-hide" onclick="Scrap.HideModal(\''+id+'\')"></a></li>\
-								</ul>\
-							</div>');
-			break;
+		var box = $(document.createElement('div')).addClass("item" + active);
+		
+		//Estrazione Autore dell'annotazione
+		if(el.name == undefined)
+			annotator = " da anonymus ";
+		else
+			annotator = el.email.value == "http://server/unset-base/anonymus" ? " da anonymus " : " da " + el.name.value;
+		//Estrazione label da mostrare
+		try{
+			label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
+			if(self.CheckRet(el.object.value)) 
+				label = self.DecodeRetorica(el.object.value);
+		}catch(e)
+		{
+			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				label = self.DecodeRetorica(el.object.value);
 		};
-		father.append(box);
-		father.fadeIn('fast');
+		//Creazione Bottoni
+		var cancella = $(document.createElement('li')).attr("style", "float:right")
+			.append($("<input>").attr("id","delete-ann").addClass("azzuro red red1").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('id','D','"+idToRemove+"')"));
+		var modifica = $(document.createElement('li')).attr("style", "float:right")
+			.append($("<input>").attr("id","edit-ann").addClass("azzuro green green1").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('id',,'','U','"+idToRemove+"')"))
+		//Creazione footer
+		var ul = $(document.createElement("ul")).addClass("edit-delete commnet-user");
+		ul.append($("<li>").addClass("gn-icon " + icon).attr("style","float:left;").text(el.label.value));
+			
+		if(el.gruppo == undefined && getCookie("email") != ""){
+			box.attr("data-info", JSON.stringify(el));
+			ul.append(cancella).append(modifica);
+		}
+		else
+			ul.append($("<li>").attr("style", "float:right").append($("<p>").text(el.gruppo)));
+		ul.append($("<li>").attr("style", "float:right").append($("<a>").attr("id","hide-ann").addClass("gn-icon gn-icon-hide").attr("onclick","Scrap.HideModal('CarouselViewMain')")));
+		//Creazione BOX	
+		box.append($("<div>").addClass("commnet-desc").attr("style","overflow:auto; max-height:100px;").append($("<p>").attr("id","a-lable").text(label)))
+		   .append($("<div>").addClass("commnet-desc").append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator)))
+		   .append($("<div>").addClass("commnet-separator").append(ul));
+		return box;
 	};
 	self.HideModal = function(id){
 		$("#modalBox").fadeOut('fast');
@@ -514,7 +522,7 @@ var Scrap = (function(){
 			var index = id.substring(id.length - 1);
 			id = id.substring(0, id.length - 1);
 			id = index == 0 ? id : "c"+id;
-			if(document.getElementById(self.CheckID( id)).checked)
+			if(document.getElementById(self.CheckID(id)).checked)
 				self.Highlight(el, self.CheckID(ob.find("#iperSelector").val())); //ATTENZIONE QUI
 		}
 		else
@@ -887,7 +895,7 @@ var Scrap = (function(){
 				if(json == null || json == "") return; 
 				var control = "ver1";
 				if(index != 0) control = "cited";
-				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control, $(this).attr('id'));
+				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control);
 				if(SingleArray.length > 0)
 					FullArray = FullArray.concat(SingleArray);
 			});
@@ -912,7 +920,6 @@ var Scrap = (function(){
 			/*from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited" -> se non fa parte delle citazioni in caso in cui si è selezionato quello dell'articolo*/
 			var array = [];
 			for(var i = 0; i< from.length; i++){
-				from[i].gruppo = {value: group};
 				if(self.CheckRet(what))
 				{	//Se Retorica fai questo
 					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
