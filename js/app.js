@@ -75,6 +75,45 @@ var Scrap = (function(){
 		else
 			self.Remove(id, ".");
 	}
+	self.GetList = function(el){
+		var mainJson = sessionStorage.getItem("annotation");
+		var ann = sessionStorage.getItem('ann');
+		var FullList = [];
+		mainJson = JSON.parse(mainJson).results.bindings;
+		
+		if(typeof ann == "object") ann = [ann];
+		else
+		{
+			ann = ann.replace(/\|/g, ",");
+			ann = "[" + ann + "]";
+			ann = JSON.parse(ann);
+		}
+		for(var i = 0; i< mainJson.length; i++)
+		{
+			if(el.id.value == mainJson[i].id.value && el.start.value == mainJson[i].start.value && el.end.value ==  mainJson[i].end.value){
+				var annotation = null;
+				if((annotation = self.CheckAnnotation(mainJson[i])) != null)
+					FullList.push(annotation);
+			}
+		}
+		for(var i = 0; i < ann.length; i++)
+		{
+			if(el.id.value == ann[i].id.value && el.start.value == ann[i].start.value && el.end.value == ann[i].end.value){
+				if(ann[i].azione.value != "D")
+					FullList.push(ann[i]);
+			}
+		}
+		$("#ListaGruppi input[type='checkbox']:checked").each(function(){
+			var GroupJson = sessionStorage.getItem('ann'+$(this).attr('id'));
+			if(GroupJson == null || GroupJson == "") return;
+			GroupJson = JSON.parse(GroupJson).results.bindings;
+			for(var i = 0; i < GroupJson.length; i++)
+				if(el.id.value == self.GetMyID(GroupJson[i].id.value) && el.start.value == GroupJson[i].start.value && el.end.value == GroupJson[i].end.value){
+					FullList.push(GroupJson[i]);
+			}
+		});
+		return FullList;
+	}
 	self.GetNew = function(what, index){
 		var ann = sessionStorage.getItem('ann');
 		if(ann == undefined || ann == "") return null;
@@ -200,7 +239,12 @@ var Scrap = (function(){
 		}
 	  var guid = uniqueID();
 	  var span = $(document.createElement("span")).addClass(style).addClass('gn-icon-show').attr("name", guid);
-	  span.attr("data-info", JSON.stringify(annotation));
+	  var spanData = {
+		  id:{value:annotation.id.value}, 
+		  start:{value:annotation.start.value}, 
+		  end:{value:annotation.end.value}
+	  };
+	  span.attr("data-info", JSON.stringify(spanData));
 	  span.attr("onclick", "Scrap.OnClick(this, '"+ style +"'); return false;");
 	  wrap_node(target_node);
 	  function wrap_node(node) {
@@ -305,34 +349,37 @@ var Scrap = (function(){
 		var el = $(arg).attr('data-info');
 		var idToRem = $(arg).attr('name');
 		el = JSON.parse(el);
+		var elements = self.GetList(el);
+		for(var i = 0; i < elements.length; i++){
 			var str = "";
 			var box = {};
-			switch(el.predicate.value){
+			switch(elements[i].predicate.value){
 				case "http://purl.org/dc/terms/title":
-					self.CreateBox(el, id, 1, 'gn-icon-ann-title',idToRem);
+					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-title',idToRem);
 				break;
 				case "http://purl.org/dc/terms/creator":
-					self.CreateBox(el, id, 1, 'gn-icon-ann-autore',idToRem);
+					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-autore',idToRem);
 				break;
 				case "http://prismstandard.org/namespaces/basic/2.0/doi":
-					self.CreateBox(el, id, 1, 'gn-icon-ann-doi',idToRem);
+					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-doi',idToRem);
 				break;
 				case "http://purl.org/spar/fabio/hasPublicationYear":
-					self.CreateBox(el, id, 1, 'gn-icon-ann-annop',idToRem);
+					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-annop',idToRem);
 				break;
 				case "http://purl.org/spar/fabio/hasURL":
-					self.CreateBox(el, id, 1, 'gn-icon-ann-url',idToRem);
+					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-url',idToRem);
 				break;
 				case "http://schema.org/comment":
-					self.CreateBox(el, id, 1, 'gn-icon-ann-commento',idToRem);
+					self.CreateBox(elements[i], id, 1, 'gn-icon-ann-commento',idToRem);
 				break;
 				case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
-					self.CreateBox(el, 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
+					self.CreateBox(elements[i], 'show-retorica', 1, 'gn-icon-ann-retorica',idToRem);
 				break;
 				case "http://purl.org/spar/cito/cites":
-					self.CreateBox(el, 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
+					self.CreateBox(elements[i], 'show-cites', 1, 'gn-icon-ann-cites',idToRem);
 				break;
 			}
+		}
 	};
 	self.CreateBox = function(el, id, version,  icon, idToRemove){
 		var father = $('#modalBox');
