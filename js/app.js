@@ -420,14 +420,11 @@ var Scrap = (function(){
 		//Estrazione label da mostrare
 		try{
 			label = el.bLabel.value;
-			//label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
-			//if(self.CheckRet(el.object.value)) 
-				//label = self.DecodeRetorica(el.object.value);
 		}catch(e)
 		{
-			
-			//if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-				//label = self.DecodeRetorica(el.object.value);
+			label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
+			if(self.CheckRet(el.object.value)) 
+				label = "";
 		};
 		//Creazione Bottoni
 		var cancella = $(document.createElement('li')).attr("style", "float:right")
