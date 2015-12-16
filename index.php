@@ -28,7 +28,6 @@
 		<?php include('ann-menu.php');?>
 		<div class="content">
 			<div id="tabs" class="row">
-			<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>
 				<div class="content2 col-md-offset-4 col-md-8">
 					<div class="infront input-field" style="border:solid 1px black;">
 			          <input placeholder="Cerca" id="iptSearch" type="search"class="gn-search" required>
@@ -233,7 +232,8 @@ var Page = (function (){
 	self.Uncheck();
 	};
 	self.WriteData = function (data){
-		$(".content2").html(data);
+		
+		$(".content2").html('<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>' + data);
 	};
 	self.DisableCheckBox = function(){
 		var api =  new API();
