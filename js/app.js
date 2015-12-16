@@ -73,7 +73,7 @@ var Scrap = (function(){
 				}
 		}
 		else
-			self.Remove(id, ".");
+			self.Remove(self.CheckID(id), ".");
 	}
 	self.GetList = function(el){
 		var mainJson = sessionStorage.getItem("annotation");
@@ -419,13 +419,15 @@ var Scrap = (function(){
 			annotator = el.email.value == "http://server/unset-base/anonymus" ? " da anonymus " : " da " + el.name.value;
 		//Estrazione label da mostrare
 		try{
-			label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
-			if(self.CheckRet(el.object.value)) 
-				label = self.DecodeRetorica(el.object.value);
+			label = el.bLabel.value;
+			//label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
+			//if(self.CheckRet(el.object.value)) 
+				//label = self.DecodeRetorica(el.object.value);
 		}catch(e)
 		{
-			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-				label = self.DecodeRetorica(el.object.value);
+			
+			//if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				//label = self.DecodeRetorica(el.object.value);
 		};
 		//Creazione Bottoni
 		var cancella = $(document.createElement('li')).attr("style", "float:right")
@@ -622,7 +624,11 @@ var Scrap = (function(){
 			var bodyObject = "";
 
 			bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
-			try{bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;}catch(e){}
+			try
+			{
+				if(!self.CheckRet(dati.object.value))
+					bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;
+			}catch(e){}
 
 			var box = $(document.createElement('div'))
 				.attr("id", blockid)
