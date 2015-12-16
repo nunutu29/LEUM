@@ -165,10 +165,6 @@
 		$('#chasDOI').change(function(){Scrap.ShowArray("hasDOI",this, 1);});
 		$('#chasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this, 1);});
 		$('#chasURL').change(function(){Scrap.ShowArray("hasURL",this, 1);});
-		// $('#MenuTrigger').on('touchstart', function(){Login.Remove();});
-		// document.querySelector( "#MenuTrigger" ).addEventListener( "click", function() {
-			//   this.classList.toggle( "active" );
-			// });
 $(document).on('touchstart click', '#login-open', function(event){
 	event.stopPropagation();
 	event.preventDefault();

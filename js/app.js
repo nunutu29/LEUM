@@ -288,7 +288,20 @@ var Scrap = (function(){
 				wrap_mid.text(text.slice(start_wrap,end_wrap));
 			  }
 			  else {
+				  var old_Span = "";
+				  $(wrap_mid.find(".gn-icon-show")).each(
+					function(){
+						if($(this).attr("data-info") != span.attr("data-info")){
+							if(old_Span == "")
+								old_Span = $(this);
+							else
+								old_Span.after($(this));
+						}
+					}
+				  );
+				  
 				wrap_mid.text(text.slice(start_wrap));
+				wrap_mid.append(old_Span);
 			  }
 
 			  if (!wrap_mid.hasClass(style)) wrap_mid.addClass(style);
@@ -353,6 +366,7 @@ var Scrap = (function(){
 		var CarouselView = $(document.createElement('div')).attr("id","CarouselView").addClass("carousel slide").attr("data-interval","false")
 		var CarouselInner = $(document.createElement('div')).addClass("carousel-inner").attr("role","listbox");
 		var box = "";
+		
 		for(var i = 0; i < elements.length; i++){
 			switch(elements[i].predicate.value){
 				case "http://purl.org/dc/terms/title":
@@ -395,7 +409,8 @@ var Scrap = (function(){
 		var active = index == 0 ? " active" : "";
 		var annotator = "";
 		var label = "";
-		var box = $(document.createElement('div')).addClass("item" + active);
+		var boxID = "boxData-" + index;
+		var box = $(document.createElement('div')).addClass("item" + active).attr("id", boxID);
 		
 		//Estrazione Autore dell'annotazione
 		if(el.name == undefined)
@@ -414,9 +429,9 @@ var Scrap = (function(){
 		};
 		//Creazione Bottoni
 		var cancella = $(document.createElement('li')).attr("style", "float:right")
-			.append($("<input>").attr("id","delete-ann").addClass("azzuro red red1").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('id','D','"+idToRemove+"')"));
+			.append($("<input>").attr("id","delete-ann").addClass("azzuro red red1").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
 		var modifica = $(document.createElement('li')).attr("style", "float:right")
-			.append($("<input>").attr("id","edit-ann").addClass("azzuro green green1").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('id',,'','U','"+idToRemove+"')"))
+			.append($("<input>").attr("id","edit-ann").addClass("azzuro green green1").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
 		var ul = $(document.createElement("ul")).addClass("edit-delete commnet-user");
 		ul.append($("<li>").addClass("gn-icon " + icon).attr("style","float:left;").text(el.label.value));
@@ -440,18 +455,31 @@ var Scrap = (function(){
 	};
 	self.AddToFile = function(id, azione, idToRemove){
 		var json = "";
-		if(id != "idDiMerda")
-			json = $('span.gn-icon-show[name="' + idToRemove + '"]').attr("data-info");
-		else
-			json = $("#" + id).attr("data-info");
+		json = $("#" + id).attr("data-info");
 		var el = JSON.parse(json);			
 		if(azione == "D"){
 			el.azione = {value: "D"};
 			self.TryScrap(JSON.stringify(el));
-			self.Remove(idToRemove, "name");
-			self.HideModal(id);
+			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				self.RefreshCheckBox(self.CheckID(self.Encode(el.object.value)));
+			else
+				self.RefreshCheckBox(self.CheckID(self.Encode(el.predicate.value)));
+			if($($("#CarouselView").children()[0]).children().length > 1){
+				if($("#"+id).hasClass("active")){
+					var sibling = $("#"+id).next();
+					$("#"+id).remove();
+					sibling.addClass("active");
+					$("#CarouselView").carousel('next');
+				}
+				else	
+					$("#"+id).remove();
+			}
+			else
+				self.HideModal("CarouselView");
 			return;
 		}
+		var oldObject = JSON.stringify(el);
+		oldObject = JSON.parse(oldObject);
 		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false;
 		if(id == "idDiMerda"){
 			try
@@ -472,7 +500,8 @@ var Scrap = (function(){
 				self.TryScrap(JSON.stringify(el));
 			}
 		}
-		if(el.predicate.value != predicate) changeClass = true;
+		if(el.predicate.value != predicate || (el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && el.object.value != retObject)) 
+			changeClass = true;
 		
 		if(self.NoLiteralObject(el.predicate.value) && el.predicate.value != predicate && !self.NoLiteralObject(predicate))
 			el.object = {value:el.key.value};
@@ -515,22 +544,47 @@ var Scrap = (function(){
 		self.TryScrap(JSON.stringify(el));
 		self.HideModal(id);
 
-		if(azione == "I" || changeClass){
-			if(changeClass) 
-				self.Remove(idToRemove, "name");
-			var id = ob.find("#iperSelector").val();
-			var index = id.substring(id.length - 1);
-			id = id.substring(0, id.length - 1);
-			id = index == 0 ? id : "c"+id;
-			if(document.getElementById(self.CheckID(id)).checked)
-				self.Highlight(el, self.CheckID(ob.find("#iperSelector").val())); //ATTENZIONE QUI
-		}
-		else
-		{
-			//cancello vecchio data-info
-			var span = $("span.gn-icon-show[name="+idToRemove+"]");
-			span.removeAttr("data-info");
-			span.attr("data-info", JSON.stringify(el));
+		if(changeClass){
+			//Refresh qui
+			var newCheckBox = "", oldCheckBox = "";
+			if(oldObject.predicate.value != el.predicate.value){
+				//Sono diversi
+				//Qui sono sicuro che solo uno potrebbe essere una retorica
+				if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes"){
+					//se quello nuovo è una retorica
+					newCheckBox = self.CheckID(self.Encode(el.object.value));
+					oldCheckBox = self.CheckID(self.Encode(oldObject.predicate.value));
+				}
+				else if (oldObject.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				{
+					//Se quello vecchio era una retorica
+					newCheckBox = self.CheckID(self.Encode(oldObject.object.value));
+					oldCheckBox = self.CheckID(self.Encode(el.predicate.value));
+				}
+				else
+				{
+					//se nessuno dei due era una retorica
+					newCheckBox = self.CheckID(self.Encode(el.predicate.value));
+					oldCheckBox = self.CheckID(self.Encode(oldObject.predicate.value));
+				}
+			}
+			else
+			{
+				//predicato non cambiato, ma tuttavia controllare l'oggetto se il predicato è "Retorica"
+				if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				{
+					if(el.object.value != oldObject.object.value){
+						newCheckBox = self.CheckID(self.Encode(el.object.value));
+						oldCheckBox = self.CheckID(self.Encode(oldObject.object.value));
+					}
+				}
+			}
+			if(el.subject.value == "cited")
+				newCheckBox == newCheckBox[0] != 'c' ? "c" + newCheckBox: newCheckBox;
+			if(oldObject.subject.value.slice(-8).indexOf("cited") != -1)
+				oldCheckBox == oldCheckBox[0] != 'c' ? "c" + oldCheckBox: oldCheckBox;
+			self.RefreshCheckBox(newCheckBox);
+			self.RefreshCheckBox(oldCheckBox);
 		}
 	}
 	self.CheckAnnotation = function(from){
@@ -558,7 +612,7 @@ var Scrap = (function(){
 			if(id != undefined && id != null){
 				dati = $("#" + id).attr("data-info");
 				dati = JSON.parse(dati);
-				$("#" + id).remove();
+				$("#CarouselViewMain").remove();
 			}
 			else
 				dati = altro;
@@ -962,6 +1016,13 @@ var Scrap = (function(){
 		id = id.replace("html1_body1_","");
 		
 		return id;
+	}
+	self.RefreshCheckBox = function(id){
+		if ($("#"+id)[0].checked != true) return;
+		$("#"+id)[0].checked = false;
+		$("#"+id).trigger("change");
+		$("#"+id)[0].checked = true;
+		$("#"+id).trigger("change");
 	}
 	return self;
 }());
