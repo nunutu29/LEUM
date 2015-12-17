@@ -112,6 +112,7 @@ var readRDF= (function (){
 	DirectSELECT(Query, function(res){
 		var json = res.results.bindings;
 		if(json.length > 0){
+			self.LoadNames();
 			$("#ListaGruppi").empty();
 			for(var i = 0; i < json.length; i++){
 				var name = json[i].uri.value.split('/').pop();
@@ -120,11 +121,26 @@ var readRDF= (function (){
 				$("#ListaGruppi").append(
 					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
 							 .append($("<label>").attr("for", name))
-							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
+							 .append($("<a>").attr("style", "text-transform:capitalize;").text(self.SearchName(name)))
 				);
 			}
 		}
 	});
+  }
+  self.LoadNames = function(){
+	var api =  new API();
+	api.chiamaServizio({requestUrl: "gruppi.json", isAsync:false, callback: function(res){
+		sessionStorage.setItem("GroupNames", JSON.stringify(res));
+	}});
+  }
+  self.SearchName = function(id){
+	var json = sessionStorage.getItem("GroupNames");
+	json = JSON.parse(json);
+	for(var i = 0; i < json.length; i++){
+		if(json[i].id == id) 
+			return json[i].nome;
+	}
+	return id;
   }
   return self;
 }());
