@@ -17,7 +17,16 @@
 	float:left;
 	margin:0 17px 0 0;
 }
-
+#tabnav{
+  position: fixed;
+  z-index: 1;
+}
+#libreria {
+  padding: 48px 0px 0px 0px;
+}
+ #filtri, #gruppi {
+  padding: 66px 0px 0px 0px;
+ }
 .checkbox-grid-left input[type="checkbox"]{
 	display:none;
 }
@@ -173,16 +182,13 @@
   color:#fff;
   border:2px solid #9b59b6;
 }
-.red{
+/*.red{
   border:2px solid #ed5565;
   color:#ed5565;
-}
+}*/
 .red1{
   background:#ed5565;
   color:#fff;
-}
-.red:hover{
-  border:2px solid #DB3A4B;
 }
 .red1:hover{
   background:#DD4152;
@@ -296,6 +302,21 @@ textarea {
 #riepilogo_ann {
     overflow-y: scroll;
     max-height: 18em;
+}
+.clean-arrow{
+	width:30px !important;
+	height:30px !important;
+	background:none !important;
+}
+.clean-arrow ::before{
+	width:15px !important;
+	height:18px !important;
+}
+.clean-arrow.left{
+left:-30px;
+}
+.clean-arrow.right{
+right:-30px;
 }
 /***************************
 *    HIGHLIGHTS
@@ -699,6 +720,10 @@ a.cd-top {
 .no-touch .cd-top:hover {
   background-color: #8A0707;
   opacity: 1;
+}
+tabs .indicator {
+background-color:  #b71c1c !important;
+z-index: 2;
 }
 /***************************
 *    CARDS

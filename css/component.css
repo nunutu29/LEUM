@@ -164,6 +164,7 @@
 	text-align: left;
 	font-size: 18px;
 	padding: 0px;
+	margin: 0px !important;
 }
 .gn-menu li:not(:first-child),
 .gn-menu li li {
@@ -293,6 +294,16 @@ input.gn-search:focus {
 }
 .gn-icon-opendown::before {
 	content: "\e0ad";
+	font-size: smaller;
+	vertical-align: middle;
+}
+.gn-icon-arrow-left::before{
+	content: "\e031";
+	font-size: smaller;
+	vertical-align: middle;
+}
+.gn-icon-arrow-right::before{
+	content: "\e032";
 	font-size: smaller;
 	vertical-align: middle;
 }

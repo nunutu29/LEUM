@@ -54,7 +54,7 @@ var readRDF= (function (){
   			PREFIX oa: <http://www.w3.org/ns/oa#>\
   			PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>\
   			PREFIX frbr: <http://purl.org/vocab/frbr/core#>\
-  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key\
+  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key ?grafo\
   			FROM <"+fromquerry+">\
   			WHERE {\
   					?ann a oa:Annotation ;\
@@ -96,7 +96,8 @@ var readRDF= (function (){
     sessionStorage.setItem('annotation', JSON.stringify(res));
   }
   self.CallBackDataGroup = function(res){
-	sessionStorage.setItem('ann-'+ReadingGraph, JSON.stringify(res));
+	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
+	Scrap.Groups.ReadMulti(ReadingGraph);
   }
   self.countAnnotations = function function_name(argument) {
     var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
@@ -111,19 +112,35 @@ var readRDF= (function (){
 	DirectSELECT(Query, function(res){
 		var json = res.results.bindings;
 		if(json.length > 0){
+			self.LoadNames();
 			$("#ListaGruppi").empty();
 			for(var i = 0; i < json.length; i++){
 				var name = json[i].uri.value.split('/').pop();
 				if(name == "essepuntato" || name == "ltw1516") continue;
 				name = name;
 				$("#ListaGruppi").append(
-					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox"))
+					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
 							 .append($("<label>").attr("for", name))
-							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
+							 .append($("<a>").attr("style", "text-transform:capitalize;").text(self.SearchName(name)))
 				);
 			}
 		}
 	});
+  }
+  self.LoadNames = function(){
+	var api =  new API();
+	api.chiamaServizio({requestUrl: "gruppi.json", isAsync:false, callback: function(res){
+		sessionStorage.setItem("GroupNames", JSON.stringify(res));
+	}});
+  }
+  self.SearchName = function(id){
+	var json = sessionStorage.getItem("GroupNames");
+	json = JSON.parse(json);
+	for(var i = 0; i < json.length; i++){
+		if(json[i].id == id) 
+			return json[i].nome;
+	}
+	return id;
   }
   return self;
 }());

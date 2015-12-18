@@ -10,13 +10,14 @@
 	<link rel="stylesheet" type="text/css" href="css/normalize.css" /><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link rel="stylesheet" href="css/materialize.css" media="screen" title="no title" charset="utf-8"><link rel="stylesheet" type="text/css" href="css/demo.css" /><link rel="stylesheet" type="text/css" href="css/component.css" /><link rel="stylesheet" type="text/css" href="css/login.css" /><link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" /><link href="css/bootstrap.css" rel="stylesheet"><link rel="stylesheet" href="css/jquery-ui.css"><link href="css/flat-ui.min.css" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
 	<!-- NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! -->
 	<script src="js/prefixfree.min.js"></script>
-	<script src="js/modernizr.custom.js"></script>
+	<!--<script src="js/modernizr.custom.js"></script>-->
 	<script src="js/classie.js"></script>
 	<script src="js/jquery-1.11.2.js"></script>
 	<script src="js/api.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/select2.full.min.js"></script>
 </head>
 <body class="blue-grey lighten-4">
@@ -27,7 +28,6 @@
 		<?php include('ann-menu.php');?>
 		<div class="content">
 			<div id="tabs" class="row">
-			<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>
 				<div class="content2 col-md-offset-4 col-md-8">
 					<div class="infront input-field" style="border:solid 1px black;">
 			          <input placeholder="Cerca" id="iptSearch" type="search"class="gn-search" required>
@@ -75,7 +75,6 @@
 				}
 			}
 			@media screen and (max-width: 768px) {
-
 			}
 			@media screen and (max-width: 540px ){
 				#change-target{
@@ -91,7 +90,6 @@
 				#imgLogo {
 					width: 15em;
 				}
-
 			}
 			@media screen and (max-width:440px) {
 				.ann-details.ann-shower {
@@ -118,7 +116,6 @@
 					#longLogo .content h2 {
 						font-size: 1.3em;
 					}
-
 				}
 				/*END GENERIC ONES*/
 				@media all and (min-width: 1220px) {
@@ -134,16 +131,13 @@
 					transform: translateX(0px);
 					width: 100%;
 				}
-
 				.gn-menu-wrapper.gn-open-all .gn-scroller {
 					width: 130%
 				}
 			}
 		</style>
-
-
 	</body>
-	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/materialize.js"></script>
 	<script type="text/javascript" src="js/readRDF.js"></script>
 	<script type="text/javascript" src="js/ann-menu.js"></script>
 	<script type="text/javascript" src="js/register.js">//script register che deve comparire nel app</script>
@@ -164,18 +158,12 @@
 		$('#hasRes').change(function(){Scrap.ShowArray("deo:Results",this);});
 		$('#hasDisc').change(function(){Scrap.ShowArray("sro:Discussion",this);});
 		$('#hasConc').change(function(){Scrap.ShowArray("sro:Conclusion",this);});
-
 		$('#chasBody').change(function(){Scrap.ShowArray("cites", this, 0);});
 		$('#chasTitle').change(function(){Scrap.ShowArray("hasTitle", this, 1);});
 		$('#chasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this, 1);});
 		$('#chasDOI').change(function(){Scrap.ShowArray("hasDOI",this, 1);});
 		$('#chasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this, 1);});
 		$('#chasURL').change(function(){Scrap.ShowArray("hasURL",this, 1);});
-
-		// $('#MenuTrigger').on('touchstart', function(){Login.Remove();});
-		// document.querySelector( "#MenuTrigger" ).addEventListener( "click", function() {
-			//   this.classList.toggle( "active" );
-			// });
 $(document).on('touchstart click', '#login-open', function(event){
 	event.stopPropagation();
 	event.preventDefault();
@@ -193,7 +181,6 @@ $(document).mousedown(function (e){
 	if (!container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
 	Login.Remove();
 });
-
 $('#logout').on({click: function(){Login.LogOut();}});
 $('#login-button').on({click: function(){Login.Try();}});
 $('#salvaReg').on({click: function(){Singin.Try()}});
@@ -231,7 +218,6 @@ var Page = (function (){
 			self.Uncheck();
 			self.EnableCheckBox();
 		}});
-
 	};
 	self.GetData = function(link, titolo, scrap, from){
 		$('#URL').val(link);
@@ -246,7 +232,8 @@ var Page = (function (){
 	self.Uncheck();
 	};
 	self.WriteData = function (data){
-		$(".content2").html(data);
+		
+		$(".content2").html('<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>' + data);
 	};
 	self.DisableCheckBox = function(){
 		var api =  new API();
@@ -267,7 +254,6 @@ window.onload = function() {
 	readRDF.GetMenu();
 	readRDF.ReadGroups();
 };
-
 var str=null;
 function AnnotaClick(){
 	var str=manualAnn();
@@ -275,7 +261,6 @@ function AnnotaClick(){
 	Scrap.EditOpen(null, str, "I");
 };
 $('#save-ann').click(function() {var annotazione=$('#s').val();	annota(str,annotazione);});
-
 window.onbeforeunload = function(){
 	var ann = sessionStorage.getItem('ann');
 	if(!ann == undefined || !ann == "")
