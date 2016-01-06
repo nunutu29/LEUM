@@ -38,7 +38,7 @@ var readRDF= (function (){
         }
         var url = res[i].url.value;
         $("ul.doc-annotati").append("<li><a class=\"gn-icon gn-icon-file grey-text text-darken-2 latest_tweets\" title=\""+title+"\" onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">"+shorttittle+"</a></li");
-        $("div.content2 div.row").append("<div class=\"card card-1 col-sm-5\" style=\"margin-right: 3%; margin-left: 3%;\"><div class=\"card-content\"><span class=\"card-title activator grey-text text-darken-4\">"+shorttittle+"</span><p><a onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">Vedi articolo</a><span class=\"card-title activator grey-text text-darken-4\"><i class=\"material-icons right\">more_vert</i></span></p></div><div class=\"card-reveal\"><span class=\"card-title grey-text text-darken-4\"><i class=\"material-icons right\">close</i></span><p>"+title+"</p></div></div>");
+        $("div.content2 div.row").append("<div class=\"card card-1 col-sm-3\" style=\"margin-right: 3%; margin-left: 3%;\"><div class=\"card-content\"><span class=\"card-title activator grey-text text-darken-4\">"+shorttittle+"</span><p><a onclick=\"Page.GetData('"+url+"','"+shorttittle+"', '0', '" + self.GetGraph() + "')\">Vedi articolo</a><span class=\"card-title activator grey-text text-darken-4\"><i class=\"material-icons right\">more_vert</i></span></p></div><div class=\"card-reveal\"><span class=\"card-title grey-text text-darken-4\"><i class=\"material-icons right\">close</i></span><p>"+title+"</p></div></div>");
 
       }
     }
@@ -54,7 +54,7 @@ var readRDF= (function (){
   			PREFIX oa: <http://www.w3.org/ns/oa#>\
   			PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/person/>\
   			PREFIX frbr: <http://purl.org/vocab/frbr/core#>\
-  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key\
+  			SELECT DISTINCT ?ann ?by ?at ?label ?id ?start ?end ?subject ?predicate ?object ?bLabel ?name ?email ?key ?grafo\
   			FROM <"+fromquerry+">\
   			WHERE {\
   					?ann a oa:Annotation ;\
@@ -96,7 +96,8 @@ var readRDF= (function (){
     sessionStorage.setItem('annotation', JSON.stringify(res));
   }
   self.CallBackDataGroup = function(res){
-	sessionStorage.setItem('ann-'+ReadingGraph, JSON.stringify(res));
+	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
+	Scrap.Groups.ReadMulti(ReadingGraph);
   }
   self.countAnnotations = function function_name(argument) {
     var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
@@ -106,5 +107,24 @@ var readRDF= (function (){
   						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
     var res = DirectSELECT(Query, self.CallBackcountAnn);
   }
- return self;
+  self.ReadGroups = function(){
+	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
+	DirectSELECT(Query, function(res){
+		var json = res.results.bindings;
+		if(json.length > 0){
+			$("#ListaGruppi").empty();
+			for(var i = 0; i < json.length; i++){
+				var name = json[i].uri.value.split('/').pop();
+				if(name == "essepuntato" || name == "ltw1516") continue;
+				name = name;
+				$("#ListaGruppi").append(
+					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
+							 .append($("<label>").attr("for", name))
+							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
+				);
+			}
+		}
+	});
+  }
+  return self;
 }());

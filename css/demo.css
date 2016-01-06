@@ -36,7 +36,8 @@ body {
 	font-family: 'Lato', Arial, sans-serif;
 	text-align:justify;
 	padding: 15px;
-	overflow-x:scroll;
+	padding: 3%;
+	overflow-x:auto;
 }
 .container  .content .content2 > img, table{
 	max-width:100%;
@@ -47,16 +48,15 @@ body {
 	height:auto;
 }
 
-.container .content {
-	padding-top: 5em;
-
+.content {
+	position: relative;
+	top: 150px;
 }
 
 .container .content  a {
 	color: #566473;
 	text-decoration: none;
 	outline: none;
-
 }
 
 .container .content  a:hover {
@@ -78,83 +78,12 @@ body {
 	font-weight: 300;
 }
 
-.container .content  > p {
-	display: block;
-	color: #74818e;
-	padding: 0 0 0.6em 0.1em;
-}
 
 .container .content  > div {
 	display: block;
 	color: #74818e;
 	padding: 0 0 0.6em 0.1em;
 }
-
-.container .content .emptyP {
-	display: block;
-	color: #74818e;
-	padding: 0 0 0 0 !important;
-}
-
-/* To Navigation Style */
-.codrops-top {
-	background: #fff;
-	background: rgba(255, 255, 255, 0.6);
-	text-transform: uppercase;
-	width: 100%;
-	font-size: 0.69em;
-	line-height: 2.2;
-}
-
-.codrops-top a, button {
-	text-decoration: none;
-	padding: 0 1em;
-	letter-spacing: 0.1em;
-	color: #888;
-	display: inline-block;
-}
-button.codrops-icon-ann-add {
-	border: none;
-	text-decoration: none;
-	background-color: white;
-	color: #8A0707;
-	font-weight: bold;
-}
-button.codrops-icon-ann-add:hover {
-	background-color: #8A0707;
-	color: white;
-}
-button.codrops-icon-ann-see {
-	border: none;
-	text-decoration: none;
-	background-color: white;
-	color: #8A0707;
-	font-weight: bold;
-}
-button.codrops-icon-ann-see:hover {
-	background-color: #8A0707;
-	color: white;
-}
-button.codrops-icon-ann-filter {
-	border: none;
-	text-decoration: none;
-	background-color: white;
-	color: #8A0707;
-	font-weight: bold;
-}
-button.codrops-icon-ann-filter:hover {
-	background-color: #8A0707;
-	color: white;
-}
-.codrops-top span.right {
-	float: right;
-}
-
-.codrops-top span.right a {
-	float: left;
-	display: block;
-}
-
 .codrops-icon:before {
 	font-family: 'codropsicons';
 	margin: 0 0px;
@@ -168,13 +97,13 @@ button.codrops-icon-ann-filter:hover {
 }
 
 .codrops-icon-johnny-user:before {
-	vertical-align: -20px;
+	vertical-align: top;
 	content: "\e000";
 	font-size: 50px;
 }
 .codrops-icon-ann-add::before {
 	content: "\e209";
-	font-size: 30px;
+	font-size: x-large;
 	vertical-align: middle;
 
 }
@@ -190,35 +119,11 @@ button.codrops-icon-ann-filter:hover {
     vertical-align: top;
 
 }
-.icon-fontawesome-exit:before {
+.codrops-icon-ann-exit:before {
   content: "\e1f3";
   font-size: 30px;
   vertical-align: middle;
 }
-/* Demo Buttons Style */
-.codrops-demos {
-	padding-top: 1em;
-	font-size: 0.9em;
-}
-
-.codrops-demos a {
-	text-decoration: none;
-	outline: none;
-	display: inline-block;
-	margin: 0.5em;
-	padding: 0.7em 1.1em;
-	border: 3px solid #b1aea6;
-	color: #b1aea6;
-	font-weight: 700;
-}
-
-.codrops-demos a:hover,
-.codrops-demos a.current-demo,
-.codrops-demos a.current-demo:hover {
-	border-color: #89867e;
-	color: #89867e;
-}
-
 .modal {
     display: none;
     position: absolute!important;
@@ -251,14 +156,4 @@ button.codrops-icon-ann-filter:hover {
   width: 100%;
   z-index: 1000;
   background: rgba( 95,111,129, 0.8 );
-}
-.loading {
-	overflow: hidden;
-}
-.loading .modal {
-	display: block;
-}
-.makers
-{
-	font-family: 'Spider-Man';
 }

@@ -63,6 +63,12 @@
 .materialize-red-text.text-darken-4 {
   color: #8b1014 !important; }
 
+.red.valencia {
+  background-color: #D64541 !important; }
+
+.red-text.text-valencia {
+  color: #D64541 !important; }
+  
 .red.lighten-5 {
   background-color: #FFEBEE !important; }
 
@@ -2066,7 +2072,7 @@ img.responsive-img, video.responsive-video {
   border-radius: 2px;
   text-align: center; }
   .pagination li a {
-    color: #444; }
+    color: #E0E0E0; }
   .pagination li.active a {
     color: #fff; }
   .pagination li.active {
@@ -5050,20 +5056,7 @@ nav ul a span.badge {
 
 .mdi-toggle-star:before {
   content: "\e8f5"; }
-
-.container {
-  margin: 0 auto;
-  max-width: 1280px;
-  width: 90%; }
-
-@media only screen and (min-width : 601px) {
-  .container {
-    width: 85%; } }
-
-@media only screen and (min-width : 993px) {
-  .container {
-    width: 70%; } }
-
+  
 .container .row {
   margin-left: -0.75rem;
   margin-right: -0.75rem; }
@@ -5487,11 +5480,7 @@ nav {
   nav ul {
     margin: 0; }
     nav ul li {
-      -webkit-transition: background-color .3s;
-      -moz-transition: background-color .3s;
-      -o-transition: background-color .3s;
-      -ms-transition: background-color .3s;
-      transition: background-color .3s;
+      background-color: rgba(0, 0, 0, 0) !important;
       float: left;
       padding: 0; }
       nav ul li:hover, nav ul li.active {
@@ -5504,10 +5493,11 @@ nav {
     nav ul.left {
       float: left; }
   nav .input-field {
-    margin: 0; }
+    margin: 0;
+    width: 40em; }
     nav .input-field input {
       height: 100%;
-      font-size: 1.2rem;
+      font-size: x-large;
       border: none;
       padding-left: 2rem; }
       nav .input-field input:focus, nav .input-field input[type=text]:valid, nav .input-field input[type=password]:valid, nav .input-field input[type=email]:valid, nav .input-field input[type=url]:valid, nav .input-field input[type=date]:valid {
@@ -5524,7 +5514,7 @@ nav {
         -ms-transition: color .3s;
         transition: color .3s; }
       nav .input-field label.active i {
-        color: #fff; }
+        color: #E0E0E0; }
       nav .input-field label.active {
         -webkit-transform: translateY(0);
         -moz-transform: translateY(0);
@@ -5918,9 +5908,10 @@ small {
   .tabs .indicator {
     position: absolute;
     bottom: 0;
-    height: 2px;
+    height: 4px;
     background-color: #b71c1c;
-    will-change: left, right; }
+    will-change: left, right;
+    z-index: 1;}
 
 .hide-tab-scrollbar {
   position: relative;
@@ -6020,8 +6011,8 @@ small {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: 37px;
-  height: 37px;
+  width: 3em;
+  height: 3em;
   line-height: 37px;
   padding: 0;
   background-color: #26a69a;
@@ -6035,14 +6026,14 @@ small {
     text-align: center;
     color: #fff;
     font-size: 1.6rem;
-    line-height: 37px; }
+    line-height: 2.2em; }
   .btn-floating:before {
     border-radius: 0; }
   .btn-floating.btn-large {
-    width: 55.5px;
-    height: 55.5px; }
+    width: 5em;
+    height: 5em; }
     .btn-floating.btn-large i {
-      line-height: 55.5px; }
+      line-height: 4.3em; }
 
 button.btn-floating {
   border: none; }
@@ -6576,15 +6567,16 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
 .input-field input[type=search] {
   display: block;
   line-height: inherit;
-  padding-left: 4rem;
-  width: calc(100% - 4rem); }
+  width: 25rem; }
   .input-field input[type=search]:focus {
     background-color: #fff;
     border: 0;
     box-shadow: none;
-    color: #444; }
+    color: #E0E0E0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s ease-in-out; }
     .input-field input[type=search]:focus + label i, .input-field input[type=search]:focus ~ .mdi-navigation-close, .input-field input[type=search]:focus ~ .material-icons {
-      color: #444; }
+      color: #ffffff; }
   .input-field input[type=search] + label {
     left: 1rem; }
   .input-field input[type=search] ~ .mdi-navigation-close, .input-field input[type=search] ~ .material-icons {
@@ -7268,7 +7260,7 @@ select {
     .side-nav li:hover, .side-nav li.active {
       background-color: #ddd; }
   .side-nav a {
-    color: #444;
+    color: #E0E0E0;
     display: block;
     font-size: 1rem;
     height: 64px;
@@ -7285,7 +7277,7 @@ select {
 .side-nav.fixed a {
   display: block;
   padding: 0 15px;
-  color: #444; }
+  color: #E0E0E0; }
 
 .side-nav.fixed {
   left: 0;

@@ -1,4 +1,3 @@
-@import url(http://weloveiconfonts.com/api/?family=fontawesome);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:700,300);
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
 .check-boxs {
@@ -13,19 +12,22 @@
   padding-left: 30px;
 
 }
-.col_checkbox {
-	float:left;
-	margin:0 17px 0 0;
+#tabnav{
+  position: fixed;
+  z-index: 1;
+  padding-top: .5em;
 }
-
+#libreria {
+  padding: 55px 0px 0px 0px;
+}
+ #filtri, #gruppi {
+  padding: 73px 0px 0px 0px;
+ }
 .checkbox-grid-left input[type="checkbox"]{
 	display:none;
 }
 .checkbox-grid-left input[type="checkbox"]+label{
 	display:inline-block;
-}
-.checkbox-grid-left p{
-	display:block;
 }
 .checkbox-grid-left a{
 	vertical-align: super;
@@ -34,12 +36,6 @@
 	font-size: 1em;
 }
 
-.latest_tweets h3, .compose_twit h3 {
-  font-size: 1.2em;
-}
-.latest_tweets h3, .compose_twit h3 {
-  font-size: 1.2em;
-}
 .latest_tweets a {
   list-style: none;
   text-transform: none;
@@ -173,122 +169,11 @@
   color:#fff;
   border:2px solid #9b59b6;
 }
-.red{
+/*.red{
   border:2px solid #ed5565;
   color:#ed5565;
-}
-.red1{
-  background:#ed5565;
-  color:#fff;
-}
-.red:hover{
-  border:2px solid #DB3A4B;
-}
-.red1:hover{
-  background:#DD4152;
-  border:2px solid #DD4152;
-}
-.commnet-separator {
-  border-top: 1px solid #c6d0da;
-  height: 60px;
-  padding: 1%;
-}
-.green:hover{
-  border:2px solid #83BD44;
-}
-.green1:hover{
-  background:#91C756;
-  border:2px solid #91C756;
-}
-.green{
-  border:2px solid #a0d468;
-    color:#a0d468;
-}
-.green1{
-  background:#a0d468;
-  color:#fff;
-}
-#label-comm {
-  float: right;
-}
-.tootlip{
-  background:#FFF;
-  padding:15px 5%;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  -o-border-radius:3px;
-  box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
-  -o-box-shadow:0px 0px 5px rgba(0, 0, 0, 0.5);
-  position:relative;
-}
-.tootlip a{
-  display:inline-block;
-  font-size:18px;
-  color:#FFF;
-  font-weight:600;
-  background:#f34141;
-  padding: 12px 12px 12px 0px;
-  border:1px solid #D01818;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  -o-border-radius:3px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-a.tootlip2 {
-  background:#46B9E1;
-  border:1px solid #46B9E1 !important;
-}
-.tootlip a:hover{
-  background-color: #E52626;
-  border-color: #E52626;
-}
-a.tootlip2:hover {
-  background-color: #3AAFD8;
-  border:1px solid #46B9E1 !important;
-}
-div.tootlip {
-  max-width: 170px;
-  padding: 20px;
-}
-.tootlip p{
-  display: block;
-  width: 100%;
-}
-.grey {
- background:#b4b4b4;
- color:#fff;
- border:2px solid #b4b4b4;
- width: 87px;
-cursor: pointer;
-}
-.grey:hover {
-  background:#A1A0A0;
-  border:2px solid #A1A0A0;
-  color: #FFF;
-}
-.normal-input-white{
-  background: #e1e4e9;
-  border: none;
-  margin-bottom:1em;
-}
-.alert-input-white{
-  border:1px solid #ed5565;
-  color:#ed5565;
-  margin-bottom:1em;
-}
-.deactive-input-white{
-  border:1px solid #a0d468;
-}
-textarea {
-    resize: vertical;
-}
+}*/
+
 /***************************
 *        modals            *
 *                          *
@@ -501,7 +386,14 @@ textarea {
 *    REGISTER
 *
 ***************************/
-#register-button{
+.login-open{
+  font-size: x-large;
+  font-weight: 400;
+}
+.dropdown-content.active{
+  width: auto !important;
+}
+#register-button-modal{
     position: absolute;
     top: 72%;
     width: 6em;
@@ -618,6 +510,65 @@ left: 1%;
 *    HOME
 *
 ***************************/
+.floating-menu{
+  bottom: 8%;
+  right: 10%;
+}
+.logoraschetto{
+  background: url("../img/logoRaschetto.svg");
+  background-size: 40em;
+  background-repeat: no-repeat;
+  width: 40rem;
+}
+.input-field input[type=search] + label[for=iptSearch] {
+    left: -6rem;
+}
+.field-search{
+  margin-top: -6%;
+  margin-left: 45%;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: #E0E0E0 !important;
+  font-size: x-large;
+  font-weight: bolder;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #E0E0E0 !important;
+  opacity:  1;
+  font-size: x-large;
+  font-weight: bolder;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #E0E0E0 !important;
+  opacity:  1;
+  font-size: x-large;
+  font-weight: bolder;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #E0E0E0 !important;
+  font-size: x-large;
+  font-weight: bolder;
+}
+
+nav ul li{
+  display: inline-block !important;
+  float: left;
+}
+.navbar-brand{
+  height:140px !important; 
+  width:480px; 
+  overflow:hidden;
+  background: none!important;
+  color: rgba(255,255,255,0)!important;
+}
+.navbar-brand:hover{
+  background: none!important;
+  color: rgba(255,255,255,0);
+}
 #longLogo h1,h2,h3,h4{
   font-family: 'Lato', Arial, sans-serif;
   font-weight: 100;
@@ -651,8 +602,9 @@ left: 1%;
       height: 2em;
 }
 #filter-menu{
+  border-top: 0px;
   position: fixed;
-  z-index: 1;
+  z-index: 9999;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 /***************************
@@ -660,22 +612,21 @@ left: 1%;
 *
 ***************************/
 a.cd-top {
-  color: #8A0707;
   text-decoration: none;
 }
 .cd-top {
   display: inline-block;
-  height: 40px;
-  width: 40px;
+  height: 4em;
+  width: 4em;
   position: fixed;
-  bottom: 40px;
-  right: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  right: 50%;
+  top: 9%;
+  z-index: 1301;
   /* image replacement properties */
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  background: rgba(138,7,7,0.4) url(../img/cd-top-arrow.svg) no-repeat center 50%;
+  background: url(../img/cd-top-arrow.svg) no-repeat center 50%;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity .3s 0s, visibility 0s .3s;
@@ -694,11 +645,14 @@ a.cd-top {
 }
 .cd-top.cd-fade-out {
   /* if the user keeps scrolling down, the button is out of focus and becomes less visible */
-  opacity: .5;
+  opacity: .7;
 }
 .no-touch .cd-top:hover {
-  background-color: #8A0707;
   opacity: 1;
+}
+tabs .indicator {
+background-color:  #b71c1c !important;
+z-index: 2;
 }
 /***************************
 *    CARDS
@@ -721,15 +675,11 @@ a.cd-top {
   }
 @media only screen and (min-width: 768px) {
   .cd-top {
-    right: 20px;
-    bottom: 20px;
+    
   }
 }
 @media only screen and (min-width: 1024px) {
   .cd-top {
-    height: 60px;
-    width: 60px;
-    right: 30px;
-    bottom: 30px;
+    
   }
 }
