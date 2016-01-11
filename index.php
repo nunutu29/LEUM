@@ -253,6 +253,7 @@ var Page = (function (){
 		process1.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 			self.DisableCheckBox();
 			self.WriteData(str);
+			ShowMenu();
 		}});
 		var process2 = new API();
 		process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
@@ -319,8 +320,10 @@ $(document).ready(function(){
     $('.modal-trigger').leanModal();
   });
   function ShowMenu(){
-	$('#filter-menu').show();
-	$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
- }
+    if($('#filter-menu').css('display') == 'none'){
+		$('#filter-menu').show();
+		$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
+	}
+  }
 </script>
 </html>
