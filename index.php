@@ -318,5 +318,9 @@ $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger').leanModal();
   });
+  function ShowMenu(){
+	$('#filter-menu').show();
+	$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
+ }
 </script>
 </html>
