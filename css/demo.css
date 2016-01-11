@@ -1,39 +1,16 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
-@font-face {
-	font-family: 'codropsicons';
-	src: url("../fonts/codropsicons/codropsicons.eot");
-	src: url("../fonts/codropsicons/codropsicons.eot?#iefix") format("embedded-opentype"),
-	url("../fonts/codropsicons/codropsicons.woff") format("woff"),
-	url("../fonts/codropsicons/codropsicons.ttf") format("truetype"),
-	url("../fonts/codropsicons/codropsicons.svg#codropsicons") format("svg");
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Spider-Man';
-	src:	url("../fonts/The Amazing Spider-Man.ttf") format("truetype");
-	font-weight: normal;
-	font-style: normal;
-}
-/*html{
-    background: url(http://www.smileycat.com/miaow/archives/images/misc/layout_grid.gif)  left;
-    background-position-y: 249px;
-}*/
 body {
-	-webkit-background-clip: border-box;
-	-moz-background-clip: border-box;
 	background-clip: border-box;
 	
   	}
 .container .content {
 	color: #fff;
-	font-family: 'Lato', Arial, sans-serif;
+	font-family: 'Lato', sans-serif;
 	text-align:justify;
 }
 
 .container .content .content2{
 	background:#fff !important;
-	font-family: 'Lato', Arial, sans-serif;
+	font-family: 'Lato', sans-serif;
 	text-align:justify;
 	padding: 15px;
 	padding: 3%;
@@ -84,50 +61,10 @@ body {
 	color: #74818e;
 	padding: 0 0 0.6em 0.1em;
 }
-.codrops-icon:before {
-	font-family: 'codropsicons';
-	margin: 0 0px;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-}
-
-.codrops-icon-johnny-user:before {
-	vertical-align: top;
-	content: "\e000";
-	font-size: 50px;
-}
-.codrops-icon-ann-add::before {
-	content: "\e209";
-	font-size: x-large;
-	vertical-align: middle;
-
-}
-.codrops-icon-ann-see::before {
-	content: "\e11a";
-	font-size: 30px;
-	vertical-align: middle;
-
-}
-.codrops-icon-ann-filter:before{
-	content: "\e20c";
-    font-size: 3em;
-    vertical-align: top;
-
-}
-.codrops-icon-ann-exit:before {
-  content: "\e1f3";
-  font-size: 30px;
-  vertical-align: middle;
-}
-.modal {
+.modalBox {
     display: none;
-    position: absolute!important;
-    z-index: 1000!important;
+    position: fixed !important;
+    z-index: 14000 !important;
     top: 0!important;
     left: 0!important;
     height: 100%!important;
@@ -135,25 +72,4 @@ body {
     width: 100%!important;
     border-radius: 0 !important;
     background: rgba(95,111,129,0.8) 50% 50% no-repeat;
-}
-.modalText {
-	position: relative;
-	top: 190px;  left: 50%;
-	background-color: rgb(214, 218, 222);
-	width: 122px;
-	text-align: center;
-	padding: 10px;
-	/*box-shadow: 5px 5px 5px #888888;
-	-moz-box-shadow: 5px 5px 5px #888888;
-	-webkit-box-shadow: 5px 5px 5px #888888;*/
-	border-radius: 10px;
-}
-.modalBox {
-  position: fixed;
-  height: 100%;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background: rgba( 95,111,129, 0.8 );
 }

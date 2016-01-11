@@ -1,11 +1,11 @@
 <!--ann-menu-filter-->
-<div id="filter-menu" class ="allow-scroll gn-menu-wrapper gn-open-all latest_tweets "><!--  -->
+<div id="filter-menu" class ="allow-scroll gn-menu-wrapper gn-open-all latest_tweets show"><!--  -->
 	<div class="gn-scroller mCustomScrollbar _mCS_1 mCS-autoHide" data-mcs-theme="minimal-dark" style="overflow: visible;">
-		<div id="tabnav" class="col-sm-12 red darken-2">
+		<div id="tabnav" class="col-sm-12 red valencia">
 			<ul class="tabs">
-				<li class="tab col-sm-4 waves-effect waves-light red darken-2"><a class="grey-text  text-lighten-2"  href="#libreria"><span class="gn-icon gn-icon-lib"></span></a></li>
-				<li class="tab col-sm-4 waves-effect waves-light red darken-2"><a class="grey-text  text-lighten-2" href="#filtri"><span class="codrops-icon codrops-icon-ann-filter"></span></a></li>
-				<li class="tab col-sm-4 waves-effect waves-light red darken-2"><a class="grey-text  text-lighten-2" href="#gruppi"><span class="gn-icon gn-icon-groups"></span></span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text"  href="#libreria"><span class="gn-icon gn-icon-lib">&nbsp;</span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text" href="#filtri"><span class="gn-icon gn-icon-ann-filter">&nbsp;</span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text" href="#gruppi"><span class="gn-icon gn-icon-groups">&nbsp;</span></a></li>
 			</ul>
 		</div>
 

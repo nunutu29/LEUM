@@ -1,8 +1,6 @@
 *,
 *:after,
 *::before {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -16,32 +14,40 @@
 	url("../fonts/codropsicons/codropsicons.ttf") format("truetype"), 
 	url("../fonts/codropsicons/codropsicons.svg#codropsicons") format("svg");
 }
-
-.allow-scroll{
-
+.changeLogin{
+	width: 19%;
+    max-width: 380px;
+	transition: width 0.5s ease;
+	-webkit-transition: width 0.5s ease;
+	-moz-transition: width 0.5s ease;
+	-o-transition: width 0.5s ease;
+	overflow: hidden;
 }
 .initLogin{
+	width: 0px;
 	max-width:0px;
-	transition: all 0.2s ease;
-	-webkit-transition: all 0.2s ease;
-	-moz-transition: all 0.2s ease;
-	-o-transition: all 0.2s ease;
+	transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
 	overflow: hidden;
 }
 .gn-menu-main{
 	margin: 0;
-	padding: 0;
-	background: url("../img/background-navbar.png") #ffffff;
+	background: url("../img/background-navbar2.png") #ffffff;
     background-repeat: no-repeat;
     background-size: cover;
     background-position-y: 25%;
 	color: #8A0707;
 	list-style: none;
 	text-transform: none;
-	font-weight: 300;
-	font-family: 'Lato', Arial, sans-serif;
+	font-weight: 100;
+	font-family: 'Lato', sans-serif;
 	line-height: 60px;
-	padding: 2%;
+	padding-bottom: 0;
+    padding-top: 1.8%;
+	padding-left: 2%;
+	padding-right: 2%;
 }
 
 .gn-menu-main {
@@ -66,11 +72,12 @@
 	border-top: 1px solid #c6d0da;
 	background: white;
 	-webkit-transform: translateX(-60px);
-	-moz-transform: translateX(-60px);
-	transform: translateX(-60px);
-	-webkit-transition: -webkit-transform 0.3s, width 0.3s;
-	-moz-transition: -moz-transform 0.3s, width 0.3s;
+	-ms-transform: translateX(-60px);
+	    transform: translateX(-60px);
+	transition: width 0.3s, -webkit-transform 0.3s;
+	-webkit-transition: width 0.3s, -webkit-transform 0.3s;
 	transition: transform 0.3s, width 0.3s;
+	transition: transform 0.3s, width 0.3s, -webkit-transform 0.3s;
 }
 
 .gn-scroller {
@@ -91,9 +98,17 @@
 .gn-menu li li {
 	box-shadow: inset 0 1px #c6d0da
 }
+nav#gn-menu li.center{
+	margin-left: 5%;}
+
+.gn-menu *::before {
+	margin: 0.5em; }
+
+.gn-menu.ann *::before {
+	margin-left: 1.4em; }
+
 .gn-icon::before {
 	display: inline-block;
-	width: 60px;
 	text-align: center !important;
 	font-family: "ecoicons" !important;
 	font-style: normal !important;
@@ -119,13 +134,38 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+.gn-icon-accept::before {
+	content: "\e006";
+	font-size: x-large;
+    vertical-align: middle;
+}
+.gn-icon-den::before {
+	content: "\e007";
+	font-size: x-large;
+    vertical-align: middle;
+}
+.gn-icon-username::before{
+	content: "\e214";
+	font-size: 30px;
+	vertical-align: text-bottom;
+}
+.gn-icon-password::before{
+	content: "\e1b7";
+	font-size: 30px;
+	vertical-align: text-bottom;
+}
+.gn-icon-email::before{
+	content: "\e216";
+	font-size: 30px;
+	vertical-align: text-bottom;
+}
 .gn-icon-openup::before {
-	content: "\e0ac";
+	content: "\e053";
 	font-size: smaller;
 	vertical-align: middle;
 }
 .gn-icon-opendown::before {
-	content: "\e0ad";
+	content: "\e054";
 	font-size: smaller;
 	vertical-align: middle;
 }
@@ -146,14 +186,16 @@
 	cursor: pointer;
 }
 .gn-icon-help::before {
-	content: "\e214";
-	font-size: xx-large;
+	content: "\e0c6";
+	font-size: 30px;
 }
 .gn-icon-delete::before {
-	content: "\e00a";
+    content: "\e00a";
+    font-size: x-large;
+    vertical-align: middle;
 }
 .gn-icon-edit::before {
-	content: "\e206";
+	content: "\e1d4";
 	font-size: smaller;
 }
 .gn-icon-ann-edit::before {
@@ -169,18 +211,18 @@
 	content: "\e04d";
 	font-size: xx-large;
 }
+.gn-icon-ann-ex.gn-icon-regalert::before {
+	font-size: medium;
+	vertical-align: middle;
+}
 .gn-icon-register::before {
 	content: "\e15b";
 	font-size: xx-large;
 }
-.gn-icon-regalert::before {
-	content: "\e04d";
-	font-size: medium;
-	vertical-align: middle;
-}
 .gn-icon-ann-title::before {
 	content: "\e0a5";
 	font-size: xx-large;
+	vertical-align: middle;
 }
 .gn-icon-ann-title {
 	cursor: default;
@@ -207,7 +249,7 @@
 	cursor: default;
 }
 .gn-icon-ann-url::before {
-	content: "\e07a";
+	content: "\e05c";
 	font-size: xx-large;
 }
 .gn-icon-ann-url {
@@ -244,31 +286,6 @@
 	content: "\e00c";
 	font-size: x-large;
 }
-
-.gn-icon-archive::before {
-	vertical-align: middle;
-	content: "\e1c8";
-	font-size: xx-large;
-}
-
-.gn-icon-article::before {
-	vertical-align: middle;
-	content: "\e13a";
-	font-size: xx-large;
-}
-
-.gn-icon-pictures::before {
-	vertical-align: middle;
-	content: "\e117";
-	font-size: xx-large;
-}
-
-.gn-icon-videos::before {
-	vertical-align: middle;
-	content: "\e11a";
-	font-size: xx-large;
-}
-
 .gn-icon-groups::before {
 	vertical-align: top;
     content: "\e1d1";
@@ -286,75 +303,49 @@
 	content: "\e208";
 	font-size: xx-large;
 }
+.gn-icon-ann-succ:before {
+	content: "\e006";
+}
+.gn-icon-about::before {
+	vertical-align: middle;
+	content: "\e0c7";
+	font-size: 30px;
+}
+.gn-icon-johnny-user:before {
+	vertical-align: top;
+	content: "\e000";
+	font-size: 50px;
+}
+.gn-icon-ann-add::before {
+	content: "\e209";
+	font-size: x-large;
+	vertical-align: middle;
 
-/* if an icon anchor has a span, hide the span */
-
-
+}
+.gn-icon-ann-see::before {
+	content: "\e11a";
+	font-size: 30px;
+	vertical-align: middle;
+}
 .gn-icon-menu::before {
-	/*vertical-align: -10px;
-	width: 30px;
-	height: 3px;
-	content: "\e038";
-	font-size: 30px;*/
+	content: "\e1fc";
+	font-size: 30px;
+	vertical-align: middle;
 }
-/*************************************/
- #MenuTrigger{
- 	padding-top: 40%;
- 	padding-left: 25%;
+.gn-icon-ann-filter:before{
+	content: "\e20c";
+    font-size: 3em;
+    vertical-align: top;
 
- }
-#MenuTrigger span, #MenuTrigger span:before, #MenuTrigger span:after {
-  cursor: pointer;
-  border-radius: 4px;
-  height: 4px;
-  width: 30px;
-  background: #8A0707;
-  position: absolute;
-  display: block;
-  content: '';
 }
-#MenuTrigger span:before {
-  top: -10px;
+.gn-icon-ann-exit:before {
+  content: "\e1f3";
+  font-size: 30px;
+  vertical-align: middle;
 }
-#MenuTrigger span:after {
-  bottom: -10px; 
-}
-.no-touch .gn-icon:hover#MenuTrigger span,
-.no-touch .gn-icon:hover#MenuTrigger span:before,
-.no-touch .gn-icon:hover#MenuTrigger span:after {
-	background-color: white;
-}
-#MenuTrigger span, #MenuTrigger span:before, #MenuTrigger span:after {
-  transition: all 500ms ease-in-out;
-}
-.gn-icon.active#MenuTrigger span {
-  background-color: white;
-}
-.gn-icon.active:hover#MenuTrigger span {
-	background: #8A0707;
-	color: #8A0707;
-}
-#MenuTrigger.active span:before, #MenuTrigger.active span:after {
-  top: 0;
-}
-#MenuTrigger.active span:before {
-  transform: rotate(45deg);
-}
-#MenuTrigger.active span:after {
-  transform: rotate(-45deg);
-}
-/*************************************/
-
-.no-touch .gn-icon:hover .gn-icon-menu,
-.no-touch .gn-icon-menu.gn-selected:hover::before {
-
-	color: #ffffff;
-}
-.gn-icon-menu.gn-selected::before {
-
-	color: #4f7bab;
-}
-
+/********************************/
+/*       END ICONS              */
+/********************************/
 /* styles for opening menu */
 .gn-open-part{
 	border-right: 1px solid #C6D0DA;
@@ -363,8 +354,8 @@
 .gn-menu-wrapper.gn-open-all,
 .gn-menu-wrapper.gn-open-part {
 	-webkit-transform: translateX(0px);
-	-moz-transform: translateX(0px);
-	transform: translateX(0px);
+	-ms-transform: translateX(0px);
+	    transform: translateX(0px);
 }
 
 .gn-menu-wrapper.gn-open-all {
@@ -383,11 +374,8 @@
 .gn-menu .retorica{
 	border: none;
 }
-#succ-comm .commnet-separator{ background-color: rgba(49,217,12,0.5);}
-
-.gn-icon-ann-succ:before {
-	content: "\e006";
-}
+#succ-comm .commnet-separator {
+	background-color: rgba(49,217,12,0.5); }
 
 #succ-comm .commnet-separator p{
     text-align: center;

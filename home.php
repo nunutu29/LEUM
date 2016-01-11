@@ -6,7 +6,7 @@
 			Adesso puoi annotare articoli delle diverse riviste a disposizione e guardare quello che hanno fatto gli altri utenti.
 		</h2>
 		<p>
-			Si può accedere ai articoli preferiti  dalla sezione a sinistra o usando la ricerca<span class="gn-icon gn-icon-search"></span>. Sempre a sinistra si trova la sezione filtro <span class="codrops-icon codrops-icon-ann-filter"></span>
+			Si può accedere ai articoli preferiti  dalla sezione a sinistra o usando la ricerca<span class="gn-icon gn-icon-search"></span>. Sempre a sinistra si trova la sezione filtro <span class="gn-icon gn-icon-ann-filter"></span>
 			che ti permete in ogni momento la posibilita di vedere le annotazioni a scelta.
 		</p>
 		<p>
@@ -72,7 +72,7 @@
 		</p>
 		<?php if(isset($_COOKIE["email"])){ ?>
 		<p>
-			Con il pulsante <span class="codrops-icon codrops-icon-ann-add"></span> si può creare un annotazione nuova e nel pannello <span class="codrops-icon codrops-icon-ann-see"></span> Guarda Annotazione poi gestire le nuove modifiche.
+			Con il pulsante <span class="gn-icon gn-icon-ann-add"></span> si può creare un annotazione nuova e nel pannello <span class="gn-icon gn-icon-ann-see"></span> Guarda Annotazione poi gestire le nuove modifiche.
 		</p>
 		<?php } ?>
 		<p style="font-size: 1.6em;margin-top: 19%;margin-bottom: -15%;">
