@@ -733,6 +733,25 @@ CreatePublicationYear($Exp, $item, $str, $pos-4, $pos, $target->getAttribute('id
 */
 
 
+
+$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
+$intero=$target->nodeValue;
+$intero=Normalize($intero);
+$pos=strpos($intero, 'Copyright');
+if($Work == "5934")
+	CreatePublicationYear($Exp, $item, 2015, $pos+12, $pos+16, $target->getAttribute('id'), $uri);
+else if($Work == "5189")
+	CreatePublicationYear($Exp, $item, 2015, $pos+10, $pos+14, $target->getAttribute('id'), $uri);
+else if($Work == "5188")
+	CreatePublicationYear($Exp, $item, 2015, $pos+14, $pos+18, $target->getAttribute('id'), $uri);
+else
+	CreatePublicationYear($Exp, $item, 2015, $pos+18, $pos+22, $target->getAttribute('id'), $uri);
+
+
+
+
+
+
 //DOI dell'articolo
 $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
