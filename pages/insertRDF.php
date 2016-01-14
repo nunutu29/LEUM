@@ -618,9 +618,12 @@ foreach($cities as $cite){
 	$citExp=$Exp."_cited".$i;
 	$citazione=Normalize($cite->nodeValue);
 	$parentesi=strpos($citazione, ')');
-	if(!is_numeric(substr($citazione, $parentesi - 1, 1))) $parentesi -= 1;	//caso (2004b)
+	$par=strpos($citazione, '(');	//parentesi iniziale la usa per evitare danni nei casi (2004b) e (2004 b)
+	$year=substr($citazione,$par+1,4);
+	/*if(!is_numeric($year)) $parentesi -= 1;	//caso (2004b)
 	$year=substr($citazione,$parentesi-4,4);
-	if(!is_numeric($year)) $year=substr($citazione,$parentesi-5,4);		//caso (2004 b)   AMPIAMENTE MIGLIORABILE, FATTO AL VOLO
+	if(!is_numeric($year)) $parentesi -= 1;		//caso (2004 b)  AMPIAMENTE MIGLIORABILE, FATTO AL VOLO
+	$year=substr($citazione,$parentesi-4,4);*/
 	$intera=trim(substr($citazione, $parentesi+3, strlen($citazione)));
 	$endtitlevirgola=strpos($intera, ',');
 	$endtitlepunto=strpos($intera, '.');
@@ -651,7 +654,7 @@ foreach($cities as $cite){
 	if($title!=NULL){
 		CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);
 		CreateTitle($citExp, $item, $title, strpos($citazione, $title), strlen($title) + strpos($citazione, $title), $cite->getAttribute('id')/*correggere*/, $uri);
-		CreatePublicationYear($citExp, $item, $year,$parentesi-4, $parentesi, $cite->getAttribute('id'),$uri);
+		CreatePublicationYear($citExp, $item, $year,$par+1, $par+5, $cite->getAttribute('id'),$uri);
 	}
 	$i++;
 }
