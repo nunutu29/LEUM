@@ -23,7 +23,7 @@
   <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-about">Chi siamo</a></li>
   <li class="divider"></li>
   <?php if(!isset($_COOKIE["email"])){ ?>
-  <li><a class="register-button gn-icon gn-icon-register grey-text text-darken-4 waves-effect"> Iscriviti</a></li>
+  <li><a href="#modalReg" class="register-button gn-icon gn-icon-register grey-text text-darken-4 waves-effect modal-trigger"> Iscriviti</a></li>
   <?php } else { ?>
   <li id="logout"><a id="logoutjohnny" class="gn-icon gn-icon-ann-exit grey-text text-darken-4 waves-effect"> Esci</a></li>
   <?php } ?>
@@ -85,7 +85,7 @@
 			</div>
 			<div class="row" style="padding-top: 5% ; padding-bottom: 5%;">
 				<div class="col-sm-6 col-md-push-6">
-					<button class="register-button btn waves-effect waves-red white red-text text-valencia" id="register-button-modal">Iscriviti</button>
+					<a href="#modalReg" class="modal-trigger register-button btn waves-effect waves-red white red-text text-valencia" id="register-button-modal">Iscriviti</a>
 				</div>
 				<div class="col-sm-offset-1 col-sm-5 col-md-pull-6">
 					<button id="login-button" class="btn waves-effect waves-light red valencia translucent white-text">Accedi</button> 
