@@ -627,11 +627,14 @@ foreach($cities as $cite){
 	$intera=trim(substr($citazione, $parentesi+3, strlen($citazione)));
 	$endtitlevirgola=strpos($intera, ',');
 	$endtitlepunto=strpos($intera, '.');
-	if($endtitlevirgola<$endtitlepunto)
-		$title=substr($intera, 0, $endtitlevirgola);
-	else
-		$title=substr($intera, 0, $endtitlepunto); 		
-
+	if($endtitlevirgola===FALSE)
+			$title=substr($intera, 0, $endtitlepunto);
+	else{
+		if($endtitlevirgola<$endtitlepunto)
+			$title=substr($intera, 0, $endtitlevirgola);
+		else
+			$title=substr($intera, 0, $endtitlepunto); 		
+	}
 	
 	$fineautore=strpos($citazione, '(');    //D. J. DONNELL, A. BUJA, W. STUETZLE (1994). 
 	if($fineautore){
@@ -650,6 +653,13 @@ foreach($cities as $cite){
 
 			}
 	}	
+	
+	/*$start_url=strpos($citazione,'http');
+	$end_url=strpos($citazione,'pdf')+3;
+	$link=substr($citazione, $start_url, $end_url - $start_url );
+	if($link!=NULL)
+		CreateUrl($citExp, $item, Normalize($link), $start_url, strlen(Normalize($link)), $cite->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$link);
+	*/
 	
 	if($title!=NULL){
 		CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);

@@ -334,5 +334,8 @@ function ShowMenu(){
 	if(!$("#floating-menu").is(":visible"))
 		$("#floating-menu").show();
 }
+
+$('#login-open').click(function(){$('#dropdown1').attr('style', 'display:none')}); //fa sparire il dropdown 3dots quando clicco su accedi
+
 </script>
 </html>
