@@ -398,7 +398,7 @@
   font-weight: 900;
 }
 .dropdown-content.active{
-  width: 100% !important;
+  width: 130px !important;
 }
 .login_2{
   margin-top:1em;

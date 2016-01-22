@@ -78,6 +78,7 @@
 	</div>
 	<div class="modalBox" id="myLoader"><?php include('loader.php');?></div>
 	<div id="modalBox" class="modalBox" style="display:none;"></div>
+	<?php //include('constructor.php');?>
 	<div id="modalBoxView" class="modalBox" style="display:none;">
 		<div id="view" class="ann-details ann-shower"></div>
 	</div>

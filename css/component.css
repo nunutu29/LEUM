@@ -15,7 +15,7 @@
 	url("../fonts/codropsicons/codropsicons.svg#codropsicons") format("svg");
 }
 .changeLogin{
-	width: 19%;
+	width: 25%;
     max-width: 380px;
 	transition: width 0.5s ease;
 	-webkit-transition: width 0.5s ease;
