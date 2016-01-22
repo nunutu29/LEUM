@@ -82,25 +82,6 @@ var readRDF= (function (){
   						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
     DirectSELECT(Query, self.CallBackcountAnn);
   }*/
-  self.ReadGroups = function(){
-	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
-	DirectSELECT(Query, function(res){
-		var json = res.results.bindings;
-		if(json.length > 0){
-			$("#ListaGruppi").empty();
-			for(var i = 0; i < json.length; i++){
-				var name = json[i].uri.value.split('/').pop();
-				if(name == "essepuntato" || name == "ltw1516") continue;
-				name = name;
-				$("#ListaGruppi").append(
-					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
-							 .append($("<label>").attr("for", name))
-							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
-				);
-			}
-		}
-	});
-  }
   self.GetQuery = function(fromquerry, url){
 	return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
   			PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
@@ -139,6 +120,41 @@ var readRDF= (function (){
   								?body rdf:object ?object .\
   								?object rdfs:label ?KEY}\
   								GROUP BY ?ann ?body ?object} }";
+  }
+  self.ReadGroups = function(){
+	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
+	DirectSELECT(Query, function(res){
+		var json = res.results.bindings;
+		if(json.length > 0){
+			self.LoadNames();
+			$("#ListaGruppi").empty();
+			for(var i = 0; i < json.length; i++){
+				var name = json[i].uri.value.split('/').pop();
+				if(name == "essepuntato" || name == "ltw1516") continue;
+				name = name;
+				$("#ListaGruppi").append(
+					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
+							 .append($("<label>").attr("for", name))
+							 .append($("<a>").attr("style", "text-transform:capitalize;").text(self.SearchName(name)))
+				);
+			}
+		}
+	});
+  }
+  self.LoadNames = function(){
+	var api =  new API();
+	api.chiamaServizio({requestUrl: "gruppi.json", isAsync:false, callback: function(res){
+		sessionStorage.setItem("GroupNames", JSON.stringify(res));
+	}});
+  }
+  self.SearchName = function(id){
+	var json = sessionStorage.getItem("GroupNames");
+	json = JSON.parse(json);
+	for(var i = 0; i < json.length; i++){
+		if(json[i].id == id) 
+			return json[i].nome;
+	}
+	return id;
   }
   return self;
 }());

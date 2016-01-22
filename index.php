@@ -10,13 +10,14 @@
 	<link rel="stylesheet" type="text/css" href="css/normalize.css" /><link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'><link href='https://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'><link rel="stylesheet" href="css/flat-ui.min.css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link rel="stylesheet" href="css/materialize.css" media="screen" title="no title" charset="utf-8"><link rel="stylesheet" type="text/css" href="css/demo.css" /><link rel="stylesheet" type="text/css" href="css/component.css" /><link rel="stylesheet" type="text/css" href="css/login.css" /><link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" /><link href="css/bootstrap.css" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
 	<!-- NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! -->
 	<script src="js/prefixfree.min.js"></script>
-	<script src="js/modernizr.custom.js"></script>
+	<!--<script src="js/modernizr.custom.js"></script>-->
 	<script src="js/classie.js"></script>
 	<script src="js/jquery-1.11.2.js"></script>
 	<script src="js/api.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/jquery.mCustomScrollbar.js"></script>
 	<script src="js/jquery-ui.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/select2.full.min.js"></script>
 </head>
 <body class="blue tumblr">
@@ -205,6 +206,7 @@
 		// document.querySelector( "#MenuTrigger" ).addEventListener( "click", function() {
 			//   this.classList.toggle( "active" );
 			// });
+
 $(document).on('touchstart click', '#login-open', function(event){
 	event.stopPropagation();
 	event.preventDefault();
@@ -268,11 +270,12 @@ var Page = (function (){
 		api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 			self.WriteData(str);
 		}});
-		readRDF.GetData(from, link);
-		self.Uncheck();
+	readRDF.GetData(from, link);
+	self.Uncheck();
 	};
 	self.WriteData = function (data){
-		$(".content2").html(data);
+		//$(".content2").html(data);
+		$(".content2").html('<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>' + data);
 	};
 	self.DisableCheckBox = function(){
 		var api =  new API();

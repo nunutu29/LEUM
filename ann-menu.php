@@ -1,4 +1,5 @@
 <!--ann-menu-filter-->
+<<<<<<< HEAD
 <div id="filter-menu" class ="allow-scroll gn-menu-wrapper gn-open-all latest_tweets show" style="display:none !important;"><!--  -->
 	<div class="gn-scroller mCustomScrollbar _mCS_1 mCS-autoHide" data-mcs-theme="minimal-dark" style="overflow: visible;">
 		<div id="tabnav" class="col-sm-12 red valencia">

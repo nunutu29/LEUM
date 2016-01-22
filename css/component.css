@@ -169,6 +169,16 @@ nav#gn-menu li.center{
 	font-size: smaller;
 	vertical-align: middle;
 }
+.gn-icon-arrow-left::before{
+	content: "\e031";
+	font-size: smaller;
+	vertical-align: middle;
+}
+.gn-icon-arrow-right::before{
+	content: "\e032";
+	font-size: smaller;
+	vertical-align: middle;
+}
 .gn-icon-show::before {
 	content: "\e190";
 	vertical-align:middle;
