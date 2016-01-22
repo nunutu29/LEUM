@@ -319,10 +319,12 @@ $(document).ready(function(){
     $('.modal-trigger').leanModal();
   });
 function ShowMenu(){
-if($('#filter-menu').css('display') == 'none'){
-	$('#filter-menu').show();
-	$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
-}
+	if(!$('#filter-menu').is(":visible")){
+		$('#filter-menu').show();
+		$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
+	}
+	if(!$("#floating-menu").is(":visible"))
+		$("#floating-menu").show();
 }
 </script>
 </html>
