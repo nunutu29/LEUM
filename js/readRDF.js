@@ -50,7 +50,7 @@ var readRDF= (function (){
 		  var chk = this;
 		  DirectSELECT(Query, function(res){
 			  var json = res.results.bindings;
-			  chk.disabled = json.length > 0;
+			  chk.disabled = json.length == 0;
 		  });
 	  });
   }
@@ -64,7 +64,6 @@ var readRDF= (function (){
 		ReadingGraph = fromquerry.split('/').pop();
 		DirectSELECT(Query, self.CallBackDataGroup);
 	}
-	self.EnableIfExists(url);
   }
   self.CallBackData = function (res) {
     sessionStorage.setItem('ann', "");

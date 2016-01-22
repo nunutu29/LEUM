@@ -274,8 +274,7 @@ var Page = (function (){
 	self.Uncheck();
 	};
 	self.WriteData = function (data){
-		//$(".content2").html(data);
-		$(".content2").html('<a onclick="Scrap.CancellaTutto()" style="display:block;float:right;">Cancella</a>' + data);
+		$(".content2").html(data);
 	};
 	self.DisableCheckBox = function(){
 		var api =  new API();
