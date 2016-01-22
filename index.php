@@ -77,7 +77,11 @@
 		</div>
 	</div>
 	<div class="modalBox" id="myLoader"><?php include('loader.php');?></div>
+	
 	<div id="modalBox" class="modalBox" style="display:none;"></div>
+	<div id="modalBoxRegister" class="modalBox" style="display:none;">
+		<div id="modalReg"></div>
+	</div>
 	<div id="modalBoxView" class="modalBox" style="display:none;">
 		<div id="view" class="ann-details ann-shower"></div>
 	</div>
@@ -229,8 +233,13 @@ $('#login-button').on({click: function(){Login.Try();}});
 $('#salvaReg').on({click: function(){Singin.Try()}});
 $('.register-button').on({click: function(){
 //crea modale per registrazione
-	$("#modalBox").show();
-	$("#modalBox").append('<div id="modalReg" class="ann-details ann-shower" style ="display: block"><div class ="commnet-desc"><div class="login_2"><ul class="various-grid accout-login2 login_3"><form><li><input type="text" class="text" placeholder="Nome e Cognome" id="newname"><a class="icon user"></a></li><li><input type="password" placeholder="Password" id="newpass"><a class="icon lock"></a></li><li><input type="password" placeholder="Conferma Password" id="newconfpass"> <a class=" icon confirm"></a></li><li><input type="text" class="text" placeholder ="E-mail" id="newemail"><a class=" icon mail"></a></li></form></ul></div><span id="erroremail" class="gn-icon gn-icon-ann-ex gn-icon-regalert">E-mail già registrato. Prova con una nuova</span></div><div class ="commnet-separator"><ul class ="edit-delete commnet-user"><li class="gn-icon gn-icon-register"></li><li style="display: table-cell;"><input style="position: absolute;right: 1em;" id="cancellaReg" class="azzuro grey grey1" type="button" onclick="Scrap.HideModal(\'modalReg\')" value="Anulla"></li><li style="display: table-cell;"><input style="position: absolute;right: 7em;"id="salvaReg" class="azzuro azzuro2" type="button" value="Registrati" onclick="Singin.Try()"></li></ul></div></div>');
+	$("#modalBoxRegister").show();
+	$("#modalBoxRegister #modalReg").remove();
+	if($(window).width() < 1200)
+		$("#modalBoxRegister").append('<?php include("pages/regModalMobile.php");?>');
+	else
+		$("#modalBoxRegister").append('<?php include("pages/regModal.php");?>');
+	$("#cancellaReg").click(function(){$("#modalBoxRegister").hide();});
 }});
 var Page = (function (){
 	var self = {};
