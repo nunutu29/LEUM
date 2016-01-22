@@ -30,7 +30,6 @@ API.prototype.makeAjaxRequest = function () {
 		success: function (response) {
 			if (options.callback)
 				options.callback(response);
-			else resp = response;
 		},
 		error: function (XMLHttpRequest) {
 			if (XMLHttpRequest.responseText) {
@@ -51,8 +50,6 @@ API.prototype.chiamaServizio = function(customOptions){
 				alert("URL non definito");
 	}
 	this.makeAjaxRequest();
-	if (this.options.callback === null)
-		return resp;
 }
 
 /*-API End / SELECT start-----------------------------------------------------------------------------------*/
@@ -76,7 +73,6 @@ SELECT.prototype.makeAjaxRequest = function () {
 		success: function (response) {
 			if (options.callback)
 				options.callback(response);
-			else resp = response;
 		},
 		error: function (XMLHttpRequest) {
 			if (XMLHttpRequest.responseText) {
@@ -97,8 +93,6 @@ SELECT.prototype.GO = function (customOptions) {
 			alert("URL non definito!");
 	}
 	this.makeAjaxRequest();
-	if (this.options.callback === null)
-		return resp;
 };
 SELECT.prototype.setOptions = function (customOptions) {
 	$.extend(this.options, this.options, customOptions);
