@@ -22,7 +22,7 @@ var readRDF= (function (){
 	Query += " SELECT DISTINCT ?title ?url\
 			   FROM <"+fromquerry+">\
 			   WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
-	var res = DirectSELECT(Query, self.CallBackMenu);
+	DirectSELECT(Query, self.CallBackMenu);
   }
   self.CallBackMenu = function(res){
     res = res.results.bindings;
@@ -43,10 +43,66 @@ var readRDF= (function (){
       }
     }
   }
-  self.SearchIfExists = function() {}
+  self.EnableIfExists = function(url) {
+	  $("#ListaGruppi input[type='checkbox']").each(function(){
+		  var from = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
+		  var Query = self.GetQuery(from, url) + " LIMIT 1 ";
+		  var chk = this;
+		  DirectSELECT(Query, function(res){
+			  var json = res.results.bindings;
+			  chk.disabled = json.length > 0;
+		  });
+	  });
+  }
   self.GetData = function (fromquerry, url) {
     fromquerry = fromquerry || self.GetGraph();
-    var Query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
+    var Query = self.GetQuery(fromquerry, url);
+	if(fromquerry == self.GetGraph())
+		DirectSELECT(Query, self.CallBackData);
+	else
+	{
+		ReadingGraph = fromquerry.split('/').pop();
+		DirectSELECT(Query, self.CallBackDataGroup);
+	}
+	self.EnableIfExists(url);
+  }
+  self.CallBackData = function (res) {
+    sessionStorage.setItem('ann', "");
+    sessionStorage.setItem('annotation', JSON.stringify(res));
+  }
+  self.CallBackDataGroup = function(res){
+	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
+	Scrap.Groups.ReadMulti(ReadingGraph);
+  }
+  /*self.countAnnotations = function function_name(argument) {
+    var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
+  			WHERE{ ?ann <http://www.w3.org/ns/oa#hasBody> ?body.\
+  				?body 	<http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> ?exp;\
+  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> ?predicate;\
+  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
+    DirectSELECT(Query, self.CallBackcountAnn);
+  }*/
+  self.ReadGroups = function(){
+	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
+	DirectSELECT(Query, function(res){
+		var json = res.results.bindings;
+		if(json.length > 0){
+			$("#ListaGruppi").empty();
+			for(var i = 0; i < json.length; i++){
+				var name = json[i].uri.value.split('/').pop();
+				if(name == "essepuntato" || name == "ltw1516") continue;
+				name = name;
+				$("#ListaGruppi").append(
+					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
+							 .append($("<label>").attr("for", name))
+							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
+				);
+			}
+		}
+	});
+  }
+  self.GetQuery = function(fromquerry, url){
+	return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
   			PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
   			PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\
   			PREFIX foaf: <http://xmlns.com/foaf/0.1/>\
@@ -83,48 +139,6 @@ var readRDF= (function (){
   								?body rdf:object ?object .\
   								?object rdfs:label ?KEY}\
   								GROUP BY ?ann ?body ?object} }";
-	if(fromquerry == self.GetGraph())
-		DirectSELECT(Query, self.CallBackData);
-	else
-	{
-		ReadingGraph = fromquerry.split('/').pop();
-		DirectSELECT(Query, self.CallBackDataGroup);
-	}
-  }
-  self.CallBackData = function (res) {
-    sessionStorage.setItem('ann', "");
-    sessionStorage.setItem('annotation', JSON.stringify(res));
-  }
-  self.CallBackDataGroup = function(res){
-	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
-	Scrap.Groups.ReadMulti(ReadingGraph);
-  }
-  self.countAnnotations = function function_name(argument) {
-    var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
-  			WHERE{ ?ann <http://www.w3.org/ns/oa#hasBody> ?body.\
-  				?body 	<http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> ?exp;\
-  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> ?predicate;\
-  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
-    var res = DirectSELECT(Query, self.CallBackcountAnn);
-  }
-  self.ReadGroups = function(){
-	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
-	DirectSELECT(Query, function(res){
-		var json = res.results.bindings;
-		if(json.length > 0){
-			$("#ListaGruppi").empty();
-			for(var i = 0; i < json.length; i++){
-				var name = json[i].uri.value.split('/').pop();
-				if(name == "essepuntato" || name == "ltw1516") continue;
-				name = name;
-				$("#ListaGruppi").append(
-					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
-							 .append($("<label>").attr("for", name))
-							 .append($("<a>").attr("style", "text-transform:capitalize;").text(name))
-				);
-			}
-		}
-	});
   }
   return self;
 }());

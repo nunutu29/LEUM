@@ -21,7 +21,6 @@
 </head>
 <body class="blue tumblr">
 	<input type="text" name="URL" id="URL" style="display:none;">
-	<input type="text" name="GRAPH" id="GRAPH" style="display:none;">
 	<div class="container" id="container">
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
@@ -227,7 +226,7 @@ $('#logout').on({click: function(){Login.LogOut();}});
 $('#login-button').on({click: function(){Login.Try();}});
 $('#salvaReg').on({click: function(){Singin.Try()}});
 $('.register-button').on({click: function(){
-	//crea modale per registrazione
+//crea modale per registrazione
 	$("#modalBox").show();
 	$("#modalBox").append('<div id="modalReg" class="ann-details ann-shower" style ="display: block"><div class ="commnet-desc"><div class="login_2"><ul class="various-grid accout-login2 login_3"><form><li><input type="text" class="text" placeholder="Nome e Cognome" id="newname"><a class="icon user"></a></li><li><input type="password" placeholder="Password" id="newpass"><a class="icon lock"></a></li><li><input type="password" placeholder="Conferma Password" id="newconfpass"> <a class=" icon confirm"></a></li><li><input type="text" class="text" placeholder ="E-mail" id="newemail"><a class=" icon mail"></a></li></form></ul></div><span id="erroremail" class="gn-icon gn-icon-ann-ex gn-icon-regalert">E-mail già registrato. Prova con una nuova</span></div><div class ="commnet-separator"><ul class ="edit-delete commnet-user"><li class="gn-icon gn-icon-register"></li><li style="display: table-cell;"><input style="position: absolute;right: 1em;" id="cancellaReg" class="azzuro grey grey1" type="button" onclick="Scrap.HideModal(\'modalReg\')" value="Anulla"></li><li style="display: table-cell;"><input style="position: absolute;right: 7em;"id="salvaReg" class="azzuro azzuro2" type="button" value="Registrati" onclick="Singin.Try()"></li></ul></div></div>');
 }});
@@ -244,7 +243,6 @@ var Page = (function (){
 	};
 	self.makeSearch = function(link, titolo, scrap, from){
 		$('#URL').val(link);
-		$('#GRAPH').val(from);
 		window.scrollTo(0,0);
 		var myData = {link: link, StartScrapper: scrap};
 		var str = "";
@@ -264,15 +262,14 @@ var Page = (function (){
 	};
 	self.GetData = function(link, titolo, scrap, from){
 		$('#URL').val(link);
-		$('#GRAPH').val(from);
 		window.scrollTo(0,0);
 		var myData = {link: link, StartScrapper: scrap};
 		var api = new API();
 		api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 			self.WriteData(str);
 		}});
-	readRDF.GetData(from, link);
-	self.Uncheck();
+		readRDF.GetData(from, link);
+		self.Uncheck();
 	};
 	self.WriteData = function (data){
 		$(".content2").html(data);
@@ -318,11 +315,11 @@ $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger').leanModal();
   });
-  function ShowMenu(){
-    if($('#filter-menu').css('display') == 'none'){
-		$('#filter-menu').show();
-		$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
-	}
-  }
+function ShowMenu(){
+if($('#filter-menu').css('display') == 'none'){
+	$('#filter-menu').show();
+	$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
+}
+}
 </script>
 </html>
