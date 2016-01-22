@@ -4,7 +4,7 @@
 </div>
 <div class="fixed-action-btn horizontal click-to-toggle floating-menu" style="display:none;" id="floating-menu">
 	<a class="btn-floating btn-large red valencia waves-effect waves-light">
-	  <i class="large gn-icon gn-icon-menu grey-text  text-lighten-2"></i>
+	  <i class="large gn-icon gn-icon-menu grey-text  text-lighten-2"></i> 
 	</a>
 	<ul>
 		<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
@@ -13,6 +13,7 @@
 		<li><a class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Scrap.CancellaTutto()" data-position="top" data-delay="30" data-tooltip="Cancella Tutto"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-delete"></i></a></li>
 		<li><a id="view-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="ViewAnnotation()" data-position="top" data-delay="30" data-tooltip="Guarda Cambiamenti"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-ann-see"></i></a></li>
 		<li><a id="annota" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="AnnotaClick()" data-position="top" data-delay="30" data-tooltip="Annota"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-ann-add"></i></a></li>
+		
 	</ul>
 </div>
 <?php } ?>
