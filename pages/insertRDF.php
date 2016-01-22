@@ -701,38 +701,7 @@ $url = $xpath->query("//a[@id='div1_div2_div2_div3_div9_div2_p1_a2']")->item(0);
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 
-/*
-
-//Anno di pubblicazione dell'articolo
-
-$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
-//$ab = $xpath->query("//div[@id='div1_div2_div2_div3']//text()[(preceding::br[@id='div1_div2_div2_div3_br5'])] ")->item(0);
-//$abb= $xpath->query("//*[@id="div1_div2_div2_div3"]/text()[2]")->item(0);
-$str="";
-$str=$target->nodeValue;
-//$string=Normalize($str); //non normalizzare perchè in higlight poi li conta i caratteri e risultano di più li dato che qui li normalizzo
-//$string=trim($str);
-
-$stony="Carte de Tendre";
-//$stony="Copyright (c) 2015";
-$pos=strpos($str, $stony);
-//CreatePublicationYear($Exp, $item, 2015, $pos+strlen($stony)-4, $pos+strlen($stony), $target->getAttribute('id'), $uri); //MALEDETTOOOOOOOOOOOOOOOOOOO ci sono spazi a caso nel testo ed è sfasato ogni articolo diverso!!!
-CreatePublicationYear($Exp, $item, 2015, $pos, $pos+4, $target->getAttribute('id'), $uri);
-
-//Anno di pubblicazione dell'articolo
-/*
-$target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
-$ab = $xpath->query("//div[@id='div1_div2_div2_div3']//text()[(preceding::br[@id='div1_div2_div2_div3_br5'])]")->item(0);
-//$abb= $xpath->query("//*[@id="div1_div2_div2_div3"]/text()[2]")->item(0);
-$str="2015";
-$pos=strrpos($target->nodeValue, $str); //sempre ultimo 2015 nel testo
-CreatePublicationYear($Exp, $item, $str, $pos-4, $pos, $target->getAttribute('id'), $uri); 
-//chiudi commento
-
-
-*/
-
-
+//anno di pubblicazione
 
 $target=$xpath->query("//div[@id='div1_div2_div2_div3']")->item(0);
 $intero=$target->nodeValue;
@@ -757,6 +726,8 @@ $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
 CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
+
+
 
 
 function InsertJournalsAT($content, $uri, $item, $ArtTitle){
@@ -795,11 +766,18 @@ CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo
 
 
 //URL
-$url = $xpath->query("//a[@id='div1_div2_div2_div3_div6_a1']")->item(0);
-CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
-$url = $xpath->query("//a[@id='div1_div2_div2_div3_p2_a1']")->item(0);
-CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
-
+if($Work == "5296"){
+	$url = $xpath->query("//a[@id='div1_div2_div2_div3_div5_a1']")->item(0);
+	CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+	$url = $xpath->query("//a[@id='div1_div2_div2_div3_p2_a1']")->item(0);
+	CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+}
+else{
+	$url = $xpath->query("//a[@id='div1_div2_div2_div3_div6_a1']")->item(0);
+	CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+	$url = $xpath->query("//a[@id='div1_div2_div2_div3_p2_a1']")->item(0);
+	CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
+}
 
 //Anno di pubblicazione dell'articolo
 $ab = $xpath->query("//p[@id='div1_div2_div2_div3_p1']")->item(0);
