@@ -220,6 +220,9 @@ var Scrap = (function(){
 		EyeSpan.remove();
 	}
 	self.Highlight = function(annotation, style){
+	  var gruppo = "";
+	  if(annotation.gruppo != undefined && annotation.gruppo != null)
+		  gruppo = annotation.gruppo.value;
 	  annotation.id.value = self.GetMyID(annotation.id.value);
 	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
 	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
@@ -952,7 +955,7 @@ var Scrap = (function(){
 				if(json == null || json == "") return; 
 				var control = "ver1";
 				if(index != 0) control = "cited";
-				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control);
+				SingleArray = me.GetAnnotations(JSON.parse(json).results.bindings, what, control, $(this).attr('id'));
 				if(SingleArray.length > 0)
 					FullArray = FullArray.concat(SingleArray);
 			});
@@ -977,6 +980,7 @@ var Scrap = (function(){
 			/*from[i].subject.value.slice(-8).indexOf("cited") == -1 && control != "cited" -> se non fa parte delle citazioni in caso in cui si è selezionato quello dell'articolo*/
 			var array = [];
 			for(var i = 0; i< from.length; i++){
+				from[i].gruppo = {value: group};
 				if(self.CheckRet(what))
 				{	//Se Retorica fai questo
 					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
@@ -1457,7 +1461,6 @@ function AddClassBox(){
 	$('select[name="inverse-dropdown"], select[name="inverse-dropdown-optgroup"], select[name="inverse-dropdown-disabled"]').select2({dropdownCssClass: 'select-inverse-dropdown'});
 	$('select[name="searchfield"]').select2({dropdownCssClass: 'show-select-search'});
 	$('select[name="inverse-dropdown-searchfield"]').select2({dropdownCssClass: 'select-inverse-dropdown show-select-search'});
-	$('.tootlip.ann-shower').draggable();
 }
 function SelectBox(predicate, subject, object){
 	var index = 0;

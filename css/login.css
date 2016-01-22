@@ -1,77 +1,46 @@
-
-
-.login-form div,span,form,label {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
-
-.clear{clear:both;}/* clear float */
+.login-form .login_2 div,form,label {margin:0;padding:0;border:0;font-size:100%;font-family: "Roboto","'Lato'", sans-serif;vertical-align:baseline;}
 /*start-body--*/
-.login-form{
-	box-shadow: 2px 2px 2px #8A0707;
-	padding:0px;
-	margin:20px 0px 0px 0px;
-	position:fixed;
-    top: 40px;
-    right:0px;	
-	overflow:hidden;
-	z-index: 1;
+.login-form {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    padding: 0px;
+    margin: 20px 0px 0px 0px;
+    position: fixed;
+    top: 100px;
+    right: 0px;
+    overflow: hidden;
+    z-index: 1399;
 }
 .login-form ul{
-	margin-bottom: -6%;
+  margin-bottom: -6%;
 }
 .login-form .login{
   padding: 0px 0px 0px 0px;
-  border-top: 1px solid #c6d0da;
-  border-left: 1px solid #c6d0da;
-  border-bottom: 1px solid #c6d0da;
   width: 100%;
   margin: 0px 0px 0px 0px;
 }
 .login-form .inset {
-	position:relative;
-	background: #fff;
-	padding: 1em 1em;
-}
-.login-form form span {
-	display: block;
-	font-size: 1em;
-	color: #787878;
-	padding-bottom: 5px;
-	font-family: 'Lato', Arial, sans-serif;
+  position:relative;
+  background: #fff;
+  padding: 1em 1em;
 }
 .login-form .sign {
-	padding: 10px 0;
-}
-.login-form .forget-pass {
-	float: right;
-}
-.login-form .submit {
-	padding: 2px 2px;
-	float:left;
-	margin-right: 0px;
-	width: 50%;
+  padding: 10px 0;
+    background-color: #fff;
 }
 .login-form .submit input[type="button"] {
   cursor: pointer;
-  transition: 0.5s all;
-  -webkit-transition: 0.5s all;
-  -moz-transition: 0.5s all;
-  -o-transition: 0.5s all;
   width: 7em;
   margin-left: 10%;
 }
 .login-form .forget{
-	float:right;
+  float:right;
 }
-.login-form .forget-pass a {
-	float: right;
-	color:#898888;
-	font-size: 0.95em;
-	margin-top: 13px;
-	transition: 0.5s all;
-	-webkit-transition: 0.5s all;
-	-moz-transition: 0.5s all;
-	-o-transition: 0.5s all;
-	font-family: 'Lato', Arial, sans-serif;
-}
-.login-form .forget-pass a:hover {
-	text-decoration: underline;
-}
+#dropdown1 *::before {
+      vertical-align: text-bottom !important; }
+#dropdown1 .gn-icon-ann-exit::before,
+#dropdown1 .gn-icon-register::before {
+  font-size: 25px; }
+#dropdown1.gn-icon-ann-exit,
+#dropdown1 .gn-icon-register::before {
+  margin-left: 6%; }
+      
