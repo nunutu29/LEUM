@@ -1,4 +1,5 @@
 [
+	{"id":"ltw1516", "nome":"L.E.U.M."},
 	{"id":"ltw1529", "nome":"Gli Sgremagi"},
 	{"id":"ltw1511", "nome":"I Portapizze"},
 	{"id":"ltw1512", "nome":"Enjoy Freedom"},
@@ -20,7 +21,6 @@
 	{"id":"ltw1526", "nome":"Cazzuola"},
 	{"id":"ltw1530", "nome":"Bushelelezi"},
 	{"id":"ltw1536", "nome":"Paletta&Co."},
-	{"id":"ltw1516", "nome":"L.E.U.M."},
 	{"id":"ltw1540", "nome":"Nerd Herd"},
 	{"id":"ltw1537", "nome":"Los Raspadores"},
 	{"id":"ltw1539", "nome":"ToRaGaMa"},
@@ -38,5 +38,6 @@
 	{"id":"ltw1555", "nome":"QueiQuattro"},
 	{"id":"ltw1551", "nome":"Twbz"},
 	{"id":"ltw1552", "nome":"Los Pollos Hermanos"},
-	{"id":"ltw1535", "nome":"Ciappinators"}
+	{"id":"ltw1535", "nome":"Ciappinators"},
+	{"id":"ltw1532", "nome":"LTW1532"}
 ]

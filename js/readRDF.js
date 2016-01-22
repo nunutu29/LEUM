@@ -27,7 +27,7 @@ var readRDF= (function (){
   self.CallBackMenu = function(res){
     res = res.results.bindings;
 	$("ul.doc-annotati").empty();
-  $("div.content2 div.row").empty();
+	$("div.content2 div.row").empty();
     if (res.length != 0) {
       for(var i=0; i<res.length; i++ ){
         var title = res[i].title.value;
@@ -64,6 +64,7 @@ var readRDF= (function (){
 		ReadingGraph = fromquerry.split('/').pop();
 		DirectSELECT(Query, self.CallBackDataGroup);
 	}
+	self.EnableIfExists(url);
   }
   self.CallBackData = function (res) {
     sessionStorage.setItem('ann', "");
@@ -73,14 +74,6 @@ var readRDF= (function (){
 	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
 	Scrap.Groups.ReadMulti(ReadingGraph);
   }
-  /*self.countAnnotations = function function_name(argument) {
-    var Query = "SELECT ?ann FROM <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516>\
-  			WHERE{ ?ann <http://www.w3.org/ns/oa#hasBody> ?body.\
-  				?body 	<http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> ?exp;\
-  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> ?predicate;\
-  						<http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ?cite.}";
-    DirectSELECT(Query, self.CallBackcountAnn);
-  }*/
   self.GetQuery = function(fromquerry, url){
 	return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
   			PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
@@ -121,39 +114,24 @@ var readRDF= (function (){
   								GROUP BY ?ann ?body ?object} }";
   }
   self.ReadGroups = function(){
-	var Query = "SELECT DISTINCT ?uri WHERE {GRAPH ?uri {?s ?p ?o} }";
-	DirectSELECT(Query, function(res){
-		var json = res.results.bindings;
-		if(json.length > 0){
-			self.LoadNames();
-			$("#ListaGruppi").empty();
-			for(var i = 0; i < json.length; i++){
-				var name = json[i].uri.value.split('/').pop();
-				if(name == "essepuntato" || name == "ltw1516") continue;
-				name = name;
-				$("#ListaGruppi").append(
-					$("<li>").append($("<input>").attr("id", name).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
-							 .append($("<label>").attr("for", name))
-							 .append($("<a>").attr("style", "text-transform:capitalize;").text(self.SearchName(name)))
-				);
-			}
-		}
-	});
+	self.LoadGroups();
+	var json = sessionStorage.getItem("GroupNames");
+	json = JSON.parse(json);
+	$("#ListaGruppi").empty();
+	for(var i = 0; i < json.length; i++){
+		if(json[i].id == "ltw1516") continue;
+		$("#ListaGruppi").append(
+			$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
+					 .append($("<label>").attr("for", json[i].id))
+					 .append($("<a>").attr("style", "text-transform:capitalize;").text(json[i].nome))
+		);
+	}
   }
-  self.LoadNames = function(){
+  self.LoadGroups = function(){
 	var api =  new API();
 	api.chiamaServizio({requestUrl: "gruppi.json", isAsync:false, callback: function(res){
 		sessionStorage.setItem("GroupNames", JSON.stringify(res));
 	}});
-  }
-  self.SearchName = function(id){
-	var json = sessionStorage.getItem("GroupNames");
-	json = JSON.parse(json);
-	for(var i = 0; i < json.length; i++){
-		if(json[i].id == id) 
-			return json[i].nome;
-	}
-	return id;
   }
   return self;
 }());
