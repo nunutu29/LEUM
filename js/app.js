@@ -1000,13 +1000,6 @@ var Scrap = (function(){
 			}
 			return array;
 		}
-		me.DisableGroups = function(){
-			$("#ListaGruppi input[type='checkbox']").each(function(){
-				var article = $('#URL').val();
-				var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
-				readRDF.DisableGroups(article, groupURL);
-			});
-		}
 		return me;
 	}());
 	self.GetMyID = function(id)	{

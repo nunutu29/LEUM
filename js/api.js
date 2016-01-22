@@ -13,6 +13,7 @@ API.prototype.validate = function(){
 };
 API.prototype.makeAjaxRequest = function () {
 	var options = this.options;
+	var resp = "";
 	$.ajax({
 		type: options.methodType,
 		url: options.requestUrl,
@@ -30,6 +31,8 @@ API.prototype.makeAjaxRequest = function () {
 		success: function (response) {
 			if (options.callback)
 				options.callback(response);
+			else
+				resp = response;
 		},
 		error: function (XMLHttpRequest) {
 			if (XMLHttpRequest.responseText) {
@@ -40,6 +43,8 @@ API.prototype.makeAjaxRequest = function () {
 			}
 		}
 	});
+	if(!options.isAsync)
+		return resp;
 }
 API.prototype.chiamaServizio = function(customOptions){
 	this.setOptions(customOptions);
@@ -49,7 +54,11 @@ API.prototype.chiamaServizio = function(customOptions){
 			else
 				alert("URL non definito");
 	}
-	this.makeAjaxRequest();
+	if(this.options.callback != null)
+		this.makeAjaxRequest();
+	else
+		if(!this.options.isAsync)
+			return this.makeAjaxRequest();
 }
 
 /*-API End / SELECT start-----------------------------------------------------------------------------------*/
