@@ -77,7 +77,6 @@
 		</div>
 	</div>
 	<div class="modalBox" id="myLoader"><?php include('loader.php');?></div>
-	
 	<div id="modalBox" class="modalBox" style="display:none;"></div>
 	<div id="modalBoxRegister" class="modalBox" style="display:none;">
 		<div id="modalReg"></div>
@@ -299,11 +298,7 @@ var Page = (function (){
 	}
 	return self;
 }());
-//Caricamento menu
-window.onload = function() {
-	readRDF.GetMenu();
-	readRDF.ReadGroups();
-};
+
 var str=null;
 function AnnotaClick(){
 	var str=manualAnn();
@@ -323,6 +318,9 @@ $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
 });
 $(document).ready(function(){
+	//Caricamento menu
+	readRDF.ReadGroups();
+	readRDF.GetMenu();
 	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
 	$('.modal-trigger').leanModal();
 });
