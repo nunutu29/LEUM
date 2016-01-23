@@ -288,7 +288,7 @@ var Page = (function (){
 	self.DisableCheckBox = function(){
 		var api =  new API();
 		api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
-			$('#filtri .check-boxs').parent().append("<div class='modalBox' style='display:block' id='removeMePlease'>"+str+"</div>");
+			$('.check-boxs').parent().append("<div class='modalSmall' style='display:block' id='removeMePlease'>"+str+"</div>");
 		}});
 	}
 	self.EnableCheckBox = function(){
