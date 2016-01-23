@@ -288,7 +288,7 @@ var Page = (function (){
 	self.DisableCheckBox = function(){
 		var api =  new API();
 		api.chiamaServizio({requestUrl: 'loader.php', isAsync: true, callback: function(str){
-			$('.check-boxs').parent().append("<div class='modal' style='display:block' id='removeMePlease'>"+str+"</div>");
+			$('#filtri .check-boxs').parent().append("<div class='modalBox' style='display:block' id='removeMePlease'>"+str+"</div>");
 		}});
 	}
 	self.EnableCheckBox = function(){
@@ -323,9 +323,22 @@ $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
 });
 $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal();
-  });
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	$('.modal-trigger').leanModal();
+});
+$(document).keyup(function(ev){
+	//Se premuto ESC
+    if(ev.keyCode == 27){
+		//Se è visibile un qualsiasi modale
+		if($(".modalBox").is(":visible")){
+			if($("#cancellaReg").is(":visible"))
+				//attendi 0.3 secondi prima di nascondere il modalBox, per far vedere l'animazione della form.
+				setTimeout(function(){$(".modalBox").empty().hide();}, 300);
+			else
+				$(".modalBox").empty().hide( "drop", { direction: "down" }, "slow" );
+		}
+	}
+});
 function ShowMenu(){
 	if(!$('#filter-menu').is(":visible")){
 		$('#filter-menu').show();
