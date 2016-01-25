@@ -64,7 +64,7 @@ API.prototype.chiamaServizio = function(customOptions){
 /*-API End / SELECT start-----------------------------------------------------------------------------------*/
 
 function SELECT(){
-	this.options = {isAsync: true,callback: null, Query: '', hasModal: false, dataType: 'jsonp'}
+	this.options = {isAsync: true,callback: null, Query: '', hasModal: false, dataType: 'jsonp', loader: false}
 };
 SELECT.prototype.makeAjaxRequest = function () {
 	var options = this.options;
@@ -74,10 +74,12 @@ SELECT.prototype.makeAjaxRequest = function () {
 		async: options.isAsync,
 		dataType: options.dataType,
 		beforeSend: function(){
-			/*$("#myLoader").show();*/
+			if(options.loader)
+				$("#myLoader").show();
 		},
 		complete: function(){
-			/*$("#myLoader").hide();*/
+			if(options.loader)
+				$("#myLoader").hide();
 		},
 		success: function (response) {
 			if (options.callback)

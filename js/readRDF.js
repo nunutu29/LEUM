@@ -1,7 +1,8 @@
-function DirectSELECT(querry, callback){
+function DirectSELECT(querry, callback, loader){
+	loader = loader || false;
 	querry = querry.replace(/#/g,"%23");
 	var select = new SELECT();
-	select.GO({Query: querry, callback: function(str){callback(str)}});
+	select.GO({loader: loader, Query: querry, callback: function(str){callback(str)}});
 }
 
 var readRDF= (function (){
@@ -22,7 +23,7 @@ var readRDF= (function (){
 	Query += " SELECT DISTINCT ?title ?url\
 			   FROM <"+fromquerry+">\
 			   WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
-	DirectSELECT(Query, self.CallBackMenu);
+	DirectSELECT(Query, self.CallBackMenu, true);
   }
   self.CallBackMenu = function(res){
     res = res.results.bindings;
@@ -114,23 +115,18 @@ var readRDF= (function (){
   								GROUP BY ?ann ?body ?object} }";
   }
   self.ReadGroups = function(){
-	self.LoadGroups();
-	var json = sessionStorage.getItem("GroupNames");
-	json = JSON.parse(json);
-	$("#ListaGruppi").empty();
-	for(var i = 0; i < json.length; i++){
-		if(json[i].id == "ltw1516") continue;
-		$("#ListaGruppi").append(
-			$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
-					 .append($("<label>").attr("for", json[i].id))
-					 .append($("<a>").attr("style", "text-transform:capitalize;").text(json[i].nome))
-		);
-	}
-  }
-  self.LoadGroups = function(){
 	var api =  new API();
-	api.chiamaServizio({requestUrl: "gruppi.json", isAsync:false, callback: function(res){
-		sessionStorage.setItem("GroupNames", JSON.stringify(res));
+	api.chiamaServizio({loader: false, requestUrl: "gruppi.json", isAsync:true, callback: function(json){
+		$("#ListaGruppi").empty();
+		for(var i = 0; i < json.length; i++){
+			if(json[i].id == "ltw1516") continue;
+			$("#ListaGruppi").append(
+				$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
+						 .append($("<label>").attr("for", json[i].id))
+						 .append($("<a>").attr("style", "text-transform:capitalize;").text(json[i].nome))
+			);
+		}
+		//sessionStorage.setItem("GroupNames", JSON.stringify(res));
 	}});
   }
   return self;

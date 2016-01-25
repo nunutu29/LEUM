@@ -1617,18 +1617,17 @@ return 0;
 function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quando si clicca modifica posizione, e poi dal momento in cui si fa la nuova selezione al 									momento in cui si clicca modifica si dovrebbe fare che non si pu� fare nient'altro senn� sballa le annotazioni magari, boh!!!
 	var css = document.createElement("style");
 	css.type = "text/css";
-	css.innerHTML = "#filter-menu{opacity: 0.7; pointer-events:none;} #MenuTrigger{opacity: 0.7; pointer-events:none;} #logout{opacity: 0.7; pointer-events:none;} #annota{opacity: 0.7; pointer-events:none;} #view-ann{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;} #mod_pos:hover{box-shadow: 0 0 20px 4px red ;}";
+	css.innerHTML = "i.large{opacity: 0.7; pointer-events:none;} #filter-menu{opacity: 0.7; pointer-events:none;} #MenuTrigger{opacity: 0.7; pointer-events:none;} #logout{opacity: 0.7; pointer-events:none;} #annota{opacity: 0.7; pointer-events:none;} #view-ann{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
 	//#gn-menu{ opacity: 0.7; pointer-events:none;}
 	document.getElementById("floating-menu").style.display="none";
-	document.getElementById("mod_pos").style.display="block";
+	document.getElementById("floating-menu-mod-pos").style.display="block";
 	document.body.appendChild(css);
-	
-
-	
+		
 	var old=$('.gn-icon-show').attr("onclick");  //salvo vecchio valore onclick
 	$('.gn-icon-show').attr("onclick", null); 	//evito il click sull'occhiolino mentre selezioni senn� fa casini
 	document.getElementById("modalBox").style.display="none";
 
+		$('#mod_cancel').click(function(){css.innerHTML =""; document.getElementById("modalBox").style.display="block"; document.getElementById("floating-menu-mod-pos").style.display="none"; document.getElementById("floating-menu").style.display="block"; $('.gn-icon-show').attr("onclick", old);});
 
 	//$('.content2').first().click(function(){
 	$('#mod_pos').click(function(){
@@ -1641,8 +1640,8 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 					$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
 					$('#testo_selezionato').text(json.object.value);
 					document.getElementById("modalBox").style.display="block";
-					document.getElementById("mod_pos").style.display="none";
-						document.getElementById("floating-menu").style.display="block";
+					document.getElementById("floating-menu-mod-pos").style.display="none";
+					document.getElementById("floating-menu").style.display="block";
 					$('.content2').first().unbind("click"); //disaccoppio il click al .content2
 					$('.gn-icon-show').attr("onclick", old);
 				}
