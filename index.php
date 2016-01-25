@@ -77,7 +77,7 @@
 		</div>
 	</div>
 	<div class="modalBox" id="myLoader"><?php include('loader.php');?></div>
-	
+	<?php //include('constructor.php');?>
 	<div id="modalBox" class="modalBox" style="display:none;"></div>
 	<div id="modalBoxRegister" class="modalBox" style="display:none;">
 		<div id="modalReg"></div>

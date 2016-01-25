@@ -413,7 +413,7 @@ var Scrap = (function(){
 		var annotator = "";
 		var label = "";
 		var boxID = "boxData-" + index;
-		var box = $(document.createElement('div')).addClass("item" + active).attr("id", boxID);
+		var box = $(document.createElement('div')).addClass("item modal purple wisteria" + active).attr("id", boxID);
 		
 		//Estrazione Autore dell'annotazione
 		if(el.name == undefined)
@@ -430,25 +430,27 @@ var Scrap = (function(){
 				label = "";
 		};
 		//Creazione Bottoni
-		var cancella = $(document.createElement('li')).attr("style", "float:right")
-			.append($("<input>").attr("id","delete-ann").addClass("azzuro red red1").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
-		var modifica = $(document.createElement('li')).attr("style", "float:right")
-			.append($("<input>").attr("id","edit-ann").addClass("azzuro green green1").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
+		var cancella = $(document.createElement('div')).addClass('col-md-3 center')
+			.append($("<input>").attr("id","delete-ann").addClass("btn waves-effect waves-light red valencia white-text").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
+		var modifica = $(document.createElement('div')).addClass('col-md-offset-4 col-md-2')
+			.append($("<input>").attr("id","edit-ann").addClass("btn waves-effect waves-light green accent-4  white-text").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
-		var ul = $(document.createElement("ul")).addClass("edit-delete commnet-user");
-		ul.append($("<li>").addClass("gn-icon " + icon).attr("style","float:left;").text(el.label.value));
+
+		var footerdiv = $(document.createElement("div")).addClass("commnet-separator row");
+		//footerdiv.append($("<span>").addClass("gn-icon " + icon).attr("style","float:left;").text(el.label.value));
+		footerdiv.append($("<div>").addClass('col-md-3 center')
+			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel')));
 			
 		if(el.gruppo == undefined && getCookie("email") != ""){
 			box.attr("data-info", JSON.stringify(el));
-			ul.append(cancella).append(modifica);
-		}
-		else
-			ul.append($("<li>").attr("style", "float:right").append($("<p>").text(el.gruppo)));
-		ul.append($("<li>").attr("style", "float:right").append($("<a>").attr("id","hide-ann").addClass("gn-icon gn-icon-hide").attr("onclick","Scrap.HideModal('CarouselViewMain')")));
+			footerdiv.append(modifica).append(cancella);
+		};
 		//Creazione BOX	
-		box.append($("<div>").addClass("commnet-desc").attr("style","overflow:auto; max-height:100px;").append($("<p>").attr("id","a-lable").text(label)))
-		   .append($("<div>").addClass("commnet-desc").append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator)))
-		   .append($("<div>").addClass("commnet-separator").append(ul));
+		box.append($("<div>").addClass("commnet-desc modal-content row")
+				.append($("<div>").addClass('col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
+				.append($("<div>").addClass('col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
+				.append($("<div>").addClass('col-md-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
+		   .append(footerdiv);
 		return box;
 	};
 	self.HideModal = function(id){
