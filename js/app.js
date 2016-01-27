@@ -1,3 +1,14 @@
+function ellipsify(str, sizebox) {
+	if (typeof sizebox === "undefined" || sizebox === null) { 
+    sizebox = 43; 
+  	};
+    if (str.length > sizebox) {
+        return (str.substring(0, sizebox) + "...");
+    }
+    else {
+        return str;
+    };
+};
 var Login = (function (){
 	var self = {};
 	self.toggle = function (){
@@ -432,13 +443,12 @@ var Scrap = (function(){
 		//Creazione Bottoni
 		var cancella = $(document.createElement('div')).addClass('col-md-3 center')
 			.append($("<input>").attr("id","delete-ann").addClass("btn waves-effect waves-light red valencia white-text").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
-		var modifica = $(document.createElement('div')).addClass('col-md-offset-4 col-md-2')
+		var modifica = $(document.createElement('div')).addClass('col-md-offset-3 col-md-2')
 			.append($("<input>").attr("id","edit-ann").addClass("btn waves-effect waves-light green accent-4  white-text").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
 
 		var footerdiv = $(document.createElement("div")).addClass("commnet-separator row");
-		//footerdiv.append($("<span>").addClass("gn-icon " + icon).attr("style","float:left;").text(el.label.value));
-		footerdiv.append($("<div>").addClass('col-md-3 center')
+		footerdiv.append($("<div>").addClass('col-md-4 center')
 			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel')));
 			
 		if(el.gruppo == undefined && getCookie("email") != ""){
@@ -456,6 +466,10 @@ var Scrap = (function(){
 	self.HideModal = function(id){
 		$("#modalBox").fadeOut('fast');
 		$("#" + id).remove();
+		if ( $("body").attr('style') != undefined )
+			{
+				$("body").removeAttr('style');
+			};
 	};
 	self.AddToFile = function(id, azione, idToRemove){
 		var json = "";
@@ -621,9 +635,12 @@ var Scrap = (function(){
 			else
 				dati = altro;
 			var disp = id == undefined || id == null ? 'none' : 'block';
+			var disptext = "";
+
 			var blockid = "idDiMerda";
 			var bodyLabel = "";
 			var bodyObject = "";
+			var disptitle = "";
 
 			bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
 			try
@@ -632,61 +649,96 @@ var Scrap = (function(){
 					bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;
 			}catch(e){}
 
+			if (disp == 'none' || bodyLabel == "") {
+				disptext = 'Inserisci la tua nota qui';
+			}
+			else {
+				disptext = ellipsify(bodyLabel);
+			};
+			if (disp == 'none') {
+				disptitle = "Crea annotazione";
+			}
+			else {
+				disptitle = "Modifica annotazione";
+			};
+
+
 			var box = $(document.createElement('div'))
 				.attr("id", blockid)
-				.addClass("ann-details")
-				.addClass("ann-shower")
+				.addClass("ann-details ann-shower modal modal-fixed-footer purple wisteria")
 				.attr("style", "display:block;")
 				.attr("data-info", JSON.stringify(dati))
 				.attr("name", "inverse-dropdown");
-			box.append('<div class ="commnet-desc">\
-						<form>\
-							<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
-								<option value="hasTitle0">Titolo</option>\
-								<option value="hasAuthor0">Autore</option>\
-								<option value="hasDOI0">DOI</option>\
-								<option value="hasPublicationYear0">Anno di pubblicazione</option>\
-								<option value="hasURL0">URL</option>\
-								<option value="hasComment0">Commenti</option>\
-								<optgroup label="Retorica">\
-									<option value="deo:Introduction0">Introduzione</option>\
-									<option value="skos:Concept0">Concetto</option>\
-									<option value="sro:Abstract0">Astratto</option>\
-									<option value="deo:Materials0">Materiali</option>\
-									<option value="deo:Methods0">Metodi</option>\
-									<option value="deo:Results0">Risultati</option>\
-									<option value="sro:Discussion0">Discussione</option>\
-									<option value="sro:Conclusion0">Conclusione</option>\
-								</optgroup>\
-								<optgroup label="Citazione">\
-									<option value="cites0">Frammento Cit.</option>\
-									<option value="hasTitle1">Titolo Cit.</option>\
-									<option value="hasAuthor1">Autore Cit.</option>\
-									<option value="hasDOI1">DOI Cit.</option>\
-									<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
-									<option value="hasURL1">URL Cit.</option>\
-								</optgroup>\
-							</select>\
-							<div style="float: right; display: '+ disp +';">\
-								<a id="change-target" class="azzuro azzuro1 form-control gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
+			box.append('<div class="commnet-desc modal-content">\
+							<form>\
+								<div class="row">\
+									<div class="col-md-12 center">\
+										<h2 >'+ disptitle +'</h2>\
+									</div>\
+									<div class="col-md-6 center">\
+										<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
+											<option value="hasTitle0">Titolo</option>\
+											<option value="hasAuthor0">Autore</option>\
+											<option value="hasDOI0">DOI</option>\
+											<option value="hasPublicationYear0">Anno di pubblicazione</option>\
+											<option value="hasURL0">URL</option>\
+											<option value="hasComment0">Commenti</option>\
+											<optgroup label="Retorica">\
+												<option value="deo:Introduction0">Introduzione</option>\
+												<option value="skos:Concept0">Concetto</option>\
+												<option value="sro:Abstract0">Astratto</option>\
+												<option value="deo:Materials0">Materiali</option>\
+												<option value="deo:Methods0">Metodi</option>\
+												<option value="deo:Results0">Risultati</option>\
+												<option value="sro:Discussion0">Discussione</option>\
+												<option value="sro:Conclusion0">Conclusione</option>\
+											</optgroup>\
+											<optgroup label="Citazione">\
+												<option value="cites0">Frammento Cit.</option>\
+												<option value="hasTitle1">Titolo Cit.</option>\
+												<option value="hasAuthor1">Autore Cit.</option>\
+												<option value="hasDOI1">DOI Cit.</option>\
+												<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
+												<option value="hasURL1">URL Cit.</option>\
+											</optgroup>\
+										</select>\
+									</div>\
+									<div class="col-md-6 center" style="display: '+ disp +';">\
+										<a id="change-target" class="waves-effect waves-light orange carrot white-text btn-flat gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
+									</div>\
+									<div class="col-md-12 center">\
+										<p id="testo_selezionato" style="overflow:auto;">' + ellipsify(bodyObject, 447) +'</p>\
+									</div>\
+									<div class="input-field col-md-12">\
+										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea"></textarea>\
+										<label for="iperTextArea">'+ disptext +'</label>\
+									</div>\
+								</div>\
+							</form>\
+						</div>\
+						<div class ="commnet-separator">\
+							<div class="edit-delete commnet-user row">\
+								<div class="col-md-3 col-md-offset-3 center">\
+									<input id="save-ann" class="waves-effect waves-teal btn white purple-text text-wisteria" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')">\
+									</div>\
+								<div class="col-md-3 center">\
+									<input class="waves-effect btn-flat white-text" type="button" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')">\
+									</div>\
+								<div class="col-md-3">\
+								</div>\
 							</div>\
-							<div>\
-								<p id="testo_selezionato" style="text-align:center; margin:0px; overflow:auto; max-height:100px;">' + bodyObject +'</p>\
-							</div>\
-							<div>\
-								<textarea id="iperTextArea" name="text-label" cols="40" style="margin: 5%;width:90%;" class="normal-input-white deactive-input-white">'+bodyLabel+'</textarea>\
-							</div>\
-						</form>\
-					</div>\
-					<div class ="commnet-separator">\
-						<ul class ="edit-delete commnet-user">\
-							<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
-							<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')"></li>\
-							<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
-						</ul>\
-					</div>');
+						</div>');
 			var father = $('#modalBox');
 			father.append(box);
+			$(".commnet-desc.modal-content").mCustomScrollbar({
+					axis:"y",
+					theme:"minimal-dark"
+			});
+			$(".commnet-desc.modal-content").mCustomScrollbar({
+					axis:"y",
+					theme:"minimal-dark"
+			});
+			$("body").attr('style', 'overflow:hidden;');
 			if(!($(father).is(":visible"))) father.fadeIn('fast');
 			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
 			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));

@@ -32,7 +32,7 @@
 					 <!-- merda aggiunto -->					 						 	
 					</div>
 					<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
-					<div class="icons">
+					<div class="icons hide">
 						<?php $foo = 0; function countandecho(&$foo){$foo = $foo + 1;echo $foo;}?>
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-openup">gn-icon-openup <?php  countandecho($foo);?></span>
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-opendown">gn-icon-opendown <?php  countandecho($foo);?></span>
@@ -71,6 +71,9 @@
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-email">gn-icon-email <?php  countandecho($foo);?></span>
 						<img class="col-md-5 col-md-offset-1" src="img/background-abstract3.png"></img>
 					</div>
+					<?php }} ?>
+					<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
+					<div><a name="icon-help" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="ICON HELP"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-show"></i></a></div>
 					<?php }} ?>
 				</div>
 			</div>
@@ -348,6 +351,9 @@ function ShowMenu(){
 }
 
 $('#login-open').click(function(){$('#dropdown1').attr('style', 'display:none')}); //fa sparire il dropdown 3dots quando clicco su accedi
-
+$( "a[name='icon-help']" ).click(function() {
+	/* Act on the event */
+	$("div.icons").toggleClass( "hide" );
+});
 </script>
 </html>
