@@ -464,8 +464,9 @@ var Scrap = (function(){
 		return box;
 	};
 	self.HideModal = function(id){
-		$("#modalBox").fadeOut('fast');
-		$("#" + id).remove();
+		$("#modalBox").empty().fadeOut('fast');
+		//$("#modalBox").fadeOut('fast');
+		//$("#" + id).remove();
 		if ( $("body").attr('style') != undefined )
 			{
 				$("body").removeAttr('style');
