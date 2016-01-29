@@ -368,7 +368,7 @@ function CreateRethoric($expression, $item, $object, $label, $start, $end, $targ
 	return $answer;
 }
 
-function InsertDlib($content, $uri, $item, $ArtTitle){
+function InsertDlib($content, $uri, $item, $ArtTitle, $exists){
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
 $arr = explode(".", $item);
@@ -380,9 +380,10 @@ else
 	if(count($arr) > 0)
 		$Work = $arr[0];
 $Exp = $Work."_ver1";
-	
-$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-if($get != null) return;
+if(!$exists){
+	$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+	if($get != null) return;
+}
 $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
 $doc = new DOMDocument();	
 $doc->loadHTML($content);
@@ -548,15 +549,15 @@ foreach($cities as $cite){
 	$i++;	
 }
 }
-
-function InsertJournals($content, $uri, $item, $ArtTitle){ //rivista-statistica
+function InsertJournals($content, $uri, $item, $ArtTitle, $exists){ //rivista-statistica
 //Work = Nome Senza Estensione
 //Exp = Nome Con _ver1
 $Work = $item;
 $Exp = $Work."_ver1";
-	
-$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-if($get != null) return;
+if(!$exists){
+	$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+	if($get != null) return;
+}
 $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
 $doc = new DOMDocument();	
 $doc->loadHTML($content);
@@ -671,12 +672,13 @@ foreach($cities as $cite){
 
 
 }
-function InsertJournalsAM($content, $uri, $item, $ArtTitle){	//montesquieu
+function InsertJournalsAM($content, $uri, $item, $ArtTitle, $exists){	//montesquieu
 $Work = $item;
 $Exp = $Work."_ver1";
-
-$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-if($get != null) return;
+if(!$exists){
+	$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+	if($get != null) return;
+}
 $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
 $doc = new DOMDocument();	
 $doc->loadHTML($content);
@@ -736,16 +738,13 @@ $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
 CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
-
-
-
-
-function InsertJournalsAT($content, $uri, $item, $ArtTitle){
+function InsertJournalsAT($content, $uri, $item, $ArtTitle, $exists){
 $Work = $item;
 $Exp = $Work."_ver1";
-
-$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-if($get != null) return;
+if(!$exists){
+	$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+	if($get != null) return;
+}
 $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
 $doc = new DOMDocument();	
 $doc->loadHTML($content);
@@ -802,11 +801,7 @@ $doi=$target->nodeValue;
 
 
 }
-
-
-
-
-function InsertStandart($content, $uri, $item, $ArtTitle){
+function InsertStandart($content, $uri, $item, $ArtTitle, $exists){
 $arr = explode(".", $item);
 $Work = "";
 if(count($arr) > 1)
@@ -816,21 +811,18 @@ else
 	if(count($arr) > 0)
 		$Work = $arr[0];
 $Exp = $Work."_ver1";
-
-CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-GetUrlName($uri);
+if(!$exists){
+	CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+}
 CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 }
-
-
-
-
-function InsertDlib2($content, $uri, $item, $ArtTitle){			//http://www.dlib.org/dlib/january14/01contents.html
+function InsertDlib2($content, $uri, $item, $ArtTitle, $exists){			//http://www.dlib.org/dlib/january14/01contents.html
 	$Work = $item;
 $Exp = $Work."_ver1";
-
-$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-if($get != null) return;
+if(!$exists){
+	$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
+	if($get != null) return;
+}
 $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
 $doc = new DOMDocument();	
 $doc->loadHTML($content);

@@ -45,13 +45,31 @@ var readRDF= (function (){
     }
   }
   self.EnableIfExists = function(url) {
+	  //Controllo per abilitare cancellaTutto oppure Ri-Annota
+	  var Query = self.GetQuery(self.GetGraph(), url) + " LIMIT 1 ";
+	  DirectSELECT(Query, function(res){
+		  var json = res.results.bindings;
+		  if(json.length == 0){
+			$("#cancella-ann").hide();
+			$("#ri_ann").show();
+		  }
+		  else
+		  {
+			$("#cancella-ann").show();
+			$("#ri_ann").hide();
+		  }
+	  });
 	  $("#ListaGruppi input[type='checkbox']").each(function(){
 		  var from = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
 		  var Query = self.GetQuery(from, url) + " LIMIT 1 ";
 		  var chk = this;
 		  DirectSELECT(Query, function(res){
 			  var json = res.results.bindings;
-			  chk.disabled = json.length == 0;
+			  if(json.length == 0)
+			  {
+				  chk.disabled = true;
+				  chk.checked = false;
+			  }
 		  });
 	  });
   }
