@@ -1598,7 +1598,7 @@ function onSuccess(json){
 				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:green'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:green' float:'left'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:green' float:'left'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");
 			}
 		}
 		else if(json[i].azione.value=="D"){
@@ -1606,7 +1606,7 @@ function onSuccess(json){
 				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1'  onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");
 			}
 		}
 		$("#butt_ann_"+i).attr("data-info", JSON.stringify(json[i]));
@@ -1614,10 +1614,9 @@ function onSuccess(json){
 
 	$('#exit').click(function(){$('#view').text(""); document.getElementById("modalBoxView").style.display="none";}); //elimino la tabella altrimenti append sempre
 }
-function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava //quandofaccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
+function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava, quindi ho passato l'id del bottone che ha come data-info il file json
 		var x=confirm("Sicuro di voler eliminare l'annotazione?");
 		if (x == true) {
-
 			var json=$('#'+id).attr('data-info');
 			var el = JSON.parse(json);
 			el.azione = {value:azione};
@@ -1629,16 +1628,17 @@ function elimina(id, azione, id_ann){ //non ho passato come parametro direttamen
 			$("span#"+id_ann).attr("style", "color:red");
 			$("#"+id).text("Ripristina");
 			$("#"+id).attr("onclick", "ripristina('"+id+"','I','"+id_ann+"')");
+			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.object.value)));
+			else
+				Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.predicate.value)));
+				
 		}
-		/*if (($('#riepilogo_ann').text()=="")){ //se hai cancellato l'ultima annotazione chiudi la tabella
-			$('#view').text("");
-			document.getElementById("modalBoxView").style.display="none";
-		}*/
 return 0;
 }
 
 
-function ripristina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava//quando faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
+function ripristina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava, quindi ho passato l'id del bottone che ha come data-info il file json
 		var json=$('#'+id).attr('data-info');
 		var el = JSON.parse(json);
 		el.azione = {value:azione};
@@ -1646,17 +1646,14 @@ function ripristina(id, azione, id_ann){ //non ho passato come parametro diretta
 		el.email = {value:getCookie("email")};
 		el.at = {value:timeGet()};
 		Scrap.TryScrap(JSON.stringify(el));
-	//	$("span#OpenedSpan").next().contents().unwrap(); 	// non lo trova, ci vorrebbe un collegamento tra l'occhio e la tabella delle annotazioni...data-info??
-	//	$("span#OpenedSpan").remove();
 		$("span#"+id_ann).text("ANNOTAZIONE (ripristinata)");
 		$("span#"+id_ann).attr("style", "color:yellow");
 		$("#"+id).text("Elimina");
 		$("#"+id).attr("onclick", "elimina('"+id+"','D','"+id_ann+"')"); 
-
-		/*if (($('#riepilogo_ann').text()=="")){ //se hai cancellato l'ultima annotazione chiudi la tabella
-			$('#view').text("");
-			document.getElementById("modalBoxView").style.display="none";
-		}*/
+		if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+			Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.object.value)));
+		else
+			Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.predicate.value)));
 return 0;
 }
 
@@ -1664,7 +1661,6 @@ function modificaPosizione(){
 	var css = document.createElement("style");
 	css.type = "text/css";
 	css.innerHTML = "i.large{opacity: 0.7; pointer-events:none;} #filter-menu{opacity: 0.7; pointer-events:none;} #MenuTrigger{opacity: 0.7; pointer-events:none;} #logout{opacity: 0.7; pointer-events:none;} #annota{opacity: 0.7; pointer-events:none;} #view-ann{opacity: 0.7; pointer-events:none;} .content2{box-shadow: 0 0 20px 20px red ;} .content2:hover{box-shadow: 0 0 20px 4px red ;}";
-	//#gn-menu{ opacity: 0.7; pointer-events:none;}
 	document.getElementById("floating-menu").style.display="none";
 	document.getElementById("floating-menu-mod-pos").style.display="block";
 	document.body.appendChild(css);
@@ -1674,7 +1670,6 @@ function modificaPosizione(){
 
 		$('#mod_cancel').click(function(){css.innerHTML =""; document.getElementById("modalBox").style.display="block"; document.getElementById("floating-menu-mod-pos").style.display="none"; document.getElementById("floating-menu").style.display="block"; $('.gn-icon-show').attr("onclick", old);});
 
-	//$('.content2').first().click(function(){
 	$('#mod_pos').click(function(){
 					var str=manualAnn();
 					if(str != null && str.object.value!=""){
@@ -1687,7 +1682,6 @@ function modificaPosizione(){
 						document.getElementById("modalBox").style.display="block";
 						document.getElementById("floating-menu-mod-pos").style.display="none";
 						document.getElementById("floating-menu").style.display="block";
-						$('.content2').first().unbind("click"); //disaccoppio il click al .content2
 						$('.gn-icon-show').attr("onclick", old);
 					}
 		});
