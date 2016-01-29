@@ -1592,7 +1592,6 @@ function onSuccess(json){
 		</div>\
 		</div>");
 	for(i=0;i<json.length; i++){
-
 		if(json[i].azione.value=="I"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
 				$('#riepilogo_ann').append("<p><span id='ann_"+i+"' style='color:green'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");
