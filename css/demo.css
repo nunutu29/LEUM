@@ -1,3 +1,7 @@
+.no-opacity{
+	display: visible;
+	background: rgb(95,111,129) 50% 50% no-repeat !important;
+}
 body {
 	background-clip: border-box;
 	
