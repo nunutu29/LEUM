@@ -849,11 +849,7 @@ label {
   font-size: 15px;
   line-height: 1.467;
   color: #34495e;
-  border: 2px solid #bdc3c7;
-  border-radius: 6px;
-  box-shadow: none;
-  -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
-          transition: border .25s linear, color .25s linear, background-color .25s linear;
+  border-bottom: 1px solid #1abc9c;
   }
 .form-group.focus .form-control,
 .form-control:focus,
@@ -896,7 +892,6 @@ fieldset[disabled] .select2-search input[type="text"] {
   padding: 6px 10px;
   font-size: 13px;
   line-height: 1.462;
-  border-radius: 6px;
   }
 select.input-sm,
 select.form-group-sm .form-control,
@@ -2827,9 +2822,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   font-weight: normal;
   line-height: 1.4;
   border: none;
-  border-radius: 4px;
-  -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
-          transition: border .25s linear, color .25s linear, background-color .25s linear;
+  transition: all 0.2s ease-in-out;
   }
 .select2-choice:hover,
 .select2-choice:focus {
@@ -2929,8 +2922,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .select-info .select2-choice:focus,
 .select-info .select2-choice:active {
   color: #fff;
-  background-color: #5dade2;
-  border-color: #5dade2;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 .select-info .select2-choice:active {
   background: #2c81ba;
@@ -3263,7 +3255,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .select2-drop {
   position: absolute;
   top: 100%;
-  z-index: 9999;
+  z-index: 15000;
   min-width: 220px;
   margin-top: 9px;
   font-size: 14px;
@@ -3372,7 +3364,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   padding: 8px 6px;
   }
 .select2-search input[type="text"] {
-  width: 100%;
+  width: 86%;
   height: auto !important;
   }
 .select-inverse-dropdown {
@@ -3465,7 +3457,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9998;
+  z-index: 14999;
   width: auto;
   min-width: 100%;
   height: auto;

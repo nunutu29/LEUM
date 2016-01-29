@@ -1,3 +1,14 @@
+function ellipsify(str, sizebox) {
+	if (typeof sizebox === "undefined" || sizebox === null) { 
+    sizebox = 43; 
+  	};
+    if (str.length > sizebox) {
+        return (str.substring(0, sizebox) + "...");
+    }
+    else {
+        return str;
+    };
+};
 var Login = (function (){
 	var self = {};
 	self.toggle = function (){
@@ -413,7 +424,7 @@ var Scrap = (function(){
 		var annotator = "";
 		var label = "";
 		var boxID = "boxData-" + index;
-		var box = $(document.createElement('div')).addClass("item" + active).attr("id", boxID);
+		var box = $(document.createElement('div')).addClass("item modal purple wisteria" + active).attr("id", boxID);
 		
 		//Estrazione Autore dell'annotazione
 		if(el.name == undefined)
@@ -430,30 +441,36 @@ var Scrap = (function(){
 				label = "";
 		};
 		//Creazione Bottoni
-		var cancella = $(document.createElement('li')).attr("style", "float:right")
-			.append($("<input>").attr("id","delete-ann").addClass("azzuro red red1").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
-		var modifica = $(document.createElement('li')).attr("style", "float:right")
-			.append($("<input>").attr("id","edit-ann").addClass("azzuro green green1").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
+		var cancella = $(document.createElement('div')).addClass('col-md-3 center')
+			.append($("<input>").attr("id","delete-ann").addClass("btn waves-effect waves-light red valencia white-text").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
+		var modifica = $(document.createElement('div')).addClass('col-md-offset-3 col-md-2')
+			.append($("<input>").attr("id","edit-ann").addClass("btn waves-effect waves-light green accent-4  white-text").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
-		var ul = $(document.createElement("ul")).addClass("edit-delete commnet-user");
-		ul.append($("<li>").addClass("gn-icon " + icon).attr("style","float:left;").text(el.label.value));
+
+		var footerdiv = $(document.createElement("div")).addClass("commnet-separator row");
+		footerdiv.append($("<div>").addClass('col-md-4 center')
+			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel')));
 			
 		if(el.gruppo == undefined && getCookie("email") != ""){
 			box.attr("data-info", JSON.stringify(el));
-			ul.append(cancella).append(modifica);
-		}
-		else
-			ul.append($("<li>").attr("style", "float:right").append($("<p>").text(el.gruppo)));
-		ul.append($("<li>").attr("style", "float:right").append($("<a>").attr("id","hide-ann").addClass("gn-icon gn-icon-hide").attr("onclick","Scrap.HideModal('CarouselViewMain')")));
+			footerdiv.append(modifica).append(cancella);
+		};
 		//Creazione BOX	
-		box.append($("<div>").addClass("commnet-desc").attr("style","overflow:auto; max-height:100px;").append($("<p>").attr("id","a-lable").text(label)))
-		   .append($("<div>").addClass("commnet-desc").append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator)))
-		   .append($("<div>").addClass("commnet-separator").append(ul));
+		box.append($("<div>").addClass("commnet-desc modal-content row")
+				.append($("<div>").addClass('col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
+				.append($("<div>").addClass('col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
+				.append($("<div>").addClass('col-md-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
+		   .append(footerdiv);
 		return box;
 	};
 	self.HideModal = function(id){
-		$("#modalBox").fadeOut('fast');
-		$("#" + id).remove();
+		$("#modalBox").empty().fadeOut('fast');
+		//$("#modalBox").fadeOut('fast');
+		//$("#" + id).remove();
+		if ( $("body").attr('style') != undefined )
+			{
+				$("body").removeAttr('style');
+			};
 	};
 	self.AddToFile = function(id, azione, idToRemove){
 		var json = "";
@@ -482,7 +499,7 @@ var Scrap = (function(){
 		}
 		var oldObject = JSON.stringify(el);
 		oldObject = JSON.parse(oldObject);
-		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false;
+		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false, changePos = false;
 		if(id == "idDiMerda"){
 			try
 			{
@@ -525,7 +542,8 @@ var Scrap = (function(){
 			try{
 				var pos=$('#testo_selezionato').attr('data-info'); //mi prendo la nuova posizione e il nuovo testo che si trovano in un data-info del testo selezionato  nel box
 					var j=JSON.parse(pos);
-					if((j.start.value != el.start.value || j.end.value != el.end.value || j.id.value!=el.id.value)){		//
+					if(j.start.value != el.start.value || j.end.value != el.end.value || j.id.value!=el.id.value){
+						changePos = true;
 						el.id={value:j.id.value}; //rimpiazza con i nuovi valori
 						el.start={value:j.start.value};
 						el.end={value:j.end.value};
@@ -582,11 +600,21 @@ var Scrap = (function(){
 				}
 			}
 			if(el.subject.value == "cited")
-				newCheckBox == newCheckBox[0] != 'c' ? "c" + newCheckBox: newCheckBox;
+				newCheckBox = newCheckBox[0] != 'c' ? "c" + newCheckBox: newCheckBox;
 			if(oldObject.subject.value.slice(-8).indexOf("cited") != -1)
-				oldCheckBox == oldCheckBox[0] != 'c' ? "c" + oldCheckBox: oldCheckBox;
+				oldCheckBox = oldCheckBox[0] != 'c' ? "c" + oldCheckBox: oldCheckBox;
 			self.RefreshCheckBox(newCheckBox);
 			self.RefreshCheckBox(oldCheckBox);
+		}
+		else if(changePos){
+			var chk = "";
+			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				chk = self.CheckID(self.Encode(el.object.value));
+			else
+				chk = self.CheckID(self.Encode(el.predicate.value));
+			if(el.subject.value == "cited")
+				chk = chk[0] != 'c' ? "c" + chk: chk;
+			self.RefreshCheckBox(chk);
 		}
 	}
 	self.CheckAnnotation = function(from){
@@ -619,9 +647,12 @@ var Scrap = (function(){
 			else
 				dati = altro;
 			var disp = id == undefined || id == null ? 'none' : 'block';
+			var disptext = "";
+
 			var blockid = "idDiMerda";
 			var bodyLabel = "";
 			var bodyObject = "";
+			var disptitle = "";
 
 			bodyLabel = dati.bLabel == undefined ? "" : dati.bLabel.value;
 			try
@@ -630,61 +661,96 @@ var Scrap = (function(){
 					bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;
 			}catch(e){}
 
+			if (disp == 'none' || bodyLabel == "") {
+				disptext = 'Inserisci la tua nota qui';
+			}
+			else {
+				disptext = ellipsify(bodyLabel);
+			};
+			if (disp == 'none') {
+				disptitle = "Crea annotazione";
+			}
+			else {
+				disptitle = "Modifica annotazione";
+			};
+
+
 			var box = $(document.createElement('div'))
 				.attr("id", blockid)
-				.addClass("ann-details")
-				.addClass("ann-shower")
+				.addClass("ann-details ann-shower modal modal-fixed-footer purple wisteria")
 				.attr("style", "display:block;")
 				.attr("data-info", JSON.stringify(dati))
 				.attr("name", "inverse-dropdown");
-			box.append('<div class ="commnet-desc">\
-						<form>\
-							<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
-								<option value="hasTitle0">Titolo</option>\
-								<option value="hasAuthor0">Autore</option>\
-								<option value="hasDOI0">DOI</option>\
-								<option value="hasPublicationYear0">Anno di pubblicazione</option>\
-								<option value="hasURL0">URL</option>\
-								<option value="hasComment0">Commenti</option>\
-								<optgroup label="Retorica">\
-									<option value="deo:Introduction0">Introduzione</option>\
-									<option value="skos:Concept0">Concetto</option>\
-									<option value="sro:Abstract0">Astratto</option>\
-									<option value="deo:Materials0">Materiali</option>\
-									<option value="deo:Methods0">Metodi</option>\
-									<option value="deo:Results0">Risultati</option>\
-									<option value="sro:Discussion0">Discussione</option>\
-									<option value="sro:Conclusion0">Conclusione</option>\
-								</optgroup>\
-								<optgroup label="Citazione">\
-									<option value="cites0">Frammento Cit.</option>\
-									<option value="hasTitle1">Titolo Cit.</option>\
-									<option value="hasAuthor1">Autore Cit.</option>\
-									<option value="hasDOI1">DOI Cit.</option>\
-									<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
-									<option value="hasURL1">URL Cit.</option>\
-								</optgroup>\
-							</select>\
-							<div style="float: right; display: '+ disp +';">\
-								<a id="change-target" class="azzuro azzuro1 form-control gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
+			box.append('<div class="commnet-desc modal-content">\
+							<form>\
+								<div class="row">\
+									<div class="col-md-12 center">\
+										<h2 >'+ disptitle +'</h2>\
+									</div>\
+									<div class="col-md-6 center">\
+										<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
+											<option value="hasTitle0">Titolo</option>\
+											<option value="hasAuthor0">Autore</option>\
+											<option value="hasDOI0">DOI</option>\
+											<option value="hasPublicationYear0">Anno di pubblicazione</option>\
+											<option value="hasURL0">URL</option>\
+											<option value="hasComment0">Commenti</option>\
+											<optgroup label="Retorica">\
+												<option value="deo:Introduction0">Introduzione</option>\
+												<option value="skos:Concept0">Concetto</option>\
+												<option value="sro:Abstract0">Astratto</option>\
+												<option value="deo:Materials0">Materiali</option>\
+												<option value="deo:Methods0">Metodi</option>\
+												<option value="deo:Results0">Risultati</option>\
+												<option value="sro:Discussion0">Discussione</option>\
+												<option value="sro:Conclusion0">Conclusione</option>\
+											</optgroup>\
+											<optgroup label="Citazione">\
+												<option value="cites0">Frammento Cit.</option>\
+												<option value="hasTitle1">Titolo Cit.</option>\
+												<option value="hasAuthor1">Autore Cit.</option>\
+												<option value="hasDOI1">DOI Cit.</option>\
+												<option value="hasPublicationYear1">Anno di pubblicazione Cit.</option>\
+												<option value="hasURL1">URL Cit.</option>\
+											</optgroup>\
+										</select>\
+									</div>\
+									<div class="col-md-6 center" style="display: '+ disp +';">\
+										<a id="change-target" class="waves-effect waves-light orange carrot white-text btn-flat gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
+									</div>\
+									<div class="col-md-12 center">\
+										<p id="testo_selezionato" style="overflow:auto;">' + ellipsify(bodyObject, 447) +'</p>\
+									</div>\
+									<div class="input-field col-md-12">\
+										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea"></textarea>\
+										<label for="iperTextArea">'+ disptext +'</label>\
+									</div>\
+								</div>\
+							</form>\
+						</div>\
+						<div class ="commnet-separator">\
+							<div class="edit-delete commnet-user row">\
+								<div class="col-md-3 col-md-offset-3 center">\
+									<input id="save-ann" class="waves-effect waves-teal btn white purple-text text-wisteria" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')">\
+									</div>\
+								<div class="col-md-3 center">\
+									<input class="waves-effect btn-flat white-text" type="button" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')">\
+									</div>\
+								<div class="col-md-3">\
+								</div>\
 							</div>\
-							<div>\
-								<p id="testo_selezionato" style="text-align:center; margin:0px; overflow:auto; max-height:100px;">' + bodyObject +'</p>\
-							</div>\
-							<div>\
-								<textarea id="iperTextArea" name="text-label" cols="40" style="margin: 5%;width:90%;" class="normal-input-white deactive-input-white">'+bodyLabel+'</textarea>\
-							</div>\
-						</form>\
-					</div>\
-					<div class ="commnet-separator">\
-						<ul class ="edit-delete commnet-user">\
-							<li class ="gn-icon gn-icon-ann-edit" style="float: left">Modifica</li>\
-							<li style="float: right"><input id ="save-ann" class="azzuro azzuro1" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')"></li>\
-							<li style="float: right"><input class="azzuro grey" type="azzuro grey" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')"> </li>\
-						</ul>\
-					</div>');
+						</div>');
 			var father = $('#modalBox');
 			father.append(box);
+			$(".commnet-desc.modal-content").mCustomScrollbar({
+					axis:"y",
+					theme:"minimal-dark"
+			});
+			$(".commnet-desc.modal-content").mCustomScrollbar({
+					axis:"y",
+					theme:"minimal-dark"
+			});
+			$("body").attr('style', 'overflow:hidden;');
 			if(!($(father).is(":visible"))) father.fadeIn('fast');
 			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
 			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
@@ -1630,18 +1696,18 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 	//$('.content2').first().click(function(){
 	$('#mod_pos').click(function(){
 					var str=manualAnn();
-					if(str.object.value!=""){
-						css.innerHTML ="";
-						str=JSON.stringify(str);
-						var json=JSON.parse(str);
-						var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
-						$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
-						$('#testo_selezionato').text(json.object.value);
-						document.getElementById("modalBox").style.display="block";
-						document.getElementById("floating-menu-mod-pos").style.display="none";
-						document.getElementById("floating-menu").style.display="block";
-						$('.content2').first().unbind("click"); //disaccoppio il click al .content2
-						$('.gn-icon-show').attr("onclick", old);
-					}
+					if(str != null && str.object.value!=""){
+					css.innerHTML ="";
+					str=JSON.stringify(str);
+					var json=JSON.parse(str);
+					var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
+					$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
+					$('#testo_selezionato').text(json.object.value);
+					document.getElementById("modalBox").style.display="block";
+					document.getElementById("floating-menu-mod-pos").style.display="none";
+					document.getElementById("floating-menu").style.display="block";
+					$('.content2').first().unbind("click"); //disaccoppio il click al .content2
+					$('.gn-icon-show').attr("onclick", old);
+				}
 		});
 }
