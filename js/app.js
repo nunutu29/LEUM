@@ -990,6 +990,8 @@ var Scrap = (function(){
 				self.SalvaTutto(nomeSessione);
 			}
 		}
+		$("#cancella-ann").hide();
+		$("#ri_ann").show();
 	}
 	self.Groups = (function(){
 		var me = {};

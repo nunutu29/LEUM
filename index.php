@@ -274,6 +274,15 @@ var Page = (function (){
 			self.EnableCheckBox();
 		}});
 	};
+	self.Riannota = function(){
+		var myData = {link: $('#URL').val(), StartScrapper: "2"};
+		var api = new API();
+		api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: true, callback: function(str){
+			readRDF.GetData(undefined, $('#URL').val());
+			$("#cancella-ann").show();
+			$("#ri_ann").hide();
+		}});
+	}
 	self.GetData = function(link, titolo, scrap, from){
 		$('#URL').val(link);
 		window.scrollTo(0,0);
@@ -336,6 +345,10 @@ $(document).keyup(function(ev){
 			if($("#cancellaReg").is(":visible"))
 				//attendi 0.3 secondi prima di nascondere il modalBox, per far vedere l'animazione della form.
 				setTimeout(function(){$(".modalBox").empty().hide();}, 300);
+			else if($("#modalBoxView").is(":visible")){
+				$("#view").empty();
+				$(".modalBox").hide( "drop", { direction: "down" }, "slow" );
+			}
 			else
 				$(".modalBox").empty().hide( "drop", { direction: "down" }, "slow" );
 		}
