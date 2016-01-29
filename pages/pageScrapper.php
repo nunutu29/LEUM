@@ -62,7 +62,7 @@ if($contentTable != null){
 	$xml = preg_replace('/((?:href|src) *= *[\'"](?!#)(?!(http|ftp|\/\/)))/i', "$1$mURL", $xml);
 	if($StartScrapper != "0"){
 		$exists = SearchIfExists($url);
-		if(!exists || $StartScrapper == "2"){
+		if(!$exists || $StartScrapper == "2"){
 			switch($isOUR){
 				case "dlib":
 					InsertDlib($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
