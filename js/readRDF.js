@@ -23,7 +23,7 @@ var readRDF= (function (){
 	Query += " SELECT DISTINCT ?title ?url\
 			   FROM <"+fromquerry+">\
 			   WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
-	DirectSELECT(Query, self.CallBackMenu, true);
+	DirectSELECT(Query, self.CallBackMenu, false);
   }
   self.CallBackMenu = function(res){
     res = res.results.bindings;
@@ -45,13 +45,31 @@ var readRDF= (function (){
     }
   }
   self.EnableIfExists = function(url) {
+	  //Controllo per abilitare cancellaTutto oppure Ri-Annota
+	  var Query = self.GetQuery(self.GetGraph(), url) + " LIMIT 1 ";
+	  DirectSELECT(Query, function(res){
+		  var json = res.results.bindings;
+		  if(json.length == 0){
+			$("#cancella-ann").hide();
+			$("#ri_ann").show();
+		  }
+		  else
+		  {
+			$("#cancella-ann").show();
+			$("#ri_ann").hide();
+		  }
+	  });
 	  $("#ListaGruppi input[type='checkbox']").each(function(){
 		  var from = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
 		  var Query = self.GetQuery(from, url) + " LIMIT 1 ";
 		  var chk = this;
 		  DirectSELECT(Query, function(res){
 			  var json = res.results.bindings;
-			  chk.disabled = json.length == 0;
+			  if(json.length == 0)
+			  {
+				  chk.disabled = true;
+				  chk.checked = false;
+			  }
 		  });
 	  });
   }
@@ -126,8 +144,16 @@ var readRDF= (function (){
 						 .append($("<a>").attr("style", "text-transform:capitalize;").text(json[i].nome))
 			);
 		}
-		//sessionStorage.setItem("GroupNames", JSON.stringify(res));
+		sessionStorage.setItem("GroupNames", JSON.stringify(json));
 	}});
+  }
+  self.DecodeGroupName = function(id){
+	var json = JSON.parse(sessionStorage.getItem("GroupNames"));
+	for(var i = 0; i<json.length; i++){
+		if (id == json[i].id) 
+			return json[i].nome;
+	}
+	return id;
   }
   return self;
 }());

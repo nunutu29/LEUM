@@ -20,7 +20,8 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/select2.full.min.js"></script>
 </head>
-<body class="blue tumblr">
+<body class="blue tumblr loading">
+<div class="modalBox no-opacity" id="myLoader" style="display:block;"><?php include('loader.php');?></div>
 	<input type="text" name="URL" id="URL" style="display:none;">
 	<div class="container" id="container">
 		<?php include('menu.php');?>
@@ -79,7 +80,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modalBox" id="myLoader"><?php include('loader.php');?></div>
+	
 	<?php //include('constructor.php');?>
 	<div id="modalBox" class="modalBox" style="display:none;"></div>
 	<div id="modalBoxRegister" class="modalBox" style="display:none;">
@@ -238,7 +239,7 @@ $('.register-button').on({click: function(){
 		$("#modalBoxRegister").append('<?php include("pages/regModalMobile.php");?>');
 	else
 		$("#modalBoxRegister").append('<?php include("pages/regModal.php");?>');
-	$("#cancellaReg").click(function(){$("#modalBoxRegister").hide();});
+	$("#cancellaReg").click(function(){$("#modalBoxRegister").fadeOut("fast");});
 }});
 var Page = (function (){
 	var self = {};
@@ -270,6 +271,15 @@ var Page = (function (){
 			self.EnableCheckBox();
 		}});
 	};
+	self.Riannota = function(){
+		var myData = {link: $('#URL').val(), StartScrapper: "2"};
+		var api = new API();
+		api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: true, callback: function(str){
+			readRDF.GetData(undefined, $('#URL').val());
+			$("#cancella-ann").show();
+			$("#ri_ann").hide();
+		}});
+	}
 	self.GetData = function(link, titolo, scrap, from){
 		$('#URL').val(link);
 		window.scrollTo(0,0);
@@ -323,6 +333,10 @@ $(document).ready(function(){
 	readRDF.GetMenu();
 	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
 	$('.modal-trigger').leanModal();
+	setTimeout(
+		function(){
+			$("#myLoader").fadeOut("fast", function(){$(this).removeClass("no-opacity")});
+		}, 2000);
 });
 $(document).keyup(function(ev){
 	//Se premuto ESC
@@ -332,6 +346,10 @@ $(document).keyup(function(ev){
 			if($("#cancellaReg").is(":visible"))
 				//attendi 0.3 secondi prima di nascondere il modalBox, per far vedere l'animazione della form.
 				setTimeout(function(){$(".modalBox").empty().hide();}, 300);
+			else if($("#modalBoxView").is(":visible")){
+				$("#view").empty();
+				$(".modalBox").hide( "drop", { direction: "down" }, "slow" );
+			}
 			else
 				$(".modalBox").empty().hide( "drop", { direction: "down" }, "slow" );
 		}

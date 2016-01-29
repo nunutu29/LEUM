@@ -60,26 +60,27 @@ if($contentTable != null){
 	$xml = $contentTable->ownerDocument->saveHTML($contentTable);
 	/*Replace all relative URI with absolute*/
 	$xml = preg_replace('/((?:href|src) *= *[\'"](?!#)(?!(http|ftp|\/\/)))/i', "$1$mURL", $xml);
-	if($StartScrapper == "1"){
-		if(!SearchIfExists($url)){
+	if($StartScrapper != "0"){
+		$exists = SearchIfExists($url);
+		if(!exists || $StartScrapper == "2"){
 			switch($isOUR){
 				case "dlib":
-					InsertDlib($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertDlib($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
 				break;
 				case "RS":
-					InsertJournals($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertJournals($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
 				break;
 				case "AM":
-					InsertJournalsAM($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertJournalsAM($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
 					break;
 				case "AT":
-					InsertJournalsAT($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertJournalsAT($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
 				break;
 				case "dlib2":
-					InsertDlib2($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertDlib2($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
 				break;
 				default:
-					InsertStandart($xml, $mURL, $nomeDoc, $ArtTitle);
+					InsertStandart($xml, $mURL, $nomeDoc, $ArtTitle, $exists);
 				break;
 			}
 		}
