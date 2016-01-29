@@ -144,8 +144,16 @@ var readRDF= (function (){
 						 .append($("<a>").attr("style", "text-transform:capitalize;").text(json[i].nome))
 			);
 		}
-		//sessionStorage.setItem("GroupNames", JSON.stringify(res));
+		sessionStorage.setItem("GroupNames", JSON.stringify(json));
 	}});
+  }
+  self.DecodeGroupName = function(id){
+	var json = JSON.parse(sessionStorage.getItem("GroupNames"));
+	for(var i = 0; i<json.length; i++){
+		if (id == json[i].id) 
+			return json[i].nome;
+	}
+	return id;
   }
   return self;
 }());

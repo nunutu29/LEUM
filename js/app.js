@@ -454,7 +454,9 @@ var Scrap = (function(){
 		if(el.gruppo == undefined && getCookie("email") != ""){
 			box.attr("data-info", JSON.stringify(el));
 			footerdiv.append(modifica).append(cancella);
-		};
+		}
+		else if (el.gruppo != undefined)
+			footerdiv.append($(document.createElement('div')).addClass('col-md-offset-3 col-md-2').append($("<span>").text(readRDF.DecodeGroupName(el.gruppo)).addClass('white-text footerlabel')));
 		//Creazione BOX	
 		box.append($("<div>").addClass("commnet-desc modal-content row")
 				.append($("<div>").addClass('col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
