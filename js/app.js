@@ -1595,42 +1595,66 @@ function onSuccess(json){
 
 	document.getElementById("modalBoxView").style.display="block";
 	$('#view').append("<div class ='commnet-separator'>\
-		<ul class ='edit-delete commnet-user'>\
-		<li class ='gn-icon gn-icon-ann-ex' style='float: left'>Annotazioni non salvate</li>\
-		<li style='float: right'>\
-		<button id='exit' class='azzuro grey'>Esci</button>\
-		</li>\
-		<li style='float: right'>\
-		<input id='save' class='azzuro green green1' type='button' value='Salva Tutto' onclick='Scrap.SalvaTutto()'>\
-		</li>\
-		</ul>\
-		</div>\
-		<div class ='allow-scroll commnet-desc'>\
-		<div id='riepilogo_ann' class='mCustomScrollbar'>\
-		</div>\
-		</div>");
+							<div class='edit-delete commnet-user row'>\
+								<div class='col-md-4 center'>\
+									<span class='gn-icon gn-icon-ann-ex white-text footerlabel'>Annotazioni non salvate</span>\
+								</div>\
+								<div class='col-md-offset-3 col-md-2'>\
+									<input id='save' class='btn waves-effect waves-light green accent-4 white-text' type='button' value='Salva Tutto' onclick='Scrap.SalvaTutto()'>\
+								</div>\
+								<div class='col-md-3 center'>\
+									<button id='exit' class='btn-flat waves-effect waves-grey white-text purple wisteria'>Esci</button>\
+								</div>\
+							</div>\
+						</div>\
+						<div class='allow-scroll commnet-desc'>\
+							<div id='riepilogo_ann'>\
+							</div>\
+						</div>");
 	for(i=0;i<json.length; i++){
 
 		if(json[i].azione.value=="I"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:green'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");
+				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina('butt_ann_"+i+"','D','ann_"+i+"')>Elimina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:green' float:'left'>ANNOTAZIONE</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i></p><span style='float:right'><button id='butt_ann_"+i+"'  class='azzuro red red1' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
-				}
+				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
+			}
 		}
 		else if(json[i].azione.value=="D"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1'  onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");
+				$('#riepilogo_ann').append("<div class='row'>\
+												<div class='col-md-9'>\
+													<span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span>\
+												</div>\
+												<div class='col-md-3'></div>\
+													<button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button>\
+												<div class='col-md-12'>\
+													<p>\
+														<strong>Tipo</strong>: \
+														<em>"+json[i].label.value+"</em>\
+													</p>\
+												</div>\
+												<div class='col-md-12'>\
+													<p>\
+														<strong>Annotazione</strong>: \
+														<em>"+json[i].bLabel.value+"</em>\
+													</p>\
+												</div>\
+											</div>\
+											<hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<p id='ann_"+i+"'><span id='ann_"+i+"' style='color:red'>ANNOTAZIONE (eliminata)</span><br><br><b>Tipo</b>: <i>"+json[i].label.value+"</i><br><b>Testo selezionato</b>: <i>"+json[i].object.value+"</i><br><b>Annotazione</b>: <i>"+json[i].bLabel.value+"</i><span style='float:right'><button id='butt_ann_"+i+"' class='azzuro red red1' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button></span><br><br><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
 				}
 		}
 		$("#butt_ann_"+i).attr("data-info", JSON.stringify(json[i]));
 	} //chiude for
-
-	$('#exit').click(function(){$('#view').text(""); document.getElementById("modalBoxView").style.display="none";}); //elimino la tabella senn??pend sempre
+	$("#riepilogo_ann").mCustomScrollbar({
+					axis:"y",
+					theme:"minimal-dark"
+			});
+	$('#exit').click(function(){$('#view').empty(); document.getElementById("modalBoxView").style.display="none";}); //elimino la tabella senn??pend sempre
 }
 function elimina(id, azione, id_ann){ //non ho passato come parametro direttamente il file json perch� con onclick nel button "cancella" si incazzava-.//quando 									faccio un'annotazione che contiene le virgolette si incazza! //quindi ho passato l'id del bottone che ha come data-info il file json
 		var x=confirm("Sicuro di voler eliminare l'annotazione?");

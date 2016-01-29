@@ -122,8 +122,9 @@
   #CarouselView .commnet-separator {
   padding: 24px !important;
   }
-  #CarouselView .footerlabel::before {
+  .footerlabel::before {
     margin-right: 1em;
+    vertical-align: middle;
   }
   #idDiMerda.modal {
     width: 49em !important;
@@ -180,6 +181,13 @@
   #iperTextArea {
     min-height: 24px;
     height: 24px;
+  }
+  #view.modal {
+    width: 70%;
+    margin-top: 5%;
+  }
+  #riepilogo_ann .row {
+    margin: 2%;
   }
 /***************************
 *    HIGHLIGHTS
