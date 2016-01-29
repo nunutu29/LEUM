@@ -242,7 +242,7 @@ $('.register-button').on({click: function(){
 		$("#modalBoxRegister").append('<?php include("pages/regModalMobile.php");?>');
 	else
 		$("#modalBoxRegister").append('<?php include("pages/regModal.php");?>');
-	$("#cancellaReg").click(function(){$("#modalBoxRegister").hide();});
+	$("#cancellaReg").click(function(){$("#modalBoxRegister").fadeOut("fast");});
 }});
 var Page = (function (){
 	var self = {};
