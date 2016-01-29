@@ -339,7 +339,7 @@ $(document).ready(function(){
 	$('.modal-trigger').leanModal();
 	setTimeout(
 		function(){
-			$("#myLoader").fadeOut();
+			$("#myLoader").fadeOut("fast", function(){$(this).removeClass("no-opacity")});
 		}, 2000);
 });
 $(document).keyup(function(ev){
