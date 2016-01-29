@@ -23,7 +23,7 @@ var readRDF= (function (){
 	Query += " SELECT DISTINCT ?title ?url\
 			   FROM <"+fromquerry+">\
 			   WHERE {?b a fabio:Expression; fabio:hasRepresentation ?url; foaf:name ?title}";
-	DirectSELECT(Query, self.CallBackMenu, true);
+	DirectSELECT(Query, self.CallBackMenu, false);
   }
   self.CallBackMenu = function(res){
     res = res.results.bindings;
