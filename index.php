@@ -87,7 +87,7 @@
 		<div id="modalReg"></div>
 	</div>
 	<div id="modalBoxView" class="modalBox" style="display:none;">
-		<div id="view" class="ann-details ann-shower"></div>
+		<div id="view" class="ann-details ann-shower modal purple wisteria"></div>
 	</div>
 	<a href="#0" class="cd-top">Top</a>
 	<script src="js/back_to_top.js"></script>
@@ -104,14 +104,10 @@
 		}
 		/*GENERIC ONES*/
 		@media all and (min-width: 1024px) {
-				/*.content2{
-					max-width: 67%;
-			    	float: right;
-			    }*/
-			    #filter-list{
-			    	display: none;
-			    }
-			}
+			#filter-list{
+		    	display: none;
+		    }
+		}
 			@media all and (max-width: 1023px) {
 				.allow-scroll.gn-menu-wrapper.gn-open-all.latest_tweets{
 					display: none;
