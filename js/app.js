@@ -499,7 +499,7 @@ var Scrap = (function(){
 		}
 		var oldObject = JSON.stringify(el);
 		oldObject = JSON.parse(oldObject);
-		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false;
+		var predicate = "", ob = $("#" + id), retObject = "", changeClass = false, changePos = false;
 		if(id == "idDiMerda"){
 			try
 			{
@@ -542,7 +542,8 @@ var Scrap = (function(){
 			try{
 				var pos=$('#testo_selezionato').attr('data-info'); //mi prendo la nuova posizione e il nuovo testo che si trovano in un data-info del testo selezionato  nel box
 					var j=JSON.parse(pos);
-					if((j.start.value != el.start.value || j.end.value != el.end.value || j.id.value!=el.id.value)){		//
+					if(j.start.value != el.start.value || j.end.value != el.end.value || j.id.value!=el.id.value){
+						changePos = true;
 						el.id={value:j.id.value}; //rimpiazza con i nuovi valori
 						el.start={value:j.start.value};
 						el.end={value:j.end.value};
@@ -599,11 +600,21 @@ var Scrap = (function(){
 				}
 			}
 			if(el.subject.value == "cited")
-				newCheckBox == newCheckBox[0] != 'c' ? "c" + newCheckBox: newCheckBox;
+				newCheckBox = newCheckBox[0] != 'c' ? "c" + newCheckBox: newCheckBox;
 			if(oldObject.subject.value.slice(-8).indexOf("cited") != -1)
-				oldCheckBox == oldCheckBox[0] != 'c' ? "c" + oldCheckBox: oldCheckBox;
+				oldCheckBox = oldCheckBox[0] != 'c' ? "c" + oldCheckBox: oldCheckBox;
 			self.RefreshCheckBox(newCheckBox);
 			self.RefreshCheckBox(oldCheckBox);
+		}
+		else if(changePos){
+			var chk = "";
+			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				chk = self.CheckID(self.Encode(el.object.value));
+			else
+				chk = self.CheckID(self.Encode(el.predicate.value));
+			if(el.subject.value == "cited")
+				chk = chk[0] != 'c' ? "c" + chk: chk;
+			self.RefreshCheckBox(chk);
 		}
 	}
 	self.CheckAnnotation = function(from){
@@ -1685,7 +1696,7 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 	//$('.content2').first().click(function(){
 	$('#mod_pos').click(function(){
 					var str=manualAnn();
-					if(str.object.value!=""){
+					if(str != null && str.object.value!=""){
 					css.innerHTML ="";
 					str=JSON.stringify(str);
 					var json=JSON.parse(str);
