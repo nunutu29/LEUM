@@ -542,7 +542,7 @@ var Scrap = (function(){
 			var control = "ver1";
 			if(index != 0) control = "cited";
 			el.subject = {value: control};
-		}
+		}		
 		self.TryScrap(JSON.stringify(el));
 		self.HideModal(id);
 
@@ -1631,17 +1631,17 @@ function modificaPosizione(){ //per il pulsante modifica: farlo uscire solo quan
 	$('#mod_pos').click(function(){
 					var str=manualAnn();
 					if(str.object.value!=""){
-					css.innerHTML ="";
-					str=JSON.stringify(str);
-					var json=JSON.parse(str);
-					var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
-					$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
-					$('#testo_selezionato').text(json.object.value);
-					document.getElementById("modalBox").style.display="block";
-					document.getElementById("floating-menu-mod-pos").style.display="none";
-					document.getElementById("floating-menu").style.display="block";
-					$('.content2').first().unbind("click"); //disaccoppio il click al .content2
-					$('.gn-icon-show').attr("onclick", old);
-				}
+						css.innerHTML ="";
+						str=JSON.stringify(str);
+						var json=JSON.parse(str);
+						var neWelements = {id:{value:json.id.value},start:{value:json.start.value},end:{value:json.end.value},object:{value:json.object.value}};
+						$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
+						$('#testo_selezionato').text(json.object.value);
+						document.getElementById("modalBox").style.display="block";
+						document.getElementById("floating-menu-mod-pos").style.display="none";
+						document.getElementById("floating-menu").style.display="block";
+						$('.content2').first().unbind("click"); //disaccoppio il click al .content2
+						$('.gn-icon-show').attr("onclick", old);
+					}
 		});
 }

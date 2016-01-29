@@ -1,6 +1,6 @@
 <?php if(isset($_COOKIE["email"])){ ?>
 <div class="fixed-action-btn horizontal click-to-toggle floating-menu" style="display:none;" id="floating-menu-mod-pos">
-	<a id="mod_cancel" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="Annulla"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-help"></i></a>
+	<a id="mod_cancel" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="Annulla"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-delete"></i></a>
 	<a id="mod_pos" class="btn-floating btn-large waves-effect waves-light green lighten-1 tooltipped" data-position="top" data-delay="30" data-tooltip="Salva Target"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-ann-succ"></i></a>
 </div>
 <div class="fixed-action-btn horizontal click-to-toggle floating-menu" style="display:none;" id="floating-menu">
