@@ -661,12 +661,6 @@ var Scrap = (function(){
 					bodyObject = !self.NoLiteralObject(dati.predicate.value) ? dati.object.value : dati.key.value;
 			}catch(e){}
 
-			if (disp == 'none' || bodyLabel == "") {
-				disptext = 'Inserisci la tua nota qui';
-			}
-			else {
-				disptext = ellipsify(bodyLabel);
-			};
 			if (disp == 'none') {
 				disptitle = "Crea annotazione";
 			}
@@ -719,11 +713,11 @@ var Scrap = (function(){
 										<a id="change-target" class="waves-effect waves-light orange carrot white-text btn-flat gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
 									</div>\
 									<div class="col-md-12 center">\
-										<p id="testo_selezionato" style="overflow:auto;">' + ellipsify(bodyObject, 447) +'</p>\
+										<p id="testo_selezionato" style="overflow:auto;">' + ellipsify(bodyObject, 447) + '</p>\
 									</div>\
 									<div class="input-field col-md-12">\
-										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea"></textarea>\
-										<label for="iperTextArea">'+ disptext +'</label>\
+										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea">' + ellipsify(bodyLabel) + '</textarea>\
+										<label for="iperTextArea">Inserisci la tua nota qui</label>\
 									</div>\
 								</div>\
 							</form>\
