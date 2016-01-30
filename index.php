@@ -30,7 +30,8 @@
 			<div id="tabs">
 				<div class="content2 col-md-12">
 					<div class="row">
-					 <!-- merda aggiunto -->					 						 	
+					 <!-- merda aggiunto -->
+
 					</div>
 					<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
 					<div class="icons hide">
