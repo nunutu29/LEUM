@@ -193,125 +193,29 @@
 *    HIGHLIGHTS
 *
 ***************************/
+.hasAuthor0, .hasAuthor1,.hasPublicationYear0, .hasPublicationYear1, .hasTitle0, .hasTitle1,
+.hasDOI0, .hasDOI1, .hasURL0, .hasURL1, .hasComment0,.hasComment1, .cites0, .hasIntro, .hasConcept,
+.hasAbstr, .hasMateria, .hasMeth, .hasRes, .hasDisc, .hasConc {
+	font-family: "Lato", "Roboto", sans-serif;
+	color: #444444;
+	overflow: hidden;	
+}
 
-.hasAuthor0, .hasAuthor1 {
-  background-color: #8DD3C7;
-  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-  color: #fff;
-  overflow: hidden;
-  padding-left: 1%;
-  padding-right: 1%;
-  }
-  .hasPublicationYear0, .hasPublicationYear1 {
-    background-color: #BEBADA;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-  }
-  .hasTitle0, .hasTitle1 {
-    background-color: #80b1d3;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasDOI0, .hasDOI1 {
-    background-color: #fdb462;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasURL0, .hasURL1 {
-    background-color: #fccde5;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #86ABAF;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasComment0,.hasComment1 {
-    background-color: #b3de69;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .cites0 {
-    background-color: #d73027;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasIntro {
-    background-color: #ffed6f;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #856FFF;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasConcept {
-    background-color: #fb8072;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasAbstr {
-    background-color: #ffffb3;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #D8B3FF;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasMateria {
-    background-color: #D9D9D9;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #7E878C;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasMeth {
-    background-color: #bc80bd;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasRes {
-    background-color: #bf812d;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasDisc {
-    background-color: #80cdc1;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #fff;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
-  .hasConc {
-    background-color: #ccebc5;
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: #9E897D;
-    overflow: hidden;
-    padding-left: 1%;
-    padding-right: 1%;
-  }
+.hasTitle0, .hasTitle1 {background-color: #80b1d3;}
+.hasAuthor0, .hasAuthor1 {background-color: #8DD3C7;}
+.hasDOI0, .hasDOI1 {background-color: #fdb462;}
+.hasPublicationYear0, .hasPublicationYear1 {background-color: #BEBADA;}
+.hasURL0, .hasURL1 {background-color: #fccde5;}
+.hasComment0,.hasComment1 {background-color: #b3de69;}
+.cites0 {background-color: #d73027;}
+.hasDisc {background-color: #2ECC71;}
+.hasIntro {background-color: #FFED6F;}
+.hasConcept {background-color: #FB8072;}
+.hasAbstr {background-color: #1ABC9C;}
+.hasMateria {background-color: #D9D9D9;}
+.hasMeth {background-color: #BC80BD;}
+.hasRes {background-color: #BF812D;}
+.hasConc {background-color: #3498DB;}
 /***************************
 *    REGISTER
 *
