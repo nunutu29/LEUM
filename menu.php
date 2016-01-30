@@ -8,8 +8,8 @@
 	  <i class="large gn-icon gn-icon-menu grey-text  text-lighten-2"></i> 
 	</a>
 	<ul>
-		<li><a id="ri_ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Page.Riannota()" data-position="top" data-delay="30" data-tooltip="Ri-Annota Tutto"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-delete"></i></a></li>
-		<li><a id="cancella-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Scrap.CancellaTutto()" data-position="top" data-delay="30" data-tooltip="Cancella Tutto"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-delete"></i></a></li>
+		<li><a style="display:none;" id="ri_ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Page.Riannota()" data-position="top" data-delay="30" data-tooltip="Ri-Annota Tutto"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-delete"></i></a></li>
+		<li><a style="display:none;" id="cancella-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Scrap.CancellaTutto()" data-position="top" data-delay="30" data-tooltip="Cancella Tutto"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-delete"></i></a></li>
 		<li><a id="view-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="ViewAnnotation()" data-position="top" data-delay="30" data-tooltip="Guarda Cambiamenti"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-ann-see"></i></a></li>
 		<li><a id="annota" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="AnnotaClick()" data-position="top" data-delay="30" data-tooltip="Annota"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-ann-add"></i></a></li>
 		

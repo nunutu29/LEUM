@@ -1089,7 +1089,7 @@ var Scrap = (function(){
 		return id;
 	}
 	self.RefreshCheckBox = function(id){
-		if ($("#"+id)[0].checked != true) return;
+		if (id == "" || id == undefined || id == null || !$("#"+id)[0].checked) return;
 		$("#"+id)[0].checked = false;
 		$("#"+id).trigger("change");
 		$("#"+id)[0].checked = true;
