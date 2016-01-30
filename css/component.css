@@ -186,7 +186,10 @@ nav#gn-menu li.center{
 	font-family: "ecoicons";
 	text-decoration: none !important;
 	cursor: pointer;
-
+	position: relative;
+    top: -10px;
+    left: 10px;
+    margin-left: -13px !important;
 }
 .gn-icon-hide::before {
 	content: "\e04c";
