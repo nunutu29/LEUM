@@ -738,9 +738,6 @@ $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
 CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
-
-
-
 function InsertJournalsAT($content, $uri, $item, $ArtTitle, $exists){
 $Work = $item;
 $Exp = $Work."_ver1";
@@ -802,9 +799,6 @@ $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
  CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
-
-
-
 function InsertStandart($content, $uri, $item, $ArtTitle, $exists){
 $arr = explode(".", $item);
 $Work = "";
@@ -820,10 +814,6 @@ if(!$exists){
 }
 CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 }
-
-
-
-
 function InsertDlib2($content, $uri, $item, $ArtTitle, $exists){			//http://www.dlib.org/dlib/january14/01contents.html
 	$Work = $item;
 $Exp = $Work."_ver1";
