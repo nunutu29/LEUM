@@ -9,16 +9,19 @@
 			</ul>
 		</div>
 
-		<div id="libreria" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
+		<div id="libreria" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div width ="100%">
+					<!--<ul class="gn-menu doc-search" style="display:none;">
+						<li><a class="gn-icon gn-icon-search grey-text text-darken-2 latest_tweets" title="Cerca" onclick="Page.Search()"></a><input type="textbox" name="search"/></li>
+					</ul>-->
 					<ul class="gn-menu doc-annotati">
 					</ul>
 				</div>
 			</div>
 		</div>
 
-		<div id="filtri" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
+		<div id="filtri" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div class ="check-boxs">
 					<div width ="100%">
@@ -146,7 +149,7 @@
 			</div>
 		</div>
 		
-		<div id="gruppi" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12" tabindex="0">
+		<div id="gruppi" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div class ="check-boxs">
 					<div class ="checkbox-grid-left">
