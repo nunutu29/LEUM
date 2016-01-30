@@ -618,6 +618,12 @@ $i=1;
 foreach($cities as $cite){
 	$citExp=$Exp."_cited".$i;
 	$citazione=Normalize($cite->nodeValue);
+	
+	if(ereg("^http",$citazione)){	//se la citazione è un url
+		CreateUrl($citExp, $item, Normalize($citazione), 0, strlen(Normalize($citazione)), $cite->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$citazione);
+	}
+	else{	//altrimenti
+	
 	$parentesi=strpos($citazione, ')');
 	$par=strpos($citazione, '(');	//parentesi iniziale la usa per evitare danni nei casi (2004b) e (2004 b)
 	$year=substr($citazione,$par+1,4);
@@ -651,12 +657,21 @@ foreach($cities as $cite){
 			}
 	}	
 	
-	/*$start_url=strpos($citazione,'http');
-	$end_url=strpos($citazione,'pdf')+3;
-	$link=substr($citazione, $start_url, $end_url - $start_url );
-	if($link!=NULL)
-		CreateUrl($citExp, $item, Normalize($link), $start_url, strlen(Normalize($link)), $cite->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$link);
-	*/
+		$start_url=strpos($citazione,'http://');
+		$start_url2=strripos($citazione,'http://');
+	if($start_url>0){
+		$sub_url=substr($citazione, $start_url);
+		$end_url=strpos($sub_url,'.pdf')+4;
+		$url=substr($sub_url, 0, $end_url);
+		CreateUrl($citExp, $item, Normalize($url), strpos($citazione, $url), strpos($citazione, $url)+strlen(Normalize($url)), $cite->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".Normalize($url));
+		if($start_url!=$start_url2){		//se ci sono due URL nel frammento
+			$sub_url2=substr($citazione, $start_url2);
+			$end_url2=strpos($sub_url2,'.pdf')+4;
+			$url2=substr($sub_url2, 0, $end_url2);
+			//file_put_contents("prova.txt", $start_url."/".$start_url2."|".$end_url."/".$end_url2."|".$sub_url."/".$sub_url2."||||");
+			CreateUrl($citExp, $item, Normalize($url2), strripos($citazione, $url2), strripos($citazione, $url2)+strlen(Normalize($url)), $cite->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".Normalize($url2));
+		}
+	}
 	
 	if($title!=NULL){
 		CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);
@@ -664,6 +679,7 @@ foreach($cities as $cite){
 		CreatePublicationYear($citExp, $item, $year,$par+1, $par+5, $cite->getAttribute('id'),$uri);
 	}
 	$i++;
+	}
 }
 
 
@@ -734,9 +750,6 @@ $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
 CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
-
-
-
 function InsertJournalsAT($content, $uri, $item, $ArtTitle, $exists){
 $Work = $item;
 $Exp = $Work."_ver1";
@@ -798,9 +811,6 @@ $target = $xpath->query("//a[@id='div1_div2_div2_div3_a1']")->item(0);
 $doi=$target->nodeValue;
  CreateDoi($Exp, $item, $doi, 0, strlen($doi), $target->getAttribute('id'), $uri);
 }
-
-
-
 function InsertStandart($content, $uri, $item, $ArtTitle, $exists){
 $arr = explode(".", $item);
 $Work = "";
@@ -816,9 +826,6 @@ if(!$exists){
 }
 CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 }
-
-
-
 
 function InsertDlib2($content, $uri, $item, $ArtTitle, $exists){			//http://www.dlib.org/dlib/january14/01contents.html
 	$Work = $item;
@@ -1051,7 +1058,6 @@ foreach($target as $node){
 
 
 }
-
 function MultiDelimiter($delimiters, $string){
 	$arr = explode($delimiters[0], $string);
 	array_shift($delimiters);
