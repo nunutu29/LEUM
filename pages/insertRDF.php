@@ -621,10 +621,6 @@ foreach($cities as $cite){
 	$parentesi=strpos($citazione, ')');
 	$par=strpos($citazione, '(');	//parentesi iniziale la usa per evitare danni nei casi (2004b) e (2004 b)
 	$year=substr($citazione,$par+1,4);
-	/*if(!is_numeric($year)) $parentesi -= 1;	//caso (2004b)
-	$year=substr($citazione,$parentesi-4,4);
-	if(!is_numeric($year)) $parentesi -= 1;		//caso (2004 b)  AMPIAMENTE MIGLIORABILE, FATTO AL VOLO
-	$year=substr($citazione,$parentesi-4,4);*/
 	$intera=trim(substr($citazione, $parentesi+3, strlen($citazione)));
 	$endtitlevirgola=strpos($intera, ',');
 	$endtitlepunto=strpos($intera, '.');
