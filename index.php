@@ -70,7 +70,9 @@
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-exit">gn-icon-ann-exit <?php  countandecho($foo);?></span>
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-username">gn-icon-username <?php  countandecho($foo);?></span>
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-password">gn-icon-password <?php  countandecho($foo);?></span>
+						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-re">gn-icon-re <?php  countandecho($foo);?></span>
 						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-email">gn-icon-email <?php  countandecho($foo);?></span>
+						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-tool">gn-icon-tool <?php  countandecho($foo);?></span>
 						<img class="col-md-5 col-md-offset-1" src="img/background-abstract3.png"></img>
 					</div>
 					<?php }} ?>
@@ -277,8 +279,8 @@ var Page = (function (){
 		var api = new API();
 		api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: true, callback: function(str){
 			readRDF.GetData(undefined, $('#URL').val());
-			$("#cancella-ann").show();
-			$("#ri_ann").hide();
+			$("#cancella-ann").parent().show();
+			$("#ri_ann").parent().hide();
 		}});
 	}
 	self.GetData = function(link, titolo, scrap, from){

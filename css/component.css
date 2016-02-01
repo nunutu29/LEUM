@@ -144,6 +144,11 @@ nav#gn-menu li.center{
 	font-size: x-large;
     vertical-align: middle;
 }
+.gn-icon-re::before {
+	content: "\e012";
+	font-size: x-large;
+    vertical-align: middle;
+}
 .gn-icon-username::before{
 	content: "\e214";
 	font-size: 30px;
@@ -355,6 +360,11 @@ nav#gn-menu li.center{
   content: "\e1f3";
   font-size: 30px;
   vertical-align: middle;
+}
+.gn-icon-tool::before {
+	content: "\e070";
+	font-size: 30px;
+	vertical-align: middle;
 }
 /********************************/
 /*       END ICONS              */

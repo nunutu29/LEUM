@@ -992,8 +992,8 @@ var Scrap = (function(){
 				self.SalvaTutto(nomeSessione);
 			}
 		}
-		$("#cancella-ann").hide();
-		$("#ri_ann").show();
+		$("#cancella-ann").parent().hide();
+		$("#ri_ann").parent().show();
 	}
 	self.Groups = (function(){
 		var me = {};
