@@ -50,13 +50,13 @@ var readRDF= (function (){
 	  DirectSELECT(Query, function(res){
 		  var json = res.results.bindings;
 		  if(json.length == 0){
-			$("#cancella-ann").hide();
-			$("#ri_ann").show();
+			$("#cancella-ann").parent().hide();
+			$("#ri_ann").parent().show();
 		  }
 		  else
 		  {
-			$("#cancella-ann").show();
-			$("#ri_ann").hide();
+			$("#cancella-ann").parent().show();
+			$("#ri_ann").parent().hide();
 		  }
 	  });
 	  $("#ListaGruppi input[type='checkbox']").each(function(){
