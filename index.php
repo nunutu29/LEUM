@@ -361,7 +361,8 @@ $(document).keyup(function(ev){
 function ShowMenu(){
 	if(!$('#filter-menu').is(":visible")){
 		$('#filter-menu').show();
-		$('.content2').removeClass("col-md-12").addClass('col-md-9').attr("style", "float:right;");
+		if($(window).width() > 720)
+			$('.content2').removeClass("col-md-12").addClass('col-md-9 col-md-offset-3');
 	}
 	if(!$("#floating-menu").is(":visible"))
 		$("#floating-menu").show();

@@ -1694,7 +1694,12 @@ function modificaPosizione(){
 	document.getElementById("modalBox").style.display="none";
 
 		$('#mod_cancel').click(function(){css.innerHTML =""; document.getElementById("modalBox").style.display="block"; document.getElementById("floating-menu-mod-pos").style.display="none"; document.getElementById("floating-menu").style.display="block"; $('.gn-icon-show').attr("onclick", old);});
-
+	
+	/*$('#mod_pos').hover(function(){			//TOGLIERE L'EFFETTO ROSSO QUANDO SIAMO SUL PULSANTE MOD POS
+    $('.content2').css("box-shadow", "0 0 20px 4px red");}, function(){
+    $('.content2').css("box-shadow", "0 0 20px 20px red");});*/
+	
+	
 	$('#mod_pos').click(function(){
 					var str=manualAnn();
 					if(str != null && str.object.value!=""){
