@@ -946,8 +946,8 @@ var Scrap = (function(){
 			var newvar = "";
 			for (var i = 0; i < vars.length; i++) {
 				var obj = JSON.parse(vars[i]);
-				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.id.value == data.id.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
-					continue;
+				if (obj.predicate.value == data.predicate.value && obj.id.value == data.id.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
+					continue;		//obj.azione.value != "D" tolto dall'if (dovrebbe)
 				newvar += "|"+vars[i];
 			}
 			sessionStorage.setItem(dove, arg + newvar)

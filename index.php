@@ -281,6 +281,7 @@ var Page = (function (){
 			readRDF.GetData(undefined, $('#URL').val());
 			$("#cancella-ann").parent().show();
 			$("#ri_ann").parent().hide();
+			self.Uncheck();
 		}});
 	}
 	self.GetData = function(link, titolo, scrap, from){
