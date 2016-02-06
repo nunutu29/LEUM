@@ -316,6 +316,34 @@ var Page = (function (){
 	self.Uncheck = function(){
 		$('.check-boxs input:checkbox').removeAttr('checked');
 	}
+	self.ChiSiamo = function(){
+		var mainDiv = $("<div>").attr("id","aboutus").addClass("ann-details ann-shower modal purple wisteria").attr("style","display:block; width:70%;top:10%;")
+					.append(
+						$("<div>").addClass("commnet-desc modal-content")
+						.append(
+							$("<div>").addClass("row")
+							.append($("<div>").addClass("col-md-12 center").append($("<img>").attr("src","img/logoRaschettoperspective.svg").attr("alt","logo").attr("style","width:55%;")))
+							.append($("<div>").addClass("col-md-offset-7 col-md-5").append($("<h4>").text("by L.E.U.M")))
+							.append($("<div>").addClass("col-md-12 center").append($("<h3>").text("Applicazione per l'annotazione semantica")))
+							.append($("<div>").addClass("col-md-12")
+								.append($("<h4>").text("Adesso puoi annotare articoli delle diverse riviste a disposizione e guardare quello che hanno fatto gli altri utenti."))
+								.append($("<h4>").text("Realizzato dal team L.E.U.M. che ha come componenti ANTONIO LAGANÀ, FLORIN-CLAUDIU EPUREANU e ION URSACHI."))
+							)
+						)
+					)
+					.append($("<div>").addClass("commnet-user modal-footer").append($("<a>").addClass("btn waves-effect white purple-text text-wisteria").text("OK").on("touchstart click", function(){Scrap.HideModal()})));
+		$("#modalBox").append(mainDiv).fadeIn();
+	}
+	self.Aiuto = function(){
+		var api = new API();
+		api.chiamaServizio({requestUrl: 'aiuto.php', isAsync: true, callback: function(str){
+			$("#modalBox").append(str);
+			$("#help .caption.right-align svg").attr('style', 'width:37em;');
+			$('.slider').slider({full_width: true});
+			$('.slider').slider("start");
+			$("#modalBox").fadeIn();
+		}});
+	}
 	return self;
 }());
 

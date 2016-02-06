@@ -1,7 +1,7 @@
 /*Api Start*/
 
 function API(){
-	this.options = {isAsync: false,	methodType: 'POST',	data: '', callback: null, requestUrl: '', hasModal: false, loader: true };
+	this.options = {isAsync: false,	methodType: 'POST',	data: '', callback: null, requestUrl: '', hasModal: false, loader: true};
 }
 API.prototype.setOptions = function(customOptions){
 	$.extend(this.options, this.options, customOptions);

@@ -16,9 +16,9 @@
 </div>
 <?php } ?>
 <ul id="dropdown1" class="dropdown-content">
-  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-help">Aiuto</a></li>
+  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-help" onclick="Page.Aiuto()">Aiuto</a></li>
   <li class="divider"></li>
-  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-about">Chi siamo</a></li>
+  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-about" onclick="Page.ChiSiamo()">Chi siamo</a></li>
   <li class="divider"></li>
   <?php if(!isset($_COOKIE["email"])){ ?>
   <li><a href="#modalReg" class="register-button gn-icon gn-icon-register grey-text text-darken-4 waves-effect modal-trigger"> Iscriviti</a></li>
