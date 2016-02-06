@@ -5,7 +5,7 @@
 		<div id="tabnav" class="col-sm-12 red valencia">
 			<ul class="tabs">
 				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text"  href="#libreria"><span class="gn-icon gn-icon-lib">&nbsp;</span></a></li>
-				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text" href="#filtri"><span class="gn-icon gn-icon-ann-filter">&nbsp;</span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text active" href="#filtri"><span class="gn-icon gn-icon-ann-filter">&nbsp;</span></a></li>
 				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text" href="#gruppi"><span class="gn-icon gn-icon-groups">&nbsp;</span></a></li>
 			</ul>
 		</div>
@@ -13,9 +13,12 @@
 		<div id="libreria" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div width ="100%">
-					<!--<ul class="gn-menu doc-search" style="display:none;">
-						<li><a class="gn-icon gn-icon-search grey-text text-darken-2 latest_tweets" title="Cerca" onclick="Page.Search()"></a><input type="textbox" name="search"/></li>
-					</ul>-->
+					<ul class="gn-menu doc-search" style="display:none;">
+						<li>
+							<a class="gn-icon gn-icon-search grey-text text-darken-2 latest_tweets" title="Cerca" onclick="Page.Search()"></a>
+							<input name="search" type="textbox" placeholder="Cerca" required>
+						</li>
+					</ul>
 					<ul class="gn-menu doc-annotati">
 					</ul>
 				</div>
