@@ -932,7 +932,7 @@ var Scrap = (function(){
 		what = what || "ann";
 		pData = {link: $("#URL").val(), annotations: sessionStorage.getItem(what)};
 		var api =  new API();
-		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true, callback: function(){
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:false, callback: function(){
 			sessionStorage.setItem(what,"");
 			readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
 		}});
@@ -952,8 +952,8 @@ var Scrap = (function(){
 			var newvar = "";
 			for (var i = 0; i < vars.length; i++) {
 				var obj = JSON.parse(vars[i]);
-				if (obj.azione.value != "D" && obj.predicate.value == data.predicate.value && obj.id.value == data.id.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
-					continue;
+				if (obj.predicate.value == data.predicate.value && obj.id.value == data.id.value && obj.start.value == data.start.value && obj.end.value == data.end.value )
+					continue;		//obj.azione.value != "D" tolto dall'if (dovrebbe)
 				newvar += "|"+vars[i];
 			}
 			sessionStorage.setItem(dove, arg + newvar)
@@ -991,15 +991,36 @@ var Scrap = (function(){
 				sessionStorage.setItem(nomeSessione,"");
 				var json = JSON.parse(sessionStorage.getItem('annotation'));
 				json = json.results.bindings;
+				//json2=json;
+				//var arr_cit=[];		//array per memorizzare tutte le annotazioni presenti
 				for(var i = 0; i < json.length; i++){
 					json[i].azione = {value:"D"};
+					/*if(json[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+						arr_cit[i]=json[i].object.value;
+					else
+						arr_cit[i]=json[i].predicate.value;*/
 					self.TryScrap(JSON.stringify(json[i]), nomeSessione);
 				}
 				self.SalvaTutto(nomeSessione);
 			}
-		}
+		}		
 		$("#cancella-ann").parent().hide();
 		$("#ri_ann").parent().show();
+		
+		alert("Fatto.");	//serve un alert sennò non refresha
+		for(var k = 0; k < json.length; k++){
+			if(json[k].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
+				self.RefreshCheckBox(self.CheckID(self.Encode(json[k].object.value)));
+			else if(json[k].subject.value.slice(-8).indexOf("cited") != -1){
+				var id=self.CheckID(self.Encode(json[k].predicate.value));
+				id="c"+id;
+				self.RefreshCheckBox(id);
+			}
+			else
+				self.RefreshCheckBox(self.CheckID(self.Encode(json[k].predicate.value)));
+			
+		}
+		
 	}
 	self.Groups = (function(){
 		var me = {};
@@ -1661,6 +1682,11 @@ function elimina(id, azione, id_ann){ //non ho passato come parametro direttamen
 			$("#"+id).attr("onclick", "ripristina('"+id+"','I','"+id_ann+"')");
 			if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
 				Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.object.value)));
+			else if(el.subject.value.slice(-8).indexOf("cited") != -1){
+				var id=Scrap.CheckID(Scrap.Encode(el.predicate.value));
+				id="c"+id;
+				Scrap.RefreshCheckBox(id);
+			}
 			else
 				Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.predicate.value)));
 				
@@ -1683,6 +1709,11 @@ function ripristina(id, azione, id_ann){ //non ho passato come parametro diretta
 		$("#"+id).attr("onclick", "elimina('"+id+"','D','"+id_ann+"')"); 
 		if(el.predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
 			Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.object.value)));
+		else if(el.subject.value.slice(-8).indexOf("cited") != -1){		//caso citazione
+				var id=Scrap.CheckID(Scrap.Encode(el.predicate.value));
+				id="c"+id;
+				Scrap.RefreshCheckBox(id);
+		}
 		else
 			Scrap.RefreshCheckBox(Scrap.CheckID(Scrap.Encode(el.predicate.value)));
 return 0;
