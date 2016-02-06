@@ -195,6 +195,7 @@ nav#gn-menu li.center{
     top: -10px;
     left: 10px;
     margin-left: -13px !important;
+    font-size: 19px;
 }
 .gn-icon-hide::before {
 	content: "\e04c";
@@ -362,7 +363,7 @@ nav#gn-menu li.center{
   vertical-align: middle;
 }
 .gn-icon-tool::before {
-	content: "\e070";
+	content: "\e06f";
 	font-size: 30px;
 	vertical-align: middle;
 }
