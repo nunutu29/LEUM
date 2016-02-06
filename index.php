@@ -224,12 +224,18 @@ $(document).on('touchstart click', '#login-open', function(event){
 		return false;
 	}
 });
-//Nascondiamo il login se si click fuori dalla form o dal botton
+//Nascondiamo il login e il menu(per schermi <= 800) se si click fuori dalla form o dal botton
 $(document).mousedown(function (e){
+	//Login
 	var container = $('#login-form');
 	var btnLogin = $('#login-open');
 	if (!container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
 	Login.Remove();
+	//Menu (per comodità uso le stessi variabili)
+	container = $("#filter-menu");
+	btnLogin = $("#liOpenMenu");
+	if (btnLogin.length != 0 && !container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
+		container.hide();
 });
 $('#logout').on({click: function(){Login.LogOut();}});
 $('#login-button').on({click: function(){Login.Try();}});
@@ -238,7 +244,7 @@ $('.register-button').on({click: function(){
 //crea modale per registrazione
 	$("#modalBoxRegister").show();
 	$("#modalBoxRegister #modalReg").remove();
-	if($(window).width() < 1200)
+	if($(window).width() <= 800)
 		$("#modalBoxRegister").append('<?php include("pages/regModalMobile.php");?>');
 	else
 		$("#modalBoxRegister").append('<?php include("pages/regModal.php");?>');
@@ -331,17 +337,6 @@ $(window).on('unload', function(){
 $("#iptSearch").keypress(function(){
 	if ( event.which == 13 ) {Page.Search();}
 });
-$(document).ready(function(){
-	//Caricamento menu
-	readRDF.ReadGroups();
-	readRDF.GetMenu();
-	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-	$('.modal-trigger').leanModal();
-	setTimeout(
-		function(){
-			$("#myLoader").fadeOut("fast", function(){$(this).removeClass("no-opacity")});
-		}, 2000);
-});
 $(document).keyup(function(ev){
 	//Se premuto ESC
     if(ev.keyCode == 27){
@@ -360,15 +355,41 @@ $(document).keyup(function(ev){
 	}
 });
 function ShowMenu(){
-	if(!$('#filter-menu').is(":visible")){
+	if(($(window).width() >= 800) && !$('#filter-menu').is(":visible")){
 		$('#filter-menu').show();
-		if($(window).width() > 720)
-			$('.content2').removeClass("col-md-12").addClass('col-md-9 col-md-offset-3');
+		$('.content2').removeClass("col-md-12").addClass('col-md-9 col-md-offset-3');
 	}
 	if(!$("#floating-menu").is(":visible"))
 		$("#floating-menu").show();
 }
 
+$(document).ready(function(){
+	//Caricamento menu
+	readRDF.ReadGroups();
+	readRDF.GetMenu();
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	$('.modal-trigger').leanModal();
+	setTimeout(
+		function(){
+			$("#myLoader").fadeOut("fast", function(){$(this).removeClass("no-opacity")});
+		}, 2000);
+	//Caricamento Search per schermi sotto 800
+	if($(window).width() <= 800)
+	{
+		$("#gn-menu li#liSearch").empty();
+		$("#gn-menu li#liSearch").removeAttr("id").attr("id","liOpenMenu")
+			.append($("<a>").addClass("large large-menu gn-icon gn-icon-menu grey-text text-lighten-2 waves-effect waves-light"))
+			.on('touchstart click', function(){
+				if(!$('#filter-menu').is(":visible"))
+					$('#filter-menu').slideDown();
+				else
+					$('#filter-menu').slideUp();
+			});
+		//fai vedere nuovo search
+		$("#libreria .doc-search").first().show();
+		$("#libreria input[name='search']").attr("id","iptSearch").keypress(function(){if ( event.which == 13 ) {Page.Search()}});
+	}
+});
 $('#login-open').click(function(){$('#dropdown1').attr('style', 'display:none')}); //fa sparire il dropdown 3dots quando clicco su accedi
 $( "a[name='icon-help']" ).click(function() {
 	/* Act on the event */

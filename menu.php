@@ -30,7 +30,7 @@
   <div class="container-fluid">
   	<ul class="col-sm-3 col-sm-offset-1">
   		<!-- search bar -->
-    	<li class="gn-search-item">
+    	<li id="liSearch">
 	    	<div class="input-field">
 		      <input id="iptSearch" type="search" placeholder="Cerca" required>
 		      <label for="iptSearch"><i class="large material-icons" onclick="Page.Search();">search</i></label>

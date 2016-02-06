@@ -13,9 +13,12 @@
 		<div id="libreria" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside col-sm-12">
 			<div  class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 				<div width ="100%">
-					<!--<ul class="gn-menu doc-search" style="display:none;">
-						<li><a class="gn-icon gn-icon-search grey-text text-darken-2 latest_tweets" title="Cerca" onclick="Page.Search()"></a><input type="textbox" name="search"/></li>
-					</ul>-->
+					<ul class="gn-menu doc-search" style="display:none;">
+						<li>
+							<a class="gn-icon gn-icon-search grey-text text-darken-2 latest_tweets" title="Cerca" onclick="Page.Search()"></a>
+							<input name="search" type="textbox" placeholder="Cerca" required>
+						</li>
+					</ul>
 					<ul class="gn-menu doc-annotati">
 					</ul>
 				</div>
