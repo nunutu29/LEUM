@@ -40,10 +40,10 @@
 	<div class="commnet-user">\
 		<div class="row">\
 			<div class="col-md-offset-3 col-md-3">\
-				<a id="salvaReg" class="btn waves-effect waves-teal white purple-text text-wisteria" onclick="Singin.Try()">Inscriviti</a>\
+				<a id="salvaReg" class="btn waves-effect waves-teal white purple-text text-wisteria" onclick="Singin.Try()">Iscriviti</a>\
 			</div>\
 			<div class="col-md-3">\
-				<a id="cancellaReg" class="btn-flat waves-effect white-text">Anulla</a>\
+				<a id="cancellaReg" class="btn-flat waves-effect white-text">Annulla</a>\
 			</div>\
 			<div class="col-md-3">&nbsp;</div>\
 		</div>\
