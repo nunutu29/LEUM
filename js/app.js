@@ -1407,6 +1407,8 @@ function manualAnn() {
 		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
 		var selanchor=selezione.anchorNode;
 		var selfocus=selezione.focusNode;
+		var nodo_iniziale;
+		var nodo_finale;
 		var responso=-1;	//variabile di controllo
 		while(responso==-1 && selanchor!=undefined){		//selanchor non dovrebbe essere mai undefined
 			for(i=0;i<=nodo_comune.childNodes.length;i++){
@@ -1450,11 +1452,12 @@ function manualAnn() {
 
 	
 	var controllo=0;		//1 se abbiamo selezionato una citazione, 0 altrimenti 
+	
 	if(anchor!=undefined){
 		controllo=isSpan(anchor);
 	}
 	else{
-		alert("errore");
+		alert("Errore, è stata selezionata una parte non testuale.");
 		return;
 	}
 	
