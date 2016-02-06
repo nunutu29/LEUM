@@ -928,13 +928,18 @@ var Scrap = (function(){
 		}
 		return false;
 	}
-	self.SalvaTutto = function(what){
+	self.SalvaTutto = function(what, reload){
+		reload = reload || false;
 		what = what || "ann";
 		pData = {link: $("#URL").val(), annotations: sessionStorage.getItem(what)};
 		var api =  new API();
-		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:false, callback: function(){
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true, callback: function(){
 			sessionStorage.setItem(what,"");
 			readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
+			if(reload){
+				alert("Fatto");
+				self.Groups.ReadMulti();
+			}
 		}});
 		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";
@@ -943,7 +948,6 @@ var Scrap = (function(){
 		dove = dove || "ann";
 		if (arg.trim() == "") return ;
 		var content = sessionStorage.getItem(dove);
-		//$data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
 		if(content == null || content.trim() == "")
 			sessionStorage.setItem(dove,arg);
 		else {
@@ -991,36 +995,18 @@ var Scrap = (function(){
 				sessionStorage.setItem(nomeSessione,"");
 				var json = JSON.parse(sessionStorage.getItem('annotation'));
 				json = json.results.bindings;
-				//json2=json;
-				//var arr_cit=[];		//array per memorizzare tutte le annotazioni presenti
+				var delAll = "";
 				for(var i = 0; i < json.length; i++){
 					json[i].azione = {value:"D"};
-					/*if(json[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-						arr_cit[i]=json[i].object.value;
-					else
-						arr_cit[i]=json[i].predicate.value;*/
-					self.TryScrap(JSON.stringify(json[i]), nomeSessione);
+					delAll += JSON.stringify(json[i]) + "|";
+					//self.TryScrap(JSON.stringify(json[i]), nomeSessione);
 				}
-				self.SalvaTutto(nomeSessione);
+				sessionStorage.setItem(nomeSessione, delAll.substring(0, delAll.length - 1));
+				self.SalvaTutto(nomeSessione, true);
 			}
 		}		
 		$("#cancella-ann").parent().hide();
 		$("#ri_ann").parent().show();
-		
-		alert("Fatto.");	//serve un alert sennò non refresha
-		for(var k = 0; k < json.length; k++){
-			if(json[k].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-				self.RefreshCheckBox(self.CheckID(self.Encode(json[k].object.value)));
-			else if(json[k].subject.value.slice(-8).indexOf("cited") != -1){
-				var id=self.CheckID(self.Encode(json[k].predicate.value));
-				id="c"+id;
-				self.RefreshCheckBox(id);
-			}
-			else
-				self.RefreshCheckBox(self.CheckID(self.Encode(json[k].predicate.value)));
-			
-		}
-		
 	}
 	self.Groups = (function(){
 		var me = {};
@@ -1033,7 +1019,7 @@ var Scrap = (function(){
 			else
 			{
 				sessionStorage.setItem("ann"+chk.getAttribute("id"), "")
-				me.ReadMulti(chk.getAttribute("id"), false);
+				me.ReadMulti();
 			}
 		};
 		me.ReadSingle = function(what, index){
@@ -1056,8 +1042,7 @@ var Scrap = (function(){
 			else
 				return null;
 		};
-		me.ReadMulti = function(GroupID, show){
-			show = show || true; 
+		me.ReadMulti = function(){
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
 			$("#filtri input[type='checkbox']:checked").each(function(){
 				$(this)[0].checked = false;
