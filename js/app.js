@@ -669,6 +669,12 @@ var Scrap = (function(){
 			else {
 				disptitle = "Modifica annotazione";
 			};
+			if (disp == 'none') {
+				dispnote = "Inserisci la tua nota qui";
+			}
+			else {
+				dispnote = "";
+			};
 
 
 			var box = $(document.createElement('div'))
@@ -719,7 +725,7 @@ var Scrap = (function(){
 									</div>\
 									<div class="input-field col-md-12">\
 										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea">' + ellipsify(bodyLabel) + '</textarea>\
-										<label for="iperTextArea">Inserisci la tua nota qui</label>\
+										<label for="iperTextArea">' + dispnote + '</label>\
 									</div>\
 								</div>\
 							</form>\

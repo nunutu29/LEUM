@@ -5,7 +5,7 @@
 		<div id="tabnav" class="col-sm-12 red valencia">
 			<ul class="tabs">
 				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text"  href="#libreria"><span class="gn-icon gn-icon-lib">&nbsp;</span></a></li>
-				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text" href="#filtri"><span class="gn-icon gn-icon-ann-filter">&nbsp;</span></a></li>
+				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text active" href="#filtri"><span class="gn-icon gn-icon-ann-filter">&nbsp;</span></a></li>
 				<li class="tab col-sm-4 waves-effect waves-light red valencia"><a class="white-text" href="#gruppi"><span class="gn-icon gn-icon-groups">&nbsp;</span></a></li>
 			</ul>
 		</div>
