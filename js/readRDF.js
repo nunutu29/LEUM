@@ -91,7 +91,7 @@ var readRDF= (function (){
   }
   self.CallBackDataGroup = function(res){
 	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
-	Scrap.Groups.ReadMulti(ReadingGraph);
+	Scrap.Groups.ReadMulti();
   }
   self.GetQuery = function(fromquerry, url){
 	return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\

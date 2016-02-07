@@ -74,7 +74,7 @@ var Scrap = (function(){
 		var content2 = self.GetNew(what, index);
 		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
 		var content3 = self.Groups.ReadSingle(what, index);
-		
+		if(content == null || content == undefined) content = [];
 		if(content2 != null) content = content.concat(content2);
 		if(content3 != null) content = content.concat(content3);
 		if (content != null && content != undefined)
@@ -90,8 +90,12 @@ var Scrap = (function(){
 		var mainJson = sessionStorage.getItem("annotation");
 		var ann = sessionStorage.getItem('ann');
 		var FullList = [];
-		mainJson = JSON.parse(mainJson).results.bindings;
-		
+		try{
+			mainJson = JSON.parse(mainJson).results.bindings;
+		}
+		catch(ex){
+			mainJson = [];
+		}
 		if(typeof ann == "object") ann = [ann];
 		else
 		{
@@ -161,8 +165,9 @@ var Scrap = (function(){
 		return arr.length == 0 ? null : arr;
 	};
 	self.Execute = function(what, array, index){
-		var json = JSON.parse(sessionStorage.getItem('annotation'));
-		if(json == null) return;
+		var json = sessionStorage.getItem('annotation');
+		if(json == null || json == "") return null;
+		json = JSON.parse(json);
 		var control = "ver1";
 		if(index != 0) control = "cited";
 		return self.GetArray(json.results.bindings, what, control);
@@ -928,13 +933,21 @@ var Scrap = (function(){
 		}
 		return false;
 	}
-	self.SalvaTutto = function(what){
+	self.SalvaTutto = function(what, cancella){
+		cancella = cancella || false;
 		what = what || "ann";
 		pData = {link: $("#URL").val(), annotations: sessionStorage.getItem(what)};
 		var api =  new API();
-		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:false, callback: function(){
-			sessionStorage.setItem(what,"");
-			readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
+		api.chiamaServizio({requestUrl: "pages/saveAll.php", data: pData, isAsync:true, callback: function(){
+			if(cancella){
+				sessionStorage.setItem("annotation","");
+				sessionStorage.setItem("ann", "");
+				self.Groups.ReadMulti();
+			}
+			else{
+				sessionStorage.setItem(what,"");
+				readRDF.GetData("http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516", $('#URL').val());
+			}
 		}});
 		$('#view').text("");
 		document.getElementById("modalBoxView").style.display="none";
@@ -943,7 +956,6 @@ var Scrap = (function(){
 		dove = dove || "ann";
 		if (arg.trim() == "") return ;
 		var content = sessionStorage.getItem(dove);
-		//$data = mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
 		if(content == null || content.trim() == "")
 			sessionStorage.setItem(dove,arg);
 		else {
@@ -989,38 +1001,23 @@ var Scrap = (function(){
 			{
 				var nomeSessione = "delAll";
 				sessionStorage.setItem(nomeSessione,"");
-				var json = JSON.parse(sessionStorage.getItem('annotation'));
+				var json = sessionStorage.getItem('annotation');
+				if(json == null || json == "")
+					return;
+				var json = JSON.parse(json);
 				json = json.results.bindings;
-				//json2=json;
-				//var arr_cit=[];		//array per memorizzare tutte le annotazioni presenti
+				var delAll = "";
 				for(var i = 0; i < json.length; i++){
 					json[i].azione = {value:"D"};
-					/*if(json[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-						arr_cit[i]=json[i].object.value;
-					else
-						arr_cit[i]=json[i].predicate.value;*/
-					self.TryScrap(JSON.stringify(json[i]), nomeSessione);
+					delAll += JSON.stringify(json[i]) + "|";
+					//self.TryScrap(JSON.stringify(json[i]), nomeSessione);
 				}
-				self.SalvaTutto(nomeSessione);
+				sessionStorage.setItem(nomeSessione, delAll.substring(0, delAll.length - 1));
+				self.SalvaTutto(nomeSessione, true);
 			}
 		}		
 		$("#cancella-ann").parent().hide();
 		$("#ri_ann").parent().show();
-		
-		alert("Fatto.");	//serve un alert sennò non refresha
-		for(var k = 0; k < json.length; k++){
-			if(json[k].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes")
-				self.RefreshCheckBox(self.CheckID(self.Encode(json[k].object.value)));
-			else if(json[k].subject.value.slice(-8).indexOf("cited") != -1){
-				var id=self.CheckID(self.Encode(json[k].predicate.value));
-				id="c"+id;
-				self.RefreshCheckBox(id);
-			}
-			else
-				self.RefreshCheckBox(self.CheckID(self.Encode(json[k].predicate.value)));
-			
-		}
-		
 	}
 	self.Groups = (function(){
 		var me = {};
@@ -1033,7 +1030,7 @@ var Scrap = (function(){
 			else
 			{
 				sessionStorage.setItem("ann"+chk.getAttribute("id"), "")
-				me.ReadMulti(chk.getAttribute("id"), false);
+				me.ReadMulti();
 			}
 		};
 		me.ReadSingle = function(what, index){
@@ -1056,8 +1053,7 @@ var Scrap = (function(){
 			else
 				return null;
 		};
-		me.ReadMulti = function(GroupID, show){
-			show = show || true; 
+		me.ReadMulti = function(){
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
 			$("#filtri input[type='checkbox']:checked").each(function(){
 				$(this)[0].checked = false;
