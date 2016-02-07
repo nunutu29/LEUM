@@ -287,7 +287,10 @@ var Page = (function (){
 			readRDF.GetData(undefined, $('#URL').val());
 			$("#cancella-ann").parent().show();
 			$("#ri_ann").parent().hide();
-			self.Uncheck();
+			$("#filtri input[type='checkbox']:checked").each(function(){
+				$(this)[0].checked = false;
+				$(this).trigger("change");
+			});
 		}});
 	}
 	self.GetData = function(link, titolo, scrap, from){
