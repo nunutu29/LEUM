@@ -5,7 +5,7 @@
 		<div class="caption center-align">
 			<h3>L'interfaccia utente pi&ugrave; intuitiva e facile da usare</h3>
 			<hr />
-			<h4 class="light grey-text text-lighten-3">Si può accedere ai articoli dalla nostra libreria a destra</h4>
+			<h4 class="light grey-text text-lighten-3">Si può accedere agli articoli dalla nostra libreria a destra</h4>
 			<?php include ("img/art.svg"); ?>
 			<h4 class="light grey-text text-lighten-3">Partecipa anche tu alla nostra libreria. Fai la ricerca del tuo articolo preferito inserendo inserendo l'indirizzo</h4>
 			<?php include ("img/search.svg"); ?>
@@ -14,7 +14,7 @@
 	<li>
 	  <div class="caption left-align">
 		<h4 class="light grey-text text-lighten-3">Nel menu a sinistra si trova la sezione filtro <span class="gn-icon gn-icon-ann-filter white-text"></span>
-		che ti permete in ogni momento la posibilita di vedere le annotazioni a scelta.
+		che ti permette in ogni momento la posibilita di vedere le annotazioni a scelta.
 		</h4>
 		<hr />
 		<h3> Le annotazioni già esistente gli distingui così:</h3>

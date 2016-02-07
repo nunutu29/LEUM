@@ -6,8 +6,8 @@
 			Adesso puoi annotare articoli delle diverse riviste a disposizione e guardare quello che hanno fatto gli altri utenti.
 		</h2>
 		<p>
-			Si può accedere ai articoli preferiti  dalla sezione a sinistra o usando la ricerca<span class="gn-icon gn-icon-search"></span>. Sempre a sinistra si trova la sezione filtro <span class="gn-icon gn-icon-ann-filter"></span>
-			che ti permete in ogni momento la posibilita di vedere le annotazioni a scelta.
+			Si può accedere agli articoli preferiti  dalla sezione a sinistra o usando la ricerca<span class="gn-icon gn-icon-search"></span>. Sempre a sinistra si trova la sezione filtro <span class="gn-icon gn-icon-ann-filter"></span>
+			che ti permette in ogni momento la posibilita di vedere le annotazioni a scelta.
 		</p>
 		<p>
 			Le annotazioni già esistente gli distingui così:
