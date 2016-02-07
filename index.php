@@ -214,7 +214,7 @@
 			//   this.classList.toggle( "active" );
 			// });
 
-$(document).on('touchstart click', '#login-open', function(event){
+$(document).on('click', '#login-open', function(event){
 	event.stopPropagation();
 	event.preventDefault();
 	if(event.handled !== true) {
@@ -334,7 +334,7 @@ var Page = (function (){
 							)
 						)
 					)
-					.append($("<div>").addClass("commnet-user modal-footer").append($("<a>").addClass("btn waves-effect white purple-text text-wisteria").text("OK").on("touchstart click", function(){Scrap.HideModal()})));
+					.append($("<div>").addClass("commnet-user modal-footer").append($("<a>").addClass("btn waves-effect white purple-text text-wisteria").text("OK").on("click", function(){Scrap.HideModal()})));
 		$("#modalBox").append(mainDiv).fadeIn();
 	}
 	self.Aiuto = function(){
@@ -410,7 +410,7 @@ $(document).ready(function(){
 		$("#gn-menu li#liSearch").empty();
 		$("#gn-menu li#liSearch").removeAttr("id").attr("id","liOpenMenu")
 			.append($("<a>").addClass("large large-menu gn-icon gn-icon-menu grey-text text-lighten-2 waves-effect waves-light"))
-			.on('touchstart click', function(){
+			.on('click', function(){
 				if(!$('#filter-menu').is(":visible"))
 					$('#filter-menu').slideDown();
 				else

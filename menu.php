@@ -16,9 +16,9 @@
 </div>
 <?php } ?>
 <ul id="dropdown1" class="dropdown-content">
-  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-help" onclick="Page.Aiuto()">Aiuto</a></li>
+  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-help" id="aAiuto">Aiuto</a></li>
   <li class="divider"></li>
-  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-about" onclick="Page.ChiSiamo()">Chi siamo</a></li>
+  <li><a class="grey-text text-darken-4 waves-effect gn-icon gn-icon-about" id="aChiSiamo">Chi siamo</a></li>
   <li class="divider"></li>
   <?php if(!isset($_COOKIE["email"])){ ?>
   <li><a href="#modalReg" class="register-button gn-icon gn-icon-register grey-text text-darken-4 waves-effect modal-trigger"> Iscriviti</a></li>
@@ -93,6 +93,8 @@
 	</div>
 </div>
 <script type="text/javascript">
+$('#aAiuto').on({click: function(){Page.Aiuto()}});
+$('#aChiSiamo').on({click: function(){Page.ChiSiamo()}});
 // $( window ).ready(
 // 	function (){
 // 		var screenwidth =$( window ).width();
