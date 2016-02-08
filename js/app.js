@@ -1604,7 +1604,15 @@ function ViewAnnotation(){
 function onSuccess(json){
 
 	document.getElementById("modalBoxView").style.display="block";
-	$('#view').append("<div class ='commnet-separator'>\
+	var view = $("#view");
+	if(view.length == 0)
+	{
+		//view = <div id="view" class="ann-details ann-shower modal purple wisteria" style="display:block;"></div>
+		view = $("<div>").attr("id","view").attr("style","display:block;").addClass("ann-details ann-shower modal purple wisteria");
+		$("#modalBoxView").empty().append(view);
+	}
+	
+	view.append("<div class ='commnet-separator'>\
 							<div class='edit-delete commnet-user row'>\
 								<div class='col-md-4 center'>\
 									<span class='gn-icon gn-icon-ann-ex white-text footerlabel'>Annotazioni non salvate</span>\
