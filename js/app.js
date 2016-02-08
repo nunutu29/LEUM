@@ -439,11 +439,15 @@ var Scrap = (function(){
 		//Estrazione label da mostrare
 		try{
 			label = el.bLabel.value;
+			if(label == "")
+				if(el.object != null && el.object != undefined)
+					if(self.CheckRet(el.object.value)) 
+						label = self.DecodeRetorica(el.object.value);
 		}catch(e)
 		{
 			label = !self.NoLiteralObject(el.predicate.value) ? el.object.value : el.key.value;
 			if(self.CheckRet(el.object.value)) 
-				label = "";
+				label = self.DecodeRetorica(el.object.value);
 		};
 		//Creazione Bottoni
 		var cancella = $(document.createElement('div')).addClass('col-md-3 center')
