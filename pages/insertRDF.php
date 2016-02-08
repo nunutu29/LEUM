@@ -312,8 +312,8 @@ function CreateComment($expression, $item, $comment, $start, $end, $target, $uri
 	                					oa:hasSelector <selector-commento$annotation_ID>.
 	    <selector-commento$annotation_ID> a oa:FragmentSelector ;
 	                               rdf:value \"$target\" ;
-	                               oa:end \"$start\"^^xsd:nonNegativeInteger ;
-								   oa:start \"$end\"^^xsd:nonNegativeIntegeroa.
+	                               oa:end \"$end\"^^xsd:nonNegativeInteger ;
+								   oa:start \"$start\"^^xsd:nonNegativeIntegeroa.
 		<body-commento$annotation_ID> a rdf:Statement ;
 						              rdf:subject    <dlib:$subject>;
 						              rdf:predicate  schema:comment;
