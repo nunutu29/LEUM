@@ -767,7 +767,7 @@ var Scrap = (function(){
 					axis:"y",
 					theme:"minimal-dark"
 			});
-			$("body").attr('style', 'overflow:hidden;');
+			//$("body").attr('style', 'overflow:hidden;');
 			if(!($(father).is(":visible"))) father.fadeIn('fast');
 			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
 			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
