@@ -235,7 +235,10 @@ $(document).mousedown(function (e){
 	container = $("#filter-menu");
 	btnLogin = $("#liOpenMenu");
 	if (btnLogin.length != 0 && !container.is(e.target) && container.has(e.target).length === 0 && !btnLogin.is(e.target) && btnLogin.has(e.target).length === 0)
+	{
 		container.hide();
+		$("body").removeClass("overflow_hidden");
+	}
 });
 $('#logout').on({click: function(){Login.LogOut();}});
 $('#login-button').on({click: function(){Login.Try();}});
