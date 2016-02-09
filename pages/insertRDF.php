@@ -828,7 +828,14 @@ CreateTitle($Exp, $item, GetUrlName($uri), 0, 0, "", $uri);
 }
 
 function InsertDlib2($content, $uri, $item, $ArtTitle, $exists){			//http://www.dlib.org/dlib/january14/01contents.html
-	$Work = $item;
+$arr = explode(".", $item);
+$Work = "";
+if(count($arr) > 1)
+	for($i = 0; $i < count($arr) - 1; $i++)
+		$Work = $Work.$arr[$i];
+else
+	if(count($arr) > 0)
+		$Work = $arr[0];
 $Exp = $Work."_ver1";
 if(!$exists){
 	$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
@@ -896,28 +903,15 @@ for($i = 0; $i < $autArray->length; $i++){
 		$aut = MultiDelimiter(array(" and ", ","), $aut->nodeValue);
 		Authors($aut, 5, 0, $Exp, $item, $autStart, $audID, $uri);
 	}	
-	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+	$autStart = $autStart + strlen(Normalize($autArray->item($i)->nodeValue));
 	$i++;
-	$autStart = $autStart + strlen($autArray->item($i)->nodeValue);
+	$autStart = $autStart + strlen(Normalize($autArray->item($i)->nodeValue));
 }
 
 //Abstract
 $astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
 if($astratto != null)
 CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
-
-
-/*
-//Introduction
-$intro=$xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h34']")->item(0);
-if(($intro->nodeValue.localeCompare("Introduction"))==0){	
-	$introduzione=$xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h34']/following-sibling::p[1]")->item(0);
-	if($introduzione!= null)
-		CreateRethoric($Exp, $item, "deo:Introduction", "Questa è l' introduzione dell'articolo.", 0, strlen($introduzione->nodeValue), $introduzione->getAttribute('id'), $uri);
-}
-*/
-
-
 
 //URL
 $url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
@@ -945,10 +939,22 @@ CreateDoi($Exp, $item, $doi, strpos($target_text, $doi), strpos($target_text, $d
 
 	
 if($Work=="01musgrave"){
-	$cities1=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p17']")->item(0);
-	$i=1;
+	$i=0;	
+	for($a = 7; $a < 9; $a++){
+	
+	$cities1=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1".$a."']")->item(0);
+	$i= $i + 1;
 	$citExp=$Exp."_cited".$i;
-	$citazione=Normalize($cities1->nodeValue);	
+	$citazione=Normalize($cities1->nodeValue);
+	
+	$title = $cities1->getElementsByTagName('i');
+	$title = $title->length > 0 ? $title->item(0) : NULL;
+	CreateCities($title->nodeValue, $citExp, $Exp, $item, $citazione, $cities1->getAttribute('id'), 0, strlen($citazione), $uri);
+	CreateTitle($citExp, $item, $title->nodeValue, 0, strlen(Normalize($title->nodeValue)), $title->getAttribute('id'), $uri);
+	$DOI = $cite->getElementsByTagName('a');
+	$DOI = $DOI->length > 1 ? $DOI->item(1) : NULL;
+	if($DOI != NULL)
+		CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
 	//autori
 	$pos_punto=strpos($citazione, '.');
 	$autori=substr($citazione, 0, $pos_punto);
@@ -971,92 +977,9 @@ if($Work=="01musgrave"){
 	//anno
 	$anno=substr($citazione, $pos_punto, 5);
 	CreatePublicationYear($Exp, $item, $anno, $pos_punto+1, $pos_punto+5, $target->getAttribute('id'), $uri); 
-
 	
-	
-	
-}
-	
-	
-	
-	
-/*//Work = Nome Senza Estensione
-//Exp = Nome Con _ver1
-$Work = $item;
-$Exp = $Work."_ver1";
-
-$get = CreateResource($uri, $item, $Work, $Exp, $ArtTitle);
-if($get != null) return;
-$content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
-$doc = new DOMDocument();	
-$doc->loadHTML($content);
-$xpath = new DOMXPath($doc);
-
-//Titolo dell'articolo
-$title = $doc->getElementsByTagName('h3')->item(0);
-if($title != NULL){
-	 CreateTitle($Exp, $item, $title->nodeValue, 0, strlen($title->nodeValue), $title->getAttribute('id'), $uri);
-}
-
-//Autori articolo
-$aut= $xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']/text()[(following::br)]")->item(0);
-$str=str_replace(" and ", ",", $aut->nodeValue);
-$arr = explode(",", $str);
-$start=0;
-foreach($arr as $node){
-	$var = trim($node);
-	$start=strpos($aut->nodeValue, $var); //posizione dell'autore in tutta la frase compreso "and"
-	$end=$start+strlen($var);
-	CreateAuthors($Exp, $item, $var, $start,($end-1), $autTarget, $uri);
-}
-
-//Anno di pubblicazione dell'articolo
-$target=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1']")->item(0);
-$ab = $xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1']/text()[(following::br)]")->item(0);
-$publicationYear = substr($ab->nodeValue, -4, 4);
- CreatePublicationYear($Exp, $item, $publicationYear, strlen($ab->nodeValue) - 4, strlen($ab->nodeValue)+1, $target->getAttribute('id'), $uri); 
-
-
-//DOI dell'articolo
-$target=$xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']")->item(0);
-$ab = $xpath->query("//p[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p2']/text()[(preceding::br)]");
-foreach($ab as $node){ //scorre all'ultimo br dato che il DOI è sempre dopo l'ultimo br
-$ab=$node;
-}
-$doi=$ab->nodeValue;
-$start=strpos($target->nodeValue,$doi);
- CreateDoi($Exp, $item, $doi, $start, strlen($doi), $target->getAttribute('id'), $uri);
-
-
-//Abstract
-$astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
-CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
-
-//URL
-$url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
-CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
-
-
-//Citazioni dell'articolo
-$target = $xpath->query("//*[(preceding::h3[text()=\"References\"||text()=\"Notes\"])]");
-$i=0;
-foreach($target as $node){
-	$citExp=$Exp."_cited".$i;
-	if($node->nodeName!='p')
-		break;
-	else{
-		$pos=strpos($node->nodeValue,'"');
-		$t=substr($node->nodeValue, $pos);
-		$pos=strpos($t,'"');
-		//$title=substr($t, $pos);
-		CreateCities($t, $citExp, $Exp, $item, $node->nodeValue, $node->getAttribute('id'), 0, strlen($cite->nodeValue), $uri);
-		
 	}
-	
 }
-*/
-
-
 }
 function MultiDelimiter($delimiters, $string){
 	$arr = explode($delimiters[0], $string);
