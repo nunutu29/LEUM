@@ -1025,9 +1025,9 @@ var Scrap = (function(){
 				sessionStorage.setItem(nomeSessione, delAll.substring(0, delAll.length - 1));
 				self.SalvaTutto(nomeSessione, true);
 			}
-		}		
-		$("#cancella-ann").parent().hide();
-		$("#ri_ann").parent().show();
+			$("#cancella-ann").parent().hide();
+			$("#ri_ann").parent().show();
+		}	
 	}
 	self.Groups = (function(){
 		var me = {};
