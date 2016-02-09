@@ -423,6 +423,9 @@ var Scrap = (function(){
 		Mainbox.append(CarouselView);
 		father.append(Mainbox);
 		father.fadeIn('fast');
+		if($(window).width() < 800){
+			$("body").addClass("overflow_hidden");
+		}
 	};
 	self.CreateBox = function(el, icon, idToRemove, index){
 		var active = index == 0 ? " active" : "";
@@ -476,6 +479,9 @@ var Scrap = (function(){
 	};
 	self.HideModal = function(id){
 		$("#modalBox").empty().fadeOut('fast');
+		if($(window).width() < 800){
+			$("body").removeClass("overflow_hidden");
+		}
 		//$("#modalBox").fadeOut('fast');
 		//$("#" + id).remove();
 		if ( $("body").attr('style') != undefined )
