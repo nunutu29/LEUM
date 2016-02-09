@@ -19,7 +19,6 @@ else
 $mainExp = $Work."_ver1";
 ///////////////////////////////////////////////////
 $vars = explode("|", $content);
-file_put_contents("log.txt",$content);
 foreach($vars as $c){
 	print "a";
 	$obj = json_decode($c);
