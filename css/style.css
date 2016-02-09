@@ -1,3 +1,6 @@
+.overflow_hidden{
+overflow: hidden !important;
+}
 .check-boxs {
   margin: -18px;
   padding: 0px;
