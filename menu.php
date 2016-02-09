@@ -27,8 +27,8 @@
   <?php } ?>
 </ul>
 <nav id="gn-menu"  class="navbar navbar-fixed-top gn-menu-main">
-  <div class="container-fluid">
-  	<ul class="col-sm-3 col-sm-offset-1">
+  <div class="container-fluid row">
+  	<ul class="col s4">
   		<!-- search bar -->
     	<li id="liSearch">
 	    	<div class="input-field">
@@ -37,23 +37,24 @@
 	        </div>
 		</li>
   	</ul>
-  	<ul class="col-sm-1 col-sm-push-7">
+  	<ul class="col s1 push-s6">
 		
 		<!-- paper menu button activator -->
-    	<li><a class="dropdown-button grey-text  text-lighten-2" data-activates="dropdown1"><i class="large  material-icons right">more_vert</i></a></li>
+    	<li><a class="dropdown-button grey-text  text-lighten-2" data-activates="dropdown1"><i class="large material-icons">more_vert</i></a></li>
 	</ul>
-    <ul class="col-sm-7 col-sm-pull-1 right">
+    <ul class="col s6 pull-s1">
 		<!-- login button -->
     	<?php if(!isset($_COOKIE["email"])){ ?>
-		<li  id="login-open" class="right"><a class="large gn-icon gn-icon-johnny-user large-menu grey-text  text-lighten-2 waves-effect waves-light">Accedi</a></li>
+		<li  id="login-open"><a class="large gn-icon gn-icon-johnny-user large-menu grey-text  text-lighten-2 waves-effect waves-light">Accedi</a></li>
 		
 		<!-- profile button -->
 		<?php } else { ?>
-		<li class="right"><a href="#" class="grey-text text-lighten-2 large-menu waves-effect waves-light">Ciao <?php echo $_COOKIE["name"]; ?></a></li>
+		<li><a href="#" class="grey-text text-lighten-2 large-menu waves-effect waves-light">Ciao <?php echo $_COOKIE["name"]; ?></a></li>
 		<?php } ?>
 		<!-- logo icon -->
-    	<li class="center"><a href="#"class="logoraschetto">&nbsp;</a></li>
+    	<li id="logocontainer" class="center"><a href="#"class="logoraschetto">&nbsp;</a></li>
 	</ul>
+	<ul class="col s1"></ul>
   </div>
 </nav>
 
@@ -82,10 +83,10 @@
 				</ul>
 			</div>
 			<div class="row" style="padding-top: 5% ; padding-bottom: 5%;">
-				<div class="col-sm-6 col-md-push-6">
+				<div class="col-sm-6 col-sm-push-6 center">
 					<a href="#modalReg" class="modal-trigger register-button btn waves-effect waves-red white red-text text-valencia" id="register-button-modal">Iscriviti</a>
 				</div>
-				<div class="col-sm-offset-1 col-sm-5 col-md-pull-6">
+				<div class="col-sm-offset-1 col-sm-5 col-sm-pull-6 center">
 					<button id="login-button" class="btn waves-effect waves-light red valencia translucent white-text">Accedi</button> 
 				</div>
 			</div>

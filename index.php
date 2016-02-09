@@ -27,59 +27,57 @@
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
 		<div class="content">
-			<div id="tabs">
-				<div class="content2 col-md-12">
-					<div class="row">
-					 <!-- merda aggiunto -->
+			<div class="content2 col-sm-12">
+				<div class="row">
+				 <!-- merda aggiunto -->
 
-					</div>
-					<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
-					<div class="icons hide">
-						<?php $foo = 0; function countandecho(&$foo){$foo = $foo + 1;echo $foo;}?>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-openup">gn-icon-openup <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-opendown">gn-icon-opendown <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-show">gn-icon-show <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-hide">gn-icon-hide <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-help">gn-icon-help <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-delete">gn-icon-delete <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-edit">gn-icon-edit <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-edit">gn-icon-ann-edit <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-target">gn-icon-ann-target <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-ex">gn-icon-ann-ex <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-register">gn-icon-register <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-title">gn-icon-ann-title <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-autore">gn-icon-ann-autore <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-doi">gn-icon-ann-doi <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-annop">gn-icon-ann-annop <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-url">gn-icon-ann-url <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-commento">gn-icon-ann-commento <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-retorica">gn-icon-ann-retorica <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-cites">gn-icon-ann-cites <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-search">gn-icon-search <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-file">gn-icon-file <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-groups">gn-icon-groups <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-lib">gn-icon-lib <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-netfile">gn-icon-netfile <?php  countandecho($foo);?></span>					 	
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-about">gn-icon-about <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-succ">gn-icon-ann-succ <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-johnny-user">gn-icon-johnny-user <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-add">gn-icon-ann-add <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-see">gn-icon-ann-see <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-menu">gn-icon-menu <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-filter">gn-icon-ann-filter <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-exit">gn-icon-ann-exit <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-username">gn-icon-username <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-password">gn-icon-password <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-re">gn-icon-re <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-email">gn-icon-email <?php  countandecho($foo);?></span>
-						<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-tool">gn-icon-tool <?php  countandecho($foo);?></span>
-						<img class="col-md-5 col-md-offset-1" src="img/background-abstract3.png"></img>
-					</div>
-					<?php }} ?>
-					<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
-					<div><a name="icon-help" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="ICON HELP"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-show"></i></a></div>
-					<?php }} ?>
 				</div>
+				<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
+				<div class="icons hide">
+					<?php $foo = 0; function countandecho(&$foo){$foo = $foo + 1;echo $foo;}?>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-openup">gn-icon-openup <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-opendown">gn-icon-opendown <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-show">gn-icon-show <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-hide">gn-icon-hide <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-help">gn-icon-help <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-delete">gn-icon-delete <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-edit">gn-icon-edit <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-edit">gn-icon-ann-edit <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-target">gn-icon-ann-target <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-ex">gn-icon-ann-ex <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-register">gn-icon-register <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-title">gn-icon-ann-title <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-autore">gn-icon-ann-autore <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-doi">gn-icon-ann-doi <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-annop">gn-icon-ann-annop <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-url">gn-icon-ann-url <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-commento">gn-icon-ann-commento <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-retorica">gn-icon-ann-retorica <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-cites">gn-icon-ann-cites <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-search">gn-icon-search <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-file">gn-icon-file <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-groups">gn-icon-groups <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-lib">gn-icon-lib <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-netfile">gn-icon-netfile <?php  countandecho($foo);?></span>					 	
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-about">gn-icon-about <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-succ">gn-icon-ann-succ <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-johnny-user">gn-icon-johnny-user <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-add">gn-icon-ann-add <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-see">gn-icon-ann-see <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-menu">gn-icon-menu <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-filter">gn-icon-ann-filter <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-ann-exit">gn-icon-ann-exit <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-username">gn-icon-username <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-password">gn-icon-password <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-re">gn-icon-re <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-email">gn-icon-email <?php  countandecho($foo);?></span>
+					<span class="col-md-5 col-md-offset-1 gn-icon gn-icon-tool">gn-icon-tool <?php  countandecho($foo);?></span>
+					<img class="col-md-5 col-md-offset-1" src="img/background-abstract3.png"></img>
+				</div>
+				<?php }} ?>
+				<?php if(isset($_COOKIE["email"])){ if($_COOKIE["name"] == "Root" || $_COOKIE["name"] == "root" || $_COOKIE["name"] == "admin" || $_COOKIE["name"] == "Admin") { ?>
+				<div><a name="icon-help" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="ICON HELP"><i class="material-icons grey-text  text-lighten-2 gn-icon gn-icon-show"></i></a></div>
+				<?php }} ?>
 			</div>
 		</div>
 	</div>
@@ -94,94 +92,7 @@
 	</div>
 	<a href="#0" class="cd-top">Top</a>
 	<script src="js/back_to_top.js"></script>
-	<style type="text/css">
-		a {
-			text-decoration: none!important;
-			cursor: pointer;
-		}
-		button {
-			text-decoration: none!important;
-		}
-		a span {
-			cursor: pointer;
-		}
-		/*GENERIC ONES*/
-		@media all and (min-width: 1024px) {
-			#filter-list{
-		    	display: none;
-		    }
-		}
-			@media all and (max-width: 1023px) {
-				.allow-scroll.gn-menu-wrapper.gn-open-all.latest_tweets{
-					display: none;
-				}
-			}
-			@media screen and (max-width: 768px) {
-				#modalReg .modal-footer .row {
-					    margin-top: 22%;
-				}
-				#modalReg.modal{
-					width: 100% !important;
-					height: 100%;
-					max-height: 60% !important;
-				}
-			}
-			@media screen and (max-width: 540px ){
-				#change-target{
-					width: 5em;
-				}
-				#iperTextArea{
-					width: 85%;
-				}
-				#imgLogo {
-					width: 15em;
-				}
-			}
-			@media screen and (max-width:440px) {
-				.ann-details.ann-shower {
-					min-width: 50%;
-					max-width: 85%;
-				}
-				@media screen and (max-width:380px) {
-					#change-target{
-						DISPLAY: NONE;
-					}
-					.gn-icon.gn-icon-ann-edit,
-					.gn-icon.gn-icon-ann-ex,
-					.gn-icon.gn-icon-ann-title,
-					.gn-icon.gn-icon-ann-autore,
-					.gn-icon.gn-icon-ann-doi,
-					.gn-icon.gn-icon-ann-annop,
-					.gn-icon.gn-icon-ann-url,
-					.gn-icon.gn-icon-ann-commento,
-					.gn-icon.gn-icon-ann-retorica,
-					.gn-icon.gn-icon-ann-cites
-					{
-						display: none;
-					}
-					#longLogo .content h2 {
-						font-size: 1.3em;
-					}
-				}
-				/*END GENERIC ONES*/
-				@media all and (min-width: 1220px) {
-				/*.content2{
-					margin-left: 30%;
-					float: left;
-				}*/
-			}
-			@media screen and (max-width: 422px) {
-				.gn-menu-wrapper.gn-open-all {
-					-webkit-transform: translateX(0px);
-					-moz-transform: translateX(0px);
-					transform: translateX(0px);
-					width: 100%;
-				}
-				.gn-menu-wrapper.gn-open-all .gn-scroller {
-					width: 130%
-				}
-			}
-		</style>
+	<?php include ("mediaq.php") ?>
 	</body>
 	<script type="text/javascript" src="js/materialize.js"></script>
 	<script type="text/javascript" src="js/readRDF.js"></script>
@@ -388,8 +299,12 @@ $(document).keyup(function(ev){
 function ShowMenu(){
 	if(($(window).width() >= 800) && !$('#filter-menu').is(":visible")){
 		$('#filter-menu').show();
-		$('.content2').removeClass("col-md-12").addClass('col-md-9 col-md-offset-3');
+		$('.content2').removeClass("col-sm-12").addClass('col-sm-9 col-sm-offset-3');
+	} else {
+		if(!$("#liOpenMenu").is(":visible"))
+		$("#liOpenMenu").show();
 	}
+
 	if(!$("#floating-menu").is(":visible"))
 		$("#floating-menu").show();
 }
