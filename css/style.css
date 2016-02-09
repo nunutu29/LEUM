@@ -122,6 +122,7 @@ overflow: hidden !important;
  }
  #CarouselView .modal {
     width: 65% !important;
+    overflow-x: hidden;
  }
   #CarouselView .commnet-separator {
   padding: 24px !important;
@@ -148,6 +149,7 @@ overflow: hidden !important;
     text-transform: none;
     width: auto;
     min-width: 220px;
+    -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
   }
  #change-target:hover, #change-target:focus,#change-target:active {
@@ -217,9 +219,9 @@ overflow: hidden !important;
 .hasAuthor0, .hasAuthor1,.hasPublicationYear0, .hasPublicationYear1, .hasTitle0, .hasTitle1,
 .hasDOI0, .hasDOI1, .hasURL0, .hasURL1, .hasComment0,.hasComment1, .cites0, .hasIntro, .hasConcept,
 .hasAbstr, .hasMateria, .hasMeth, .hasRes, .hasDisc, .hasConc {
-	font-family: "Lato", "Roboto", sans-serif;
-	color: #444444;
-	overflow: hidden;	
+  font-family: "Lato", "Roboto", sans-serif;
+  color: #444444;
+  overflow: hidden; 
 }
 
 .hasTitle0, .hasTitle1 {background-color: #80b1d3;}
@@ -232,7 +234,7 @@ overflow: hidden !important;
 .hasDisc {background-color: #2ECC71;}
 .hasIntro {background-color: #FFED6F;}
 .hasConcept {background-color: #FB8072;}
-.hasAbstr {background-color: #6CD4BF;}
+.hasAbstr {background-color: #BE90D4;}
 .hasMateria {background-color: #D9D9D9;}
 .hasMeth {background-color: #BC80BD;}
 .hasRes {background-color: #BF812D;}
@@ -366,6 +368,14 @@ ul.login_3{
 *    HOME
 *
 ***************************/
+.doc-search .input-field input{
+    width: 100%;
+    line-height: 3rem;
+    height: 3em;
+}
+.doc-search .row {
+  margin: 0px !important;
+}
 .floating-menu{
   bottom: 8%;
   right: 10%;
@@ -386,26 +396,40 @@ ul.login_3{
   transition: all .3s ease-in-out;
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-  color: #E0E0E0 !important;
-  font-size: x-large;
-  font-weight: 900;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: #E0E0E0 !important;
-  opacity:  1;
-  font-size: x-large;
-  font-weight: 900;;
+  font-family: 'Lato', sans-serif;
+  color: #616161 !important;
+  font-size: 1.5em;
+  line-height: 1.3;
+  margin: 0px 0px 0px 3px;
+  font-weight: 300;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color: #E0E0E0 !important;
-  opacity:  1;
-  font-size: x-large;
-  font-weight: 900;
+  font-family: 'Lato', sans-serif;
+  color: #616161 !important;
+  font-size: 1.5em;
+  line-height: 1.3;
+  margin: 0px 0px 0px 3px;
+  font-weight: 300;
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-family: 'Lato', sans-serif;
+  color: #616161 !important;
+  font-size: 1.5em;
+  line-height: 1.3;
+  margin: 0px 0px 0px 3px;
+  font-weight: 300;
+}
+nav input#iptSearch::-webkit-input-placeholder {
   color: #E0E0E0 !important;
-  font-size: x-large;
-  font-weight: 900;
+}
+nav input#iptSearch::-moz-placeholder {
+  color: #E0E0E0 !important;
+}
+nav input#iptSearch:-ms-input-placeholder {
+  color: #E0E0E0 !important;
+}
+nav input#iptSearch::placeholder {
+  color: #E0E0E0 !important;
 }
 .navbar-brand{
   height:140px !important; 
@@ -470,22 +494,24 @@ a.cd-top {
   text-decoration: none;
 }
 .cd-top {
-  display: inline-block;
-  height: 4em;
-  width: 4em;
-  position: fixed;
-  right: 50%;
-  top: 8%;
-  z-index: 1301;
-  /* image replacement properties */
-  overflow: hidden;
-  text-indent: 100%;
-  white-space: nowrap;
-  background: url(../img/cd-top-arrow.svg) no-repeat center 50%;
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: opacity .3s 0s, visibility 0s .3s;
-  transition: opacity .3s 0s, visibility 0s .3s;
+      display: inline-block;
+    height: 4em;
+    width: 4em;
+    position: fixed;
+    right: 50%;
+    top: 8%;
+    z-index: 1301;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    background: url(../img/cd-top-arrow.svg) no-repeat center;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: opacity .3s 0s, visibility 0s .3s;
+    transition: opacity .3s 0s, visibility 0s .3s;
+    background-size: 3em;
+    background-position-y: 100%;
+    background-position-x: 100%;
 }
 .cd-top.cd-is-visible, .cd-top.cd-fade-out, .no-touch .cd-top:hover {
   -webkit-transition: opacity .3s 0s, visibility 0s 0s;

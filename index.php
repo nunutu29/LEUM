@@ -234,7 +234,7 @@ var Page = (function (){
 		$('.check-boxs input:checkbox').removeAttr('checked');
 	}
 	self.ChiSiamo = function(){
-		var mainDiv = $("<div>").attr("id","aboutus").addClass("ann-details ann-shower modal purple wisteria").attr("style","display:block; width:70%;top:10%;")
+		var mainDiv = $("<div>").attr("id","aboutus").addClass("ann-details ann-shower modal purple wisteria mCustomScrollbar ").attr("style","display:block; width:70%;top:10%;").attr('data-mcs-theme', 'minimal-dark')
 					.append(
 						$("<div>").addClass("commnet-desc modal-content")
 						.append(
@@ -249,7 +249,12 @@ var Page = (function (){
 						)
 					)
 					.append($("<div>").addClass("commnet-user modal-footer").append($("<a>").addClass("btn waves-effect white purple-text text-wisteria").text("OK").on("click", function(){Scrap.HideModal()})));
-		$("#modalBox").append(mainDiv).fadeIn();
+		$("#modalBox").append(mainDiv);
+		$("#aboutus .modale-content").mCustomScrollbar({
+			axis:"y",
+			theme:"minimal-dark"
+		});
+		$("#modalBox").fadeIn();
 	}
 	self.Aiuto = function(){
 		var api = new API();
@@ -339,8 +344,9 @@ $(document).ready(function(){
 				}
 			});
 		//fai vedere nuovo search
-		$("#libreria .doc-search").first().show();
 		$("#libreria input[name='search']").attr("id","iptSearch").keypress(function(){if ( event.which == 13 ) {Page.Search()}});
+		$("#libreria label[name='searchlabel']").attr('for', 'iptSearch');
+		$("#libreria .doc-search").first().show();
 	}
 });
 $('#login-open').click(function(){$('#dropdown1').attr('style', 'display:none')}); //fa sparire il dropdown 3dots quando clicco su accedi

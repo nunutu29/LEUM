@@ -1,6 +1,6 @@
 <?php if(isset($_COOKIE["email"])){ ?>
 <div class="fixed-action-btn horizontal floating-menu" style="display:none;" id="floating-menu-mod-pos">
-	<a id="mod_cancel" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="Annulla"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-help"></i></a>
+	<a id="mod_cancel" class="btn-floating red valencia tooltipped waves-effect waves-light" data-position="top" data-delay="30" data-tooltip="Annulla"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-den"></i></a>
 	<a id="mod_pos" class="btn-floating btn-large waves-effect waves-light green lighten-1 tooltipped" data-position="top" data-delay="30" data-tooltip="Salva Target"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-ann-succ"></i></a>
 </div>
 <div class="fixed-action-btn horizontal floating-menu" style="display:none;" id="floating-menu">
@@ -8,10 +8,10 @@
 	  <i class="large gn-icon gn-icon-tool white-text  text-lighten-2"></i> 
 	</a>
 	<ul>
-		<li><a id="ri_ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Page.Riannota()" data-position="top" data-delay="30" data-tooltip="Ri-Annota Tutto"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-re"></i></a></li>
-		<li><a id="cancella-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Scrap.CancellaTutto()" data-position="top" data-delay="30" data-tooltip="Cancella Tutto"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-delete"></i></a></li>
-		<li><a id="view-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="ViewAnnotation()" data-position="top" data-delay="30" data-tooltip="Guarda Cambiamenti"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-ann-see"></i></a></li>
-		<li><a id="annota" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="AnnotaClick()" data-position="top" data-delay="30" data-tooltip="Annota"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-ann-add"></i></a></li>
+		<li><button id="ri_ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Page.Riannota()" data-position="top" data-delay="30" data-tooltip="Ri-Annota Tutto"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-re"></i></button></li>
+		<li><button id="cancella-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="Scrap.CancellaTutto()" data-position="top" data-delay="30" data-tooltip="Cancella Tutto"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-delete"></i></button></li>
+		<li><button id="view-ann" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="ViewAnnotation()" data-position="top" data-delay="30" data-tooltip="Guarda Cambiamenti"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-ann-see"></i></button></li>
+		<li><button id="annota" class="btn-floating red valencia tooltipped waves-effect waves-light" onclick="AnnotaClick()" data-position="top" data-delay="30" data-tooltip="Annota"><i class="material-icons white-text  text-lighten-2 gn-icon gn-icon-ann-add"></i></button></li>
 	</ul>
 </div>
 <?php } ?>
@@ -49,7 +49,7 @@
 		
 		<!-- profile button -->
 		<?php } else { ?>
-		<li><a href="#" class="grey-text text-lighten-2 large-menu waves-effect waves-light">Ciao <?php echo $_COOKIE["name"]; ?></a></li>
+		<li><a href="#" class="grey-text text-lighten-2 large-menu waves-effect waves-light">Ciao <?php $out = strlen($_COOKIE["name"]) > 10 ? substr($_COOKIE["name"],0,10)."..." : $_COOKIE["name"]; echo $out; ?></a></li>
 		<?php } ?>
 		<!-- logo icon -->
     	<li id="logocontainer" class="center"><a href="#"class="logoraschetto">&nbsp;</a></li>

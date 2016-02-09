@@ -21,6 +21,10 @@
 			}
 		}
 		@media screen and (max-width: 768px) {
+			.slides h3 {
+    			font-size: 2.1rem;}
+    		.slides h4 {
+    			font-size: 1.7rem;}			
 			#modalReg .modal-footer .row {
 				    margin-top: 22%;
 			}
@@ -31,6 +35,17 @@
 			}
 		}
 		@media screen and (max-width: 540px ){
+			#aboutus {
+				width: 100% !important;
+				overflow: hidden !important;
+			}
+			.slides svg{
+				width: 50% !important;
+			}
+			#hide-ann {
+				position: absolute;
+    			right: -11%;
+			}
 			#change-target{
 				width: 5em;
 			}
@@ -40,11 +55,16 @@
 			#imgLogo {
 				width: 15em;
 			}
-		}
-		@media screen and (max-width:480px) {
-			.content {
-			    top: 20px;
+			h2 {
+			    font-size: 4rem;
 			}
+			#view.modal {
+			    width: 100%;
+			    margin-top: 10%;
+			}
+			#idDiMerda.modal {
+    			width: 100% !important;;
+    		}
 			.content2{
 				max-width: 100%;
     			width: 100%;
@@ -56,6 +76,37 @@
 			}
 			#login-form div.col-sm-offset-1.col-sm-5.col-sm-pull-6.center {
 				margin-top: 2%;
+			}
+			.bottom-space{
+				margin-bottom: 2%;
+			}
+		}
+		@media screen and (max-width:480px) {
+			
+			h2 {
+			    font-size: 4rem;
+			}
+			#view.modal {
+			    width: 100%;
+			    margin-top: 10%;
+			}
+			#idDiMerda.modal {
+    			width: 100% !important;;
+    		}
+			.content2{
+				max-width: 100%;
+    			width: 100%;
+			}
+			.changeLogin {
+    			width: 90%;
+    		}
+			 #logocontainer {display: none;}
+			}
+			#login-form div.col-sm-offset-1.col-sm-5.col-sm-pull-6.center {
+				margin-top: 2%;
+			}
+			.bottom-space{
+				margin-bottom: 2%;
 			}
 		}
 		@media screen and (max-width: 422px) {
@@ -70,6 +121,11 @@
 				}
 			}
 		@media screen and (max-width:380px) {
+			.cd-top.cd-is-visible {
+			    visibility: hidden;
+			    opacity: 0;
+			    display: none;
+			}
 			#change-target{
 				display: none;
 			}

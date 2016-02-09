@@ -450,27 +450,27 @@ var Scrap = (function(){
 				label = self.DecodeRetorica(el.object.value);
 		};
 		//Creazione Bottoni
-		var cancella = $(document.createElement('div')).addClass('col-md-3 center')
+		var cancella = $(document.createElement('div')).addClass('col-xs-12 col-sm-3 col-md-3 center bottom-space')
 			.append($("<input>").attr("id","delete-ann").addClass("btn waves-effect waves-light red valencia white-text").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
-		var modifica = $(document.createElement('div')).addClass('col-md-offset-3 col-md-2')
+		var modifica = $(document.createElement('div')).addClass('col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center bottom-space')
 			.append($("<input>").attr("id","edit-ann").addClass("btn waves-effect waves-light green accent-4  white-text").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
 
 		var footerdiv = $(document.createElement("div")).addClass("commnet-separator row");
-		footerdiv.append($("<div>").addClass('col-md-4 center')
-			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel')));
+		footerdiv.append($("<div>").addClass('col-xs-12 col-sm-4 col-md-4 center')
+			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel bottom-space')));
 			
 		if(el.gruppo == undefined && getCookie("email") != ""){
 			box.attr("data-info", JSON.stringify(el));
 			footerdiv.append(modifica).append(cancella);
 		}
 		else if (el.gruppo != undefined)
-			footerdiv.append($(document.createElement('div')).addClass('col-md-offset-3 col-md-2').append($("<span>").text(readRDF.DecodeGroupName(el.gruppo)).addClass('white-text footerlabel')));
+			footerdiv.append($(document.createElement('div')).addClass('col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center').append($("<span>").text(readRDF.DecodeGroupName(el.gruppo)).addClass('white-text footerlabel bottom-space')));
 		//Creazione BOX	
 		box.append($("<div>").addClass("commnet-desc modal-content row")
-				.append($("<div>").addClass('col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
-				.append($("<div>").addClass('col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
-				.append($("<div>").addClass('col-md-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
+				.append($("<div>").addClass('col-sm-11 col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
+				.append($("<div>").addClass('com-sm-1 col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
+				.append($("<div>").addClass('col-xs-12 col-sm-12 col-md-12 col-lg-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
 		   .append(footerdiv);
 		return box;
 	};
@@ -695,10 +695,10 @@ var Scrap = (function(){
 			box.append('<div class="commnet-desc modal-content">\
 							<form>\
 								<div class="row">\
-									<div class="col-md-12 center">\
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">\
 										<h2 >'+ disptitle +'</h2>\
 									</div>\
-									<div class="col-md-6 center">\
+									<div class="col-xs-12 col-sm-6 col-md-6 center">\
 										<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
 											<option value="hasTitle0">Titolo</option>\
 											<option value="hasAuthor0">Autore</option>\
@@ -726,13 +726,13 @@ var Scrap = (function(){
 											</optgroup>\
 										</select>\
 									</div>\
-									<div class="col-md-6 center" style="display: '+ disp +';">\
+									<div class="col-xs-12 col-sm-6 col-md-6 center" style="display: '+ disp +';">\
 										<a id="change-target" class="waves-effect waves-light orange carrot white-text btn-flat gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
 									</div>\
-									<div class="col-md-12 center">\
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">\
 										<p id="testo_selezionato" style="overflow:auto;">' + ellipsify(bodyObject, 447) + '</p>\
 									</div>\
-									<div class="input-field col-md-12">\
+									<div class="input-field col-xs-12 col-sm-12 col-md-12 col-lg-12">\
 										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea">' + ellipsify(bodyLabel) + '</textarea>\
 										<label for="iperTextArea">' + dispnote + '</label>\
 									</div>\
@@ -741,13 +741,13 @@ var Scrap = (function(){
 						</div>\
 						<div class ="commnet-separator">\
 							<div class="edit-delete commnet-user row">\
-								<div class="col-md-3 col-md-offset-3 center">\
+								<div class="col-xs-12 col-sm-3 col-sm-offset-3 col-md-3 col-md-offset-3 center">\
 									<input id="save-ann" class="waves-effect waves-teal btn white purple-text text-wisteria" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')">\
 									</div>\
-								<div class="col-md-3 center">\
+								<div class="col-xs-12 col-sm-3 col-md-3 center">\
 									<input class="waves-effect btn-flat white-text" type="button" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')">\
 									</div>\
-								<div class="col-md-3">\
+								<div class="col-xs-12 col-sm-3 col-md-3">\
 								</div>\
 							</div>\
 						</div>');
@@ -1618,13 +1618,13 @@ function onSuccess(json){
 	
 	view.append("<div class ='commnet-separator'>\
 							<div class='edit-delete commnet-user row'>\
-								<div class='col-md-4 center'>\
-									<span class='gn-icon gn-icon-ann-ex white-text footerlabel'>Annotazioni non salvate</span>\
+								<div class='col-xs-12 col-sm-4  col-md-4 center'>\
+									<span class='gn-icon gn-icon-ann-ex white-text footerlabel bottom-space'>Annotazioni non salvate</span>\
 								</div>\
-								<div class='col-md-offset-3 col-md-2'>\
+								<div class='col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center'>\
 									<input id='save' class='btn waves-effect waves-light green accent-4 white-text' type='button' value='Salva Tutto' onclick='Scrap.SalvaTutto()'>\
 								</div>\
-								<div class='col-md-3 center'>\
+								<div class='col-xs-12 col-sm-3 col-md-3 center'>\
 									<button id='exit' class='btn-flat waves-effect waves-grey white-text purple wisteria'>Esci</button>\
 								</div>\
 							</div>\
@@ -1636,27 +1636,27 @@ function onSuccess(json){
 	for(i=0;i<json.length; i++){
 		if(json[i].azione.value=="I"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
-				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina('butt_ann_"+i+"','D','ann_"+i+"')>Elimina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
+				$('#riepilogo_ann').append("<div class='row'><div class='col-xs-5 col-sm-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-xs-5 col-sm-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina('butt_ann_"+i+"','D','ann_"+i+"')>Elimina</button><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
+				$('#riepilogo_ann').append("<div class='row'><div class='col-xs-5 col-sm-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-xs-5 col-sm-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-xs-12 col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
 			}
 		}
 		else if(json[i].azione.value=="D"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
 				$('#riepilogo_ann').append("<div class='row'>\
-												<div class='col-md-9'>\
+												<div class='col-xs-5 col-sm-9'>\
 													<span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span>\
 												</div>\
-												<div class='col-md-3'></div>\
+												<div class='col-xs-5 col-sm-3'></div>\
 													<button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button>\
-												<div class='col-md-12'>\
+												<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>\
 													<p>\
 														<strong>Tipo</strong>: \
 														<em>"+json[i].label.value+"</em>\
 													</p>\
 												</div>\
-												<div class='col-md-12'>\
+												<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>\
 													<p>\
 														<strong>Annotazione</strong>: \
 														<em>"+json[i].bLabel.value+"</em>\
@@ -1666,7 +1666,7 @@ function onSuccess(json){
 											<hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				$('#riepilogo_ann').append("<div class='row'><div class='col-xs-5 col-sm-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span></div><div class='col-xs-5 col-sm-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
 				}
 		}
 		$("#butt_ann_"+i).attr("data-info", JSON.stringify(json[i]));

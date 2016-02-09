@@ -6184,7 +6184,6 @@ a.waves-effect .waves-ripple {
   z-index: -1; }
 
 .modal {
-  display: none;
   position: fixed;
   left: 0;
   right: 0;

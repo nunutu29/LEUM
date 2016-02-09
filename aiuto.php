@@ -1,6 +1,6 @@
 <div id="help" class="slider fullscreen">
   <ul class="slides">
-	<li>
+	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
 		<img src="#" style="display:none;" />
 		<div class="caption center-align">
 			<h3>L'interfaccia utente pi&ugrave; intuitiva e facile da usare</h3>
@@ -11,7 +11,7 @@
 			<?php include ("img/search.svg"); ?>
 		</div>
 	</li>
-	<li>
+	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
 	  <div class="caption left-align">
 		<h4 class="light grey-text text-lighten-3">Nel menu a sinistra si trova la sezione filtro <span class="gn-icon gn-icon-ann-filter white-text"></span>
 		che ti permette in ogni momento la posibilita di vedere le annotazioni a scelta.
@@ -41,7 +41,7 @@
 		<?php } ?>
 	  </div>
 	</li>
-	<li>
+	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
 	  <div class="caption right-align">
 		<h3>Inizia ora la tua esperienza</h3>
 		<?php include ("img/logoRaschetto.svg") ?> 
