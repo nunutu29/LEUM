@@ -326,10 +326,14 @@ $(document).ready(function(){
 		$("#gn-menu li#liSearch").removeAttr("id").attr("id","liOpenMenu")
 			.append($("<a>").addClass("large large-menu gn-icon gn-icon-menu grey-text text-lighten-2 waves-effect waves-light"))
 			.on('click', function(){
-				if(!$('#filter-menu').is(":visible"))
+				if(!$('#filter-menu').is(":visible")){
 					$('#filter-menu').slideDown();
-				else
+					$("body").addClass("overflow_hidden");
+				}
+				else{
 					$('#filter-menu').slideUp();
+					$("body").removeClass("overflow_hidden");
+				}
 			});
 		//fai vedere nuovo search
 		$("#libreria .doc-search").first().show();
