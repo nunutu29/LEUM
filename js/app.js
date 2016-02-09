@@ -423,6 +423,9 @@ var Scrap = (function(){
 		Mainbox.append(CarouselView);
 		father.append(Mainbox);
 		father.fadeIn('fast');
+		if($(window).width() < 800){
+			$("body").addClass("overflow_hidden");
+		}
 	};
 	self.CreateBox = function(el, icon, idToRemove, index){
 		var active = index == 0 ? " active" : "";
@@ -476,6 +479,9 @@ var Scrap = (function(){
 	};
 	self.HideModal = function(id){
 		$("#modalBox").empty().fadeOut('fast');
+		if($(window).width() < 800){
+			$("body").removeClass("overflow_hidden");
+		}
 		//$("#modalBox").fadeOut('fast');
 		//$("#" + id).remove();
 		if ( $("body").attr('style') != undefined )
@@ -761,7 +767,7 @@ var Scrap = (function(){
 					axis:"y",
 					theme:"minimal-dark"
 			});
-			$("body").attr('style', 'overflow:hidden;');
+			//$("body").attr('style', 'overflow:hidden;');
 			if(!($(father).is(":visible"))) father.fadeIn('fast');
 			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
 			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
@@ -1019,9 +1025,9 @@ var Scrap = (function(){
 				sessionStorage.setItem(nomeSessione, delAll.substring(0, delAll.length - 1));
 				self.SalvaTutto(nomeSessione, true);
 			}
-		}		
-		$("#cancella-ann").parent().hide();
-		$("#ri_ann").parent().show();
+			$("#cancella-ann").parent().hide();
+			$("#ri_ann").parent().show();
+		}	
 	}
 	self.Groups = (function(){
 		var me = {};
