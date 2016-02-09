@@ -619,7 +619,10 @@ foreach($cities as $cite){
 	$citExp=$Exp."_cited".$i;
 	$citazione=Normalize($cite->nodeValue);
 	
+	CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);
+	
 	if(ereg("^http",$citazione)){	//se la citazione è un url
+		//CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);
 		CreateUrl($citExp, $item, Normalize($citazione), 0, strlen(Normalize($citazione)), $cite->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$citazione);
 	}
 	else{	//altrimenti
@@ -673,8 +676,7 @@ foreach($cities as $cite){
 		}
 	}
 	
-	if($title!=NULL){
-		CreateCities($title, $citExp, $Exp, $item, $citazione, $cite->getAttribute('id'), 0, strlen($citazione), $uri);
+	if($title!=NULL && $fineautore){
 		CreateTitle($citExp, $item, $title, strpos($citazione, $title), strlen($title) + strpos($citazione, $title), $cite->getAttribute('id')/*correggere*/, $uri);
 		CreatePublicationYear($citExp, $item, $year,$par+1, $par+5, $cite->getAttribute('id'),$uri);
 	}
