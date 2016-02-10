@@ -279,7 +279,6 @@ var Page = (function (){
 		process2.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: false, callback: function(str){
 			readRDF.GetMenu();
 			readRDF.GetData(from, link);
-			self.Uncheck();
 			self.EnableCheckBox();
 		}});
 	};
@@ -290,10 +289,6 @@ var Page = (function (){
 			readRDF.GetData(undefined, $('#URL').val());
 			$("#cancella-ann").parent().show();
 			$("#ri_ann").parent().hide();
-			$("#filtri input[type='checkbox']:checked").each(function(){
-				$(this)[0].checked = false;
-				$(this).trigger("change");
-			});
 		}});
 	}
 	self.GetData = function(link, titolo, scrap, from){
@@ -304,8 +299,7 @@ var Page = (function (){
 		api.chiamaServizio({requestUrl: 'pages/GetPageOnly.php', data: myData, isAsync: true, callback: function(str){
 			self.WriteData(str);
 		}});
-	readRDF.GetData(from, link);
-	self.Uncheck();
+		readRDF.GetData(from, link);
 	};
 	self.WriteData = function (data){
 		$(".content2").html(data);

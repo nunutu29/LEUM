@@ -61,7 +61,7 @@ var readRDF= (function (){
 	  });
 	  $("#ListaGruppi input[type='checkbox']").each(function(){
 		  var from = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
-		  var Query = self.GetQuery(from, url) + " LIMIT 1 ";
+		  var Query = self.GetQuery(from, url) + " LIMIT 5";
 		  var chk = this;
 		  DirectSELECT(Query, function(res){
 			  var json = res.results.bindings;
@@ -88,6 +88,14 @@ var readRDF= (function (){
   self.CallBackData = function (res) {
     sessionStorage.setItem('ann', "");
     sessionStorage.setItem('annotation', JSON.stringify(res));
+	$("#filtri input[type='checkbox']").each(function(){
+		if($(this)[0].checked){
+			$(this)[0].checked = false;
+			$(this).trigger("change");
+		}
+		$(this)[0].checked = true;
+		$(this).trigger("change");
+	});
   }
   self.CallBackDataGroup = function(res){
 	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
@@ -137,7 +145,7 @@ var readRDF= (function (){
 	api.chiamaServizio({loader: false, requestUrl: "gruppi.json", isAsync:true, callback: function(json){
 		$("#ListaGruppi").empty();
 		for(var i = 0; i < json.length; i++){
-			if(json[i].id == "ltw1516") continue;
+			//if(json[i].id == "ltw1516") continue;
 			$("#ListaGruppi").append(
 				$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
 						 .append($("<label>").attr("for", json[i].id))

@@ -70,8 +70,11 @@ var Scrap = (function(){
 		var id = what + index;
 		if(chk.checked){
 		what = self.Decode(what);
-		var content = self.Execute(what, true, index);
-		var content2 = self.GetNew(what, index);
+		var content = null, content2 = null;
+		if($("#ltw1516")[0].checked){
+			content = self.Execute(what, true, index);
+			content2 = self.GetNew(what, index);
+		}
 		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
 		var content3 = self.Groups.ReadSingle(what, index);
 		if(content == null || content == undefined) content = [];
@@ -87,35 +90,42 @@ var Scrap = (function(){
 			self.Remove(self.CheckID(id), ".");
 	}
 	self.GetList = function(el){
-		var mainJson = sessionStorage.getItem("annotation");
-		var ann = sessionStorage.getItem('ann');
+		var mainJson = [];
+		var ann = [];
 		var FullList = [];
-		try{
-			mainJson = JSON.parse(mainJson).results.bindings;
-		}
-		catch(ex){
-			mainJson = [];
-		}
-		if(typeof ann == "object") ann = [ann];
-		else
-		{
-			ann = ann.replace(/\|/g, ",");
-			ann = "[" + ann + "]";
-			ann = JSON.parse(ann);
-		}
-		for(var i = 0; i< mainJson.length; i++)
-		{
-			if(el.id.value == mainJson[i].id.value && el.start.value == mainJson[i].start.value && el.end.value ==  mainJson[i].end.value){
-				var annotation = null;
-				if((annotation = self.CheckAnnotation(mainJson[i])) != null)
-					FullList.push(annotation);
+		if($("#ltw1516")[0].checked){
+			mainJson = sessionStorage.getItem("annotation");
+			ann = sessionStorage.getItem('ann');
+			try{
+				mainJson = JSON.parse(mainJson).results.bindings;
 			}
-		}
-		for(var i = 0; i < ann.length; i++)
-		{
-			if(el.id.value == ann[i].id.value && el.start.value == ann[i].start.value && el.end.value == ann[i].end.value){
-				if(ann[i].azione.value != "D")
-					FullList.push(ann[i]);
+			catch(ex){
+				mainJson = [];
+			}
+			
+			if(typeof ann == "object") ann = [ann];
+			else
+			{
+				ann = ann.replace(/\|/g, ",");
+				ann = "[" + ann + "]";
+				ann = JSON.parse(ann);
+			}
+		
+		
+			for(var i = 0; i< mainJson.length; i++)
+			{
+				if(el.id.value == mainJson[i].id.value && el.start.value == mainJson[i].start.value && el.end.value ==  mainJson[i].end.value){
+					var annotation = null;
+					if((annotation = self.CheckAnnotation(mainJson[i])) != null)
+						FullList.push(annotation);
+				}
+			}
+			for(var i = 0; i < ann.length; i++)
+			{
+				if(el.id.value == ann[i].id.value && el.start.value == ann[i].start.value && el.end.value == ann[i].end.value){
+					if(ann[i].azione.value != "D")
+						FullList.push(ann[i]);
+				}
 			}
 		}
 		$("#ListaGruppi input[type='checkbox']:checked").each(function(){
@@ -1032,6 +1042,10 @@ var Scrap = (function(){
 	self.Groups = (function(){
 		var me = {};
 		me.Load = function(chk, article){
+			if(chk.getAttribute("id") == "ltw1516"){
+				me.ReadMulti();
+				return;
+			}
 			if(chk.checked){
 				article = article || $('#URL').val();
 				var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + chk.getAttribute("id");
@@ -1066,8 +1080,10 @@ var Scrap = (function(){
 		me.ReadMulti = function(){
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
 			$("#filtri input[type='checkbox']:checked").each(function(){
-				$(this)[0].checked = false;
-				$(this).trigger("change");
+				if($(this)[0].checked){
+					$(this)[0].checked = false;
+					$(this).trigger("change");
+				}
 				$(this)[0].checked = true;
 				$(this).trigger("change");
 			});
