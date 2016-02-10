@@ -49,7 +49,7 @@
 		
 		<!-- profile button -->
 		<?php } else { ?>
-		<li><a href="#" class="grey-text text-lighten-2 large-menu waves-effect waves-light">Ciao <?php $out = strlen($_COOKIE["name"]) > 10 ? substr($_COOKIE["name"],0,10)."..." : $_COOKIE["name"]; echo $out; ?></a></li>
+		<li><a id="ciaoatutti" href="#" class="grey-text text-lighten-2 large-menu waves-effect waves-light">Ciao <?php $out = strlen($_COOKIE["name"]) > 10 ? substr($_COOKIE["name"],0,10)."..." : $_COOKIE["name"]; echo $out; ?></a></li>
 		<?php } ?>
 		<!-- logo icon -->
     	<li id="logocontainer" class="center"><a href="#"class="logoraschetto">&nbsp;</a></li>

@@ -453,14 +453,14 @@ var Scrap = (function(){
 				label = self.DecodeRetorica(el.object.value);
 		};
 		//Creazione Bottoni
-		var cancella = $(document.createElement('div')).addClass('col-xs-12 col-sm-3 col-md-3 center bottom-space')
+		var cancella = $(document.createElement('div')).addClass('col-xs-12 col-sm-4 col-lg-3 center bottom-space')
 			.append($("<input>").attr("id","delete-ann").addClass("btn waves-effect waves-light red valencia white-text").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
-		var modifica = $(document.createElement('div')).addClass('col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center bottom-space')
+		var modifica = $(document.createElement('div')).addClass('col-xs-12 col-sm-4 col-lg-offset-3 col-lg-2 center bottom-space')
 			.append($("<input>").attr("id","edit-ann").addClass("btn waves-effect waves-light green accent-4  white-text").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
 
 		var footerdiv = $(document.createElement("div")).addClass("commnet-separator row");
-		footerdiv.append($("<div>").addClass('col-xs-12 col-sm-4 col-md-4 center')
+		footerdiv.append($("<div>").addClass('col-xs-12 col-sm-4 col-lg-4 center')
 			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel bottom-space')));
 			
 		if(el.gruppo == undefined && getCookie("email") != ""){

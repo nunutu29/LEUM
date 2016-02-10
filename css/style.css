@@ -294,7 +294,8 @@ overflow: hidden !important;
 
 #modalReg.modal.modal-fixed-footer {
     height: 100%;
-    max-height: 75%; }
+    max-height: 75%;
+    overflow: hidden; }
 
   /* label color */
 #modalReg .input-field label {
@@ -380,14 +381,19 @@ ul.login_3{
   bottom: 8%;
   right: 10%;
 }
-.logoraschetto{
-  background: url("../img/logoRaschetto.svg");
-  background-size: 37em;
-  background-repeat: no-repeat;
-  width: 37rem;
+.logoraschetto {
+    background: url("../img/logoRaschetto.svg");
+    background-size: 30em;
+    background-repeat: no-repeat;
+    width: 31em;
+    height: 8em;
+    display: inline;
+    position: absolute;
+    top: -8px;
+    right: 2%;
 }
 .input-field input[type=search] + label[for=iptSearch] {
-  left: -6rem;
+    left: 27rem;
 }
 .field-search{
   margin-top: -6%;

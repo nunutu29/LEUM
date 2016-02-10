@@ -161,7 +161,13 @@ $('.register-button').on({click: function(){
 	if($(window).width() <= 800)
 		$("#modalBoxRegister").append('<?php include("pages/regModalMobile.php");?>');
 	else
-		$("#modalBoxRegister").append('<?php include("pages/regModal.php");?>');
+		{$("#modalBoxRegister").append('<?php include("pages/regModal.php");?>');
+			$("#modalBoxRegister .modal.modal-fixed-footer .modal-content ").mCustomScrollbar({
+			axis:"y",
+			theme:"minimal-dark"
+		});
+		}
+
 	$("#cancellaReg").click(function(){$("#modalBoxRegister").fadeOut("fast");});
 }});
 var Page = (function (){
@@ -307,7 +313,7 @@ $(document).keyup(function(ev){
 function ShowMenu(){
 	if(($(window).width() >= 800) && !$('#filter-menu').is(":visible")){
 		$('#filter-menu').show();
-		$('.content2').removeClass("col-sm-12").addClass('col-sm-9 col-sm-offset-3');
+		$('.content2').removeClass("col-sm-12").addClass('col-sm-7 col-sm-offset-5 col-lg-9 col-lg-offset-3');
 	} else {
 		if(!$("#liOpenMenu").is(":visible"))
 		$("#liOpenMenu").show();
