@@ -44,7 +44,7 @@
 	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
 	  <div class="caption right-align">
 		<h3>Inizia ora la tua esperienza</h3>
-		<?php include ("img/logoRaschetto.svg") ?> 
+		<img src="img/logoRaschetto.svg" alt="logo" style="background-repeat: no-repeat;background-size: 22em;width: 21em;height: 5em;">
 		<hr />
 		<button id="eschelp" class="btn-large waves-effect waves-light orange carrot white-text" onclick="Scrap.HideModal()">FATTO</button>
 	  </div>
