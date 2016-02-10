@@ -49,8 +49,10 @@ var Login = (function (){
 			else{
 				var api = new API();
 				var risposta = api.chiamaServizio({requestUrl: "pages/login.php?user="+pData.user+"&password="+pData.password, methodType: "GET"});
-				 if(risposta.trim() == "")
-				 	location.reload();
+				 if(risposta.trim() == ""){
+				 	cookie.MAIN();
+					self.Remove();
+				 }
 				 else alert(risposta);
 
 			}
@@ -58,7 +60,10 @@ var Login = (function (){
 		return;
 	}
 	self.LogOut = function(){
-		window.location="pages/logout.php";
+		var api = new API();
+		api.chiamaServizio({requestUrl: "pages/logout.php", loader: false, isAsync: true, callback: function(){
+			cookie.MAIN();
+		}});
 	}
 	return self;
 }());

@@ -163,5 +163,20 @@ var readRDF= (function (){
 	}
 	return id;
   }
+  self.EnableRiannota = function(url){
+	var Query = self.GetQuery(self.GetGraph(), url) + " LIMIT 1 ";
+	  DirectSELECT(Query, function(res){
+		  var json = res.results.bindings;
+		  if(json.length == 0){
+			$("#cancella-ann").parent().hide();
+			$("#ri_ann").parent().show();
+		  }
+		  else
+		  {
+			$("#cancella-ann").parent().show();
+			$("#ri_ann").parent().hide();
+		  }
+	  });
+  }
   return self;
 }());
