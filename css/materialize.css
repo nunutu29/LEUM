@@ -1,4 +1,4 @@
-/*!
+display: block;/*!
  * Materialize v0.97.3 (http://materializecss.com)
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
@@ -5446,19 +5446,6 @@ nav {
     nav .brand-logo.right {
       right: 0.5rem;
       padding: 0; }
-  nav ul {
-    margin: 0; }
-    nav ul li {
-      background-color: rgba(0, 0, 0, 0) !important;
-      float: left;
-      padding: 0; }
-      nav ul li:hover, nav ul li.active {
-        background-color: rgba(0, 0, 0, 0.1); }
-    nav ul a {
-      font-size: 1rem;
-      color: #fff;
-      display: block;
-      padding: 0 15px; }
     nav ul.left {
       float: left; }
   nav .input-field {
@@ -6197,7 +6184,6 @@ a.waves-effect .waves-ripple {
   z-index: -1; }
 
 .modal {
-  display: none;
   position: fixed;
   left: 0;
   right: 0;
@@ -6256,6 +6242,7 @@ a.waves-effect .waves-ripple {
     bottom: 0; }
 
 .modal.bottom-sheet {
+  background-color: #fafafa;
   top: auto;
   bottom: -100%;
   margin: 0;

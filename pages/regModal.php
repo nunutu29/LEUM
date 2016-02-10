@@ -1,14 +1,14 @@
 <div id="modalReg" class="ann-details ann-shower modal modal-fixed-footer purple wisteria" style="display: block;">\
-	<div class="commnet-desc modal-content">\
+	<div class="commnet-desc modal-content mCustomScrollbar" data-mcs-theme="minimal-dark">\
 		<form>\
 			<div class="row">\
-				<div class="col-md-12 center">\
+				<div class="col-xs-12 col-sm-12 center">\
 					<img src="img/logoRaschettoperspective.svg" alt="logo" style="width: 55%;">\
 				</div>\
-				<div class="col-md-12 center" style="margin-bottom: -5%;">\
+				<div class="col-xs12 col-sm-12 center" style="margin-bottom: -5%;">\
 					<h2 >Crea un account</h2>\
 				</div>\
-				<div class="input-form col-md-offset-3 col-md-6">\
+				<div class="input-form col-sm-offset-3 col-sm-6">\
 					<div class="input-field">\
 						<i class="gn-icon gn-icon-username prefix">&nbsp;</i>\
 						<input id="newname" type="text" class="validate">\
@@ -30,8 +30,8 @@
 						<label for="newemail" data-error="Non è un indirizzo email valido">Email</label>\
 					</div>\
 				</div>\
-				<div class="col-md-3">&nbsp;</div>\
-				<div class="col-md-12 center">\
+				<div class="col-sm-3">&nbsp;</div>\
+				<div class="col-sm-12 center">\
 					<span id="erroremail" class="gn-icon gn-icon-ann-ex gn-icon-regalert"> E-mail già registrato. Prova con una nuova</span>\
 				</div>\
 			</div>\
@@ -39,13 +39,13 @@
 	</div>\
 	<div class="commnet-user">\
 		<div class="row">\
-			<div class="col-md-offset-3 col-md-3">\
+			<div class="col-sm-offset-3 col-sm-3">\
 				<a id="salvaReg" class="btn waves-effect waves-teal white purple-text text-wisteria" onclick="Singin.Try()">Iscriviti</a>\
 			</div>\
-			<div class="col-md-3">\
+			<div class="col-sm-3">\
 				<a id="cancellaReg" class="btn-flat waves-effect white-text">Annulla</a>\
 			</div>\
-			<div class="col-md-3">&nbsp;</div>\
+			<div class="col-sm-3">&nbsp;</div>\
 		</div>\
 	</div>\
 </div>	\
