@@ -125,8 +125,7 @@ var readRDF= (function (){
   					?sel a oa:FragmentSelector ;\
   							rdf:value ?id.\
   					OPTIONAL{?sel oa:start ?start ; oa:end ?end.}.\
-  					?body a rdf:Statement ;\
-  							rdf:subject ?subject ;\
+  					?body 	rdf:subject ?subject ;\
   							rdf:predicate ?predicate ;\
   							rdf:object ?object ;\
   					OPTIONAL { ?body rdfs:label ?bLabel }\
