@@ -1142,9 +1142,10 @@ var Scrap = (function(){
 		}
 		id = Clear(id);
 		id = Crea(id);
-		id = id.replace("_html1_body1_","");
-		id = id.replace("html1_body1_","");
-		
+		id = id.replace(/_html1_body1_/g,"");
+		id = id.replace(/html1_body1_/g,"");
+		id = id.replace(/html1_body1/g,"");
+		id = id.replace(/_tbody1/g,"");
 		return id;
 	}
 	self.RefreshCheckBox = function(id){

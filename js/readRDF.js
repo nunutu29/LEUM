@@ -62,7 +62,12 @@ var readRDF= (function (){
 	  });
 	  $("#ListaGruppi input[type='checkbox']").each(function(){
 		  var from = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
-		  var Query = self.GetQuery(from, url) + " LIMIT 5";
+		  var Query = "";
+		  if(this.getAttribute("id") == "ltw1529") 
+			Query = self.GetQuery(from, url.replace("www.", "")) + " LIMIT 1";
+		  else
+			Query = self.GetQuery(from, url) + " LIMIT 1";
+		
 		  var chk = this;
 		  DirectSELECT(Query, function(res){
 			  var json = res.results.bindings;
@@ -75,6 +80,10 @@ var readRDF= (function (){
   }
   self.GetData = function (fromquerry, url) {
 	fromquerry = fromquerry || self.GetGraph();
+	
+	if(fromquerry.split('/').pop() == "ltw1529") 
+		url = url.replace("www.", "");
+		  
     var Query = self.GetQuery(fromquerry, url);
 	if(fromquerry == self.GetGraph()){
 		self.ClearSession();
@@ -89,8 +98,12 @@ var readRDF= (function (){
   }
   self.ReadOnlyGroups = function (fromquerry, url) {
 	fromquerry = fromquerry || self.GetGraph();
-    var Query = self.GetQuery(fromquerry, url);
 	var readGraph = fromquerry.split('/').pop();
+	if(readGraph == "ltw1529") 
+		url = url.replace("www.", "");
+	
+    var Query = self.GetQuery(fromquerry, url);
+	
 	DirectSELECT(Query, function(res){
 		sessionStorage.setItem('ann'+readGraph, JSON.stringify(res));
 		count--;
