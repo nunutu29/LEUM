@@ -1085,12 +1085,17 @@ var Scrap = (function(){
 		me.ReadMulti = function(){
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
 			$("#filtri input[type='checkbox']:checked").each(function(){
-				if($(this)[0].checked){
-					$(this)[0].checked = false;
-					$(this).trigger("change");
-				}
-				$(this)[0].checked = true;
-				$(this).trigger("change");
+				var chk = this;
+				setTimeout(
+				function(){
+					if($(chk)[0].checked){
+						$(chk)[0].checked = false;
+						$(chk).trigger("change");
+					}
+					$(chk)[0].checked = true;
+					$(chk).trigger("change");
+				},
+				500);
 			});
 		};
 		me.GetAnnotations = function(from, what, control, group){
