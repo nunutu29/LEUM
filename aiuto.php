@@ -34,11 +34,9 @@
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasDisc"  style="padding:.5em;">Discussione</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasConc"  style="padding:.5em;">Conclusione</span></div>
 		</div>
-		<?php if(isset($_COOKIE["email"])){ ?>
 		<h4 class="light grey-text text-lighten-3">
 			Sotto il pulsante <span class="gn-icon gn-icon-tool white-text"></span> si nascondo un paio di strumenti. Con il pulsante <span class="gn-icon gn-icon-ann-add"></span> si può creare un annotazione nuova e nel pannello <span class="gn-icon gn-icon-ann-see"></span> Guarda Annotazione poi gestire le nuove modifiche.
 		</h4>
-		<?php } ?>
 	  </div>
 	</li>
 	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
