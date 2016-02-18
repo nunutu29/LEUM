@@ -1,3 +1,7 @@
+String.prototype.endsWith = function(suffix){
+		return this.match(suffix+"$") == suffix;
+};
+
 function ellipsify(str, sizebox) {
 	if (typeof sizebox === "undefined" || sizebox === null) { 
     sizebox = 43; 
@@ -402,32 +406,29 @@ var Scrap = (function(){
 		var box = "";
 		
 		for(var i = 0; i < elements.length; i++){
-			switch(elements[i].predicate.value){
-				case "http://purl.org/dc/terms/title":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-title', idToRem, i);
-				break;
-				case "http://purl.org/dc/terms/creator":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-autore', idToRem, i);
-				break;
-				case "http://prismstandard.org/namespaces/basic/2.0/doi":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-doi', idToRem, i);
-				break;
-				case "http://purl.org/spar/fabio/hasPublicationYear":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-annop', idToRem, i);
-				break;
-				case "http://purl.org/spar/fabio/hasURL":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-url', idToRem, i);
-				break;
-				case "http://schema.org/comment":
+			if(elements[i].predicate.value.endsWith("title"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-title', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("creator"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-autore', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("doi"))	
+				box = self.CreateBox(elements[i], 'gn-icon-ann-doi', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("hasPublicationYear"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-annop', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("hasURL"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-url', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("comment"))
 					box = self.CreateBox(elements[i], 'gn-icon-ann-commento', idToRem, i);
-				break;
-				case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-retorica', idToRem, i);
-				break;
-				case "http://purl.org/spar/cito/cites":
+			
+			if(elements[i].predicate.value.endsWith("semiotics.owl#denotes"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-retorica', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("cites"))
 					box = self.CreateBox(elements[i], 'gn-icon-ann-cites', idToRem, i);
-				break;
-			}
 			CarouselInner.append(box);
 		}
 		CarouselView.append(CarouselInner);
@@ -1146,6 +1147,7 @@ var Scrap = (function(){
 		id = id.replace(/html1_body1_/g,"");
 		id = id.replace(/html1_body1/g,"");
 		id = id.replace(/_tbody1/g,"");
+		id = id.replace("div1_div1_div2_div1_","form1_table3_tr1_td1_table5_tr1_td1_");
 		return id;
 	}
 	self.RefreshCheckBox = function(id){
