@@ -20,6 +20,7 @@
 		<h3> Le annotazioni già esistente gli distingui così:</h3>
 		<div class="row">
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasTitle0" style="padding:.5em;">Titolo</span></div>
+			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasPublicationYear0" style="padding:.5em;">Anno di pubblicazione</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasIntro"  style="padding:.5em;">Introduzione</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasAuthor0"  style="padding:.5em;">Autore</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasConcept"  style="padding:.5em;">Concetto</span></div>
