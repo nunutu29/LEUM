@@ -424,7 +424,7 @@ var Scrap = (function(){
 			if(elements[i].predicate.value.endsWith("comment"))
 					box = self.CreateBox(elements[i], 'gn-icon-ann-commento', idToRem, i);
 			
-			if(elements[i].predicate.value.endsWith("semiotics.owl#denotes"))
+			if(elements[i].predicate.value.endsWith("denotes"))
 				box = self.CreateBox(elements[i], 'gn-icon-ann-retorica', idToRem, i);
 			
 			if(elements[i].predicate.value.endsWith("cites"))
@@ -487,7 +487,7 @@ var Scrap = (function(){
 			footerdiv.append($(document.createElement('div')).addClass('col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center').append($("<span>").text(readRDF.DecodeGroupName(el.gruppo)).addClass('white-text footerlabel bottom-space')));
 		//Creazione BOX	
 		box.append($("<div>").addClass("commnet-desc modal-content row")
-				.append($("<div>").addClass('col-sm-11 col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
+				.append($("<div>").addClass('col-sm-11 col-md-11').append($("<p>").attr("id","a-lable").html(label)))//qua sono tropi id a-lable
 				.append($("<div>").addClass('com-sm-1 col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
 				.append($("<div>").addClass('col-xs-12 col-sm-12 col-md-12 col-lg-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
 		   .append(footerdiv);
@@ -1006,7 +1006,7 @@ var Scrap = (function(){
 			case "hasURL0": case "hasURL1": return "rgba(252, 205, 229, 0.5)";
 			case "hasComment0": case "hasComment1": return "rgba(179,222,105, 0.5)";
 			case "cites0": return "rgba(215,48,39,0.5)";
-			case "hasIntro": return "rgba(125,114,110,0.5)";
+			case "hasIntro": return "rgba(255,237,111,0.5)";
 			case "hasConcept": return "rgba(251,128,114, 0.5)";
 			case "hasAbstr": return "rgba(190,144,212, 0.5)";
 			case "hasMateria": return "rgba(217,217,217, 0.5)";
@@ -1105,9 +1105,18 @@ var Scrap = (function(){
 			var array = [];
 			for(var i = 0; i< from.length; i++){
 				from[i].gruppo = {value: group};
+				if(group == "ltw1536"){
+					try{
+						from[i].subject.value = from[i].subject.value.split(".html")[0];
+						from[i].subject.value += "_" + control;
+						if(from[i].predicate.value.endsWith("creator"))
+							from[i].predicate.value = "http://purl.org/dc/terms/creator";
+					}
+					catch(ex){}
+				}
 				if(self.CheckRet(what))
 				{	//Se Retorica fai questo
-					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && (from[i].object.value == what || what == self.Decode(from[i].object.value)))
+					if(from[i].predicate.value.endsWith("denotes") && (from[i].object.value == what || what == self.Decode(from[i].object.value) || what.toUpperCase().indexOf(from[i].bLabel.value.toUpperCase()) != -1))
 						array.push(from[i]);
 				}
 				else
@@ -1148,6 +1157,7 @@ var Scrap = (function(){
 		id = id.replace(/html1_body1/g,"");
 		id = id.replace(/_tbody1/g,"");
 		id = id.replace("div1_div1_div2_div1_","form1_table3_tr1_td1_table5_tr1_td1_");
+		if(id.indexOf("_table1") == 0) id = id.replace("_table1","form1_table3_tr1_td1_table5");
 		return id;
 	}
 	self.RefreshCheckBox = function(id){
