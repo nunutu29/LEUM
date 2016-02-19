@@ -224,21 +224,46 @@ overflow: hidden !important;
   overflow: hidden; 
 }
 
-.hasTitle0, .hasTitle1 {background-color: #80b1d3;}
-.hasAuthor0, .hasAuthor1 {background-color: #8DD3C7;}
-.hasDOI0, .hasDOI1 {background-color: #fdb462;}
-.hasPublicationYear0, .hasPublicationYear1 {background-color: #BEBADA;}
-.hasURL0, .hasURL1 {background-color: #fccde5;}
-.hasComment0,.hasComment1 {background-color: #b3de69;}
-.cites0 {background-color: #d73027;}
-.hasDisc {background-color: #2ECC71;}
-.hasIntro {background-color: #FFED6F;}
-.hasConcept {background-color: #FB8072;}
-.hasAbstr {background-color: #BE90D4;}
-.hasMateria {background-color: #D9D9D9;}
-.hasMeth {background-color: #BC80BD;}
-.hasRes {background-color: #BF812D;}
-.hasConc {background-color: #3498DB;}
+.hasAuthor0:hover:before, .hasAuthor1:hover:before,.hasPublicationYear0:hover:before, .hasPublicationYear1:hover:before, .hasTitle0:hover:before, .hasTitle1:hover:before,
+.hasDOI0:hover:before, .hasDOI1:hover:before, .hasURL0:hover:before, .hasURL1:hover:before, .hasComment0:hover:before,.hasComment1:hover:before, .cites0:hover:before, .hasIntro:hover:before, .hasConcept:hover:before,
+.hasAbstr:hover:before, .hasMateria:hover:before, .hasMeth:hover:before, .hasRes:hover:before, .hasDisc:hover:before, .hasConc:hover:before {
+z-index:1;
+}
+
+.hasTitle0, .hasTitle1, 
+.hasTitle0:hover:before, .hasTitle1:hover:before {background-color: #80b1d3;}
+.hasAuthor0, .hasAuthor1, 
+.hasAuthor0:hover:before, .hasAuthor1:hover:before {background-color: #8DD3C7;}
+.hasDOI0, .hasDOI1, 
+.hasDOI0:hover:before, .hasDOI1:hover:before {background-color: #fdb462;}
+.hasPublicationYear0, .hasPublicationYear1,
+.hasPublicationYear0:hover:before, .hasPublicationYear1:hover:before {background-color: #BEBADA;}
+.hasURL0, .hasURL1, 
+.hasURL0:hover:before, .hasURL1:hover:before {background-color: #fccde5;}
+.hasComment0,.hasComment1, 
+.hasComment0:hover:before,.hasComment1:hover:before {background-color: #b3de69;}
+.cites0, 
+.cites0:hover:before {background-color: #d73027;}
+.hasDisc, 
+.hasDisc:hover:before {background-color: #2ECC71;}
+.hasIntro, 
+.hasIntro:hover:before {background-color: #FFED6F;}
+.hasConcept, 
+.hasConcept:hover:before {background-color: #FB8072;}
+.hasAbstr, 
+.hasAbstr:hover:before {background-color: #BE90D4;}
+.hasMateria, 
+.hasMateria:hover:before {background-color: #D9D9D9;}
+.hasMeth, 
+.hasMeth:hover:before {background-color: #BC80BD;}
+.hasRes, 
+.hasRes:hover:before {background-color: #BF812D;}
+.hasConc, 
+.hasConc:hover:before {background-color: #3498DB;}
+
+
+
+
 /***************************
 *    REGISTER
 *
