@@ -115,15 +115,28 @@ var readRDF= (function (){
     sessionStorage.setItem('ann', "");
     sessionStorage.setItem('annotation', JSON.stringify(res));
 	
+	if($("#BUTTON_RIANNOTA").val() != ""){
+		$("#BUTTON_RIANNOTA").val("");
+		$("#filtri input[type='checkbox']").each(function(){
+			if($(this)[0].checked){
+				$(this)[0].checked = false;
+				$(this).trigger("change");
+			}
+			$(this)[0].checked = true;
+			$(this).trigger("change");
+		});
+		return;
+	}
+	
 	//Attiviamo Solo il nostro gruppo
 	$("#ListaGruppi input[id='ltw1516']")[0].checked = true;
 	$("#filtri input[type='checkbox']").each(function(){
 		$(this)[0].checked = true;
 		$(this).trigger("change");
 	});
+	
 	//il count serve dopo nella callback, se 0 refresh, ovvero se ha caricato tutti i gruppi.
 	count = $("#ListaGruppi li[class!='hidden']").length - 1; //-1 togliamo il nostro gruppo
-	
 	//leggiamo solo i gruppi che esistono
 	$("#ListaGruppi li[class!='hidden'] input[type='checkbox']").each(function(){
 		if(this.getAttribute("id") == "ltw1516") return; //Continue se nostro gruppo
