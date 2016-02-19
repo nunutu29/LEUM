@@ -1006,14 +1006,14 @@ var Scrap = (function(){
 			case "hasURL0": case "hasURL1": return "rgba(252, 205, 229, 0.5)";
 			case "hasComment0": case "hasComment1": return "rgba(179,222,105, 0.5)";
 			case "cites0": return "rgba(215,48,39,0.5)";
-			case "hasIntro": return "rgba(255,237,111,0.5)";
+			case "hasIntro": return "rgba(125,114,110,0.5)";
 			case "hasConcept": return "rgba(251,128,114, 0.5)";
-			case "hasAbstr": return "rgba(255,255,179, 0.5)";
+			case "hasAbstr": return "rgba(190,144,212, 0.5)";
 			case "hasMateria": return "rgba(217,217,217, 0.5)";
-			case "hasMeth": return "rgba(117,147,173, 0.5)";
+			case "hasMeth": return "rgba(188,128,189, 0.5)";
 			case "hasRes": return "rgba(191,129,45, 0.5)";
-			case "hasDisc": return "rgba(128,205,193, 0.5)";
-			case "hasConc": return "rgba(204,235,197, 0.5)";
+			case "hasDisc": return "rgba(46,204,113, 0.5)";
+			case "hasConc": return "rgba(52,152,219, 0.5)";
 		}
 		return null;
 	}
@@ -1107,7 +1107,7 @@ var Scrap = (function(){
 				from[i].gruppo = {value: group};
 				if(self.CheckRet(what))
 				{	//Se Retorica fai questo
-					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && (from[i].object.value == what || what == self.Decode(from[i].object.value)))
 						array.push(from[i]);
 				}
 				else
