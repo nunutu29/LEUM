@@ -325,6 +325,7 @@ function CreateComment($expression, $item, $comment, $start, $end, $target, $uri
 }
 function CreateRethoric($expression, $item, $object, $label, $start, $end, $target, $uri){
 	//object: deo:Introduction, skos:Concept, sro:Abstract, deo:Materials, deo:Methods, deo:Results, sro:Discussion, sro:Conclusion
+	
 	global $annotation_ID;
 	$annotation_ID = $annotation_ID + 1;
 	$mail = getMail();
@@ -452,9 +453,64 @@ for($i = 0; $i < $autArray->length; $i++){
 }
 
 //Abstract
-$astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
-if($astratto != null)
-CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+//$astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
+
+$retoriche = $xpath->query("//h3[text()='Abstract'][1]/following-sibling::p[count(.|//h3[text()='Abstract'][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[text()='Abstract'][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "sro:Abstract", "Questo è il ".$i."° paragrafo dell'abstract dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
+//Introduction
+$retoriche = $xpath->query("//h3[contains(.,'Introduction')][1]/following-sibling::p[count(.|//h3[contains(.,'Introduction')][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[contains(.,'Introduction')][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "deo:Introduction", "Questo è il ".$i."° paragrafo dell'Introduzione dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
+//Conclusion, Summary
+$retoriche = $xpath->query("//h3[contains(.,'Summary')][1]/following-sibling::p[count(.|//h3[contains(.,'Summary')][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[contains(.,'Summary')][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "sro:Conclusion", "Questo è il ".$i."° paragrafo della conclusione dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
+
+$retoriche = $xpath->query("//h3[contains(.,'Conclusions')][1]/following-sibling::p[count(.|//h3[contains(.,'Conclusions')][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[contains(.,'Conclusions')][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "sro:Conclusion", "Questo è il ".$i."° paragrafo della conclusione dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
+//Results
+$retoriche = $xpath->query("//h3[contains(.,'Results')][1]/following-sibling::p[count(.|//h3[contains(.,'Results')][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[contains(.,'Results')][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "deo:Results", "Questo è il ".$i."° paragrafo del Risultato dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
+
+//Method
+$retoriche = $xpath->query("//h3[contains(.,'Method')][1]/following-sibling::p[count(.|//h3[contains(.,'Method')][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[contains(.,'Method')][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "deo:Methods", "Questo è il ".$i."° paragrafo del metodo dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
+//Discussion
+$retoriche = $xpath->query("//h3[contains(.,'Discussion')][1]/following-sibling::p[count(.|//h3[contains(.,'Discussion')][1]/following-sibling::h3[1]/preceding-sibling::p)=count(//h3[contains(.,'Discussion')][1]/following-sibling::h3[1]/preceding-sibling::p)]");
+$i = 1; //contatore
+foreach($retoriche as $retorica){
+if($retorica != null)
+	CreateRethoric($Exp, $item, "sro:Discussion", "Questo è il ".$i."° paragrafo della discussione dell'articolo.", 0, strlen($retorica->nodeValue), $retorica->getAttribute('id'), $uri);
+$i++;
+}
 
 //URL
 $url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
@@ -484,16 +540,35 @@ CreateDoi($Exp, $item, $doi, strpos($target_text, $doi), strpos($target_text, $d
 //Citazioni dell'articolo
 $cities = $xpath->query("//h3[text()='References'][1]/following-sibling::p[count(.|//h3[text()='About the Authors'][1]/preceding-sibling::p)=count(//h3[text()='About the Authors'][1]/preceding-sibling::p)]");
 $i = 1;
+
 foreach($cities as $cite){
 	$citExp = $Exp."_cited".$i;
-	$title = $cite->getElementsByTagName('i');
-	$title = $title->length > 0 ? $title->item(0) : NULL;
+	//titolo puo essere compresa tra "" o tra punti.
+	$title = get_string_between($cite->nodeValue, '"', '"');
+	if($title == NULL){
+		$titles = explode(".", $cite->nodeValue);
+		foreach($titles as $tit){
+			if(count(explode(" ", trim($tit))) > 3){
+				$title = $tit;
+				break;
+			}
+		}
+	}
+	if(title == NULL){
+		$title = $cite->getElementsByTagName('i');
+		$title = $title->length > 0 ? $title->item(0) : NULL;
+	}
+	$asdf = file_get_contents("log.txt");
+	file_put_contents("log.txt", $asdf."\n".$title);
+	//$title = $cite->getElementsByTagName('i');
+	//$title = $title->length > 0 ? $title->item(0) : NULL;
 	if($title != NULL){
-		CreateCities($title->nodeValue, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen(Normalize($cite->nodeValue)), $uri);
-		CreateTitle($citExp, $item, $title->nodeValue, 0, strlen(Normalize($title->nodeValue)), $title->getAttribute('id'), $uri);
+		CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen(Normalize($cite->nodeValue)), $uri);
+		CreateTitle($citExp, $item, $title, strpos(Normalize($cite->nodeValue), Normalize($title)), strpos(Normalize($cite->nodeValue), Normalize($title)) + strlen(Normalize($title)), $cite->getAttribute('id'), $uri);
 		$DOI = $cite->getElementsByTagName('a');
-		$DOI = $DOI->length > 1 ? $DOI->item(1) : NULL;
-		if($DOI != NULL)
+		$DOI = $DOI->length > 0 ? $DOI->item($DOI->length - 1) : NULL;
+		//stristr non è case sensitive
+		if($DOI != NULL && strpos($DOI->nodeValue, "doi.org") !== false)
 			CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
 		//Anno
 		//replace dei punti per fare lo split
@@ -502,6 +577,11 @@ foreach($cities as $cite){
 		$anni = explode(",", $node_anno);
 		$positionStart = 0;
 		foreach($anni as $anno){
+			if(strpos($anno, "(") !== false){
+				$positionStart += strlen($anno) - strlen(trim($anno));
+				$anno = substr($anno, strpos($anno, "(") + 1, 4);
+				$positionStart += 1;
+			}
 			if(strlen(trim($anno)) == 4 && is_numeric(trim($anno))){
 				//manipulazione anno
 				$positionStart += strlen($anno) - strlen(ltrim($anno));
@@ -921,7 +1001,7 @@ if($url != null)
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 $url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p1_a1']")->item(0);
-if($url != null)
+if($url != null)
 CreateUrl($Exp, $item, Normalize($url->nodeValue), 0, strlen(Normalize($url->nodeValue)), $url->getAttribute('id'), $uri, "Questo testo rappresenta l' indirizzo:".$url->getAttribute('href'));
 
 
@@ -991,5 +1071,14 @@ function MultiDelimiter($delimiters, $string){
              $arr[$key] = MultiDelimiter($delimiters, $val);
 	}
 	return $arr;
+}
+
+function get_string_between($string, $start, $end){
+    $string = " ".$string;
+    $ini = strpos($string,$start);
+    if ($ini == 0) return "";
+    $ini += strlen($start);
+    $len = strpos($string,$end,$ini) - $ini;
+    return substr($string,$ini,$len);
 }
 ?>
