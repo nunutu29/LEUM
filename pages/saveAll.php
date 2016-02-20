@@ -78,7 +78,7 @@ function CreateNewAnnotation($obj){
 	try{
 		$mE = $obj->subject->value;
 		if($mE == "cited") 
-			$Exp."_cited".GetCiteIndex($obj->subject->value);
+			$Exp.="_cited".GetCiteIndex($obj->subject->value);
 		else
 			if(strpos(substr($mE, -8), "cited") !== false){
 				$cit = substr($mE, strrpos($mE, "_"));

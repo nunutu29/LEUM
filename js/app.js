@@ -1,3 +1,7 @@
+String.prototype.endsWith = function(suffix){
+		return this.match(suffix+"$") == suffix;
+};
+
 function ellipsify(str, sizebox) {
 	if (typeof sizebox === "undefined" || sizebox === null) { 
     sizebox = 43; 
@@ -49,8 +53,10 @@ var Login = (function (){
 			else{
 				var api = new API();
 				var risposta = api.chiamaServizio({requestUrl: "pages/login.php?user="+pData.user+"&password="+pData.password, methodType: "GET"});
-				 if(risposta.trim() == "")
-				 	location.reload();
+				 if(risposta.trim() == ""){
+				 	cookie.MAIN();
+					self.Remove();
+				 }
 				 else alert(risposta);
 
 			}
@@ -58,7 +64,10 @@ var Login = (function (){
 		return;
 	}
 	self.LogOut = function(){
-		window.location="pages/logout.php";
+		var api = new API();
+		api.chiamaServizio({requestUrl: "pages/logout.php", loader: false, isAsync: true, callback: function(){
+			cookie.MAIN();
+		}});
 	}
 	return self;
 }());
@@ -70,8 +79,11 @@ var Scrap = (function(){
 		var id = what + index;
 		if(chk.checked){
 		what = self.Decode(what);
-		var content = self.Execute(what, true, index);
-		var content2 = self.GetNew(what, index);
+		var content = null, content2 = null;
+		if($("#ltw1516")[0].checked){
+			content = self.Execute(what, true, index);
+			content2 = self.GetNew(what, index);
+		}
 		/*Qui leggere anche le annotazioni dei gruppi selezionati*/
 		var content3 = self.Groups.ReadSingle(what, index);
 		if(content == null || content == undefined) content = [];
@@ -87,35 +99,42 @@ var Scrap = (function(){
 			self.Remove(self.CheckID(id), ".");
 	}
 	self.GetList = function(el){
-		var mainJson = sessionStorage.getItem("annotation");
-		var ann = sessionStorage.getItem('ann');
+		var mainJson = [];
+		var ann = [];
 		var FullList = [];
-		try{
-			mainJson = JSON.parse(mainJson).results.bindings;
-		}
-		catch(ex){
-			mainJson = [];
-		}
-		if(typeof ann == "object") ann = [ann];
-		else
-		{
-			ann = ann.replace(/\|/g, ",");
-			ann = "[" + ann + "]";
-			ann = JSON.parse(ann);
-		}
-		for(var i = 0; i< mainJson.length; i++)
-		{
-			if(el.id.value == mainJson[i].id.value && el.start.value == mainJson[i].start.value && el.end.value ==  mainJson[i].end.value){
-				var annotation = null;
-				if((annotation = self.CheckAnnotation(mainJson[i])) != null)
-					FullList.push(annotation);
+		if($("#ltw1516")[0].checked){
+			mainJson = sessionStorage.getItem("annotation");
+			ann = sessionStorage.getItem('ann');
+			try{
+				mainJson = JSON.parse(mainJson).results.bindings;
 			}
-		}
-		for(var i = 0; i < ann.length; i++)
-		{
-			if(el.id.value == ann[i].id.value && el.start.value == ann[i].start.value && el.end.value == ann[i].end.value){
-				if(ann[i].azione.value != "D")
-					FullList.push(ann[i]);
+			catch(ex){
+				mainJson = [];
+			}
+			
+			if(typeof ann == "object") ann = [ann];
+			else
+			{
+				ann = ann.replace(/\|/g, ",");
+				ann = "[" + ann + "]";
+				ann = JSON.parse(ann);
+			}
+		
+		
+			for(var i = 0; i< mainJson.length; i++)
+			{
+				if(el.id.value == mainJson[i].id.value && el.start.value == mainJson[i].start.value && el.end.value ==  mainJson[i].end.value){
+					var annotation = null;
+					if((annotation = self.CheckAnnotation(mainJson[i])) != null)
+						FullList.push(annotation);
+				}
+			}
+			for(var i = 0; i < ann.length; i++)
+			{
+				if(el.id.value == ann[i].id.value && el.start.value == ann[i].start.value && el.end.value == ann[i].end.value){
+					if(ann[i].azione.value != "D")
+						FullList.push(ann[i]);
+				}
 			}
 		}
 		$("#ListaGruppi input[type='checkbox']:checked").each(function(){
@@ -387,32 +406,29 @@ var Scrap = (function(){
 		var box = "";
 		
 		for(var i = 0; i < elements.length; i++){
-			switch(elements[i].predicate.value){
-				case "http://purl.org/dc/terms/title":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-title', idToRem, i);
-				break;
-				case "http://purl.org/dc/terms/creator":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-autore', idToRem, i);
-				break;
-				case "http://prismstandard.org/namespaces/basic/2.0/doi":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-doi', idToRem, i);
-				break;
-				case "http://purl.org/spar/fabio/hasPublicationYear":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-annop', idToRem, i);
-				break;
-				case "http://purl.org/spar/fabio/hasURL":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-url', idToRem, i);
-				break;
-				case "http://schema.org/comment":
+			if(elements[i].predicate.value.endsWith("title"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-title', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("creator"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-autore', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("doi"))	
+				box = self.CreateBox(elements[i], 'gn-icon-ann-doi', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("hasPublicationYear"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-annop', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("hasURL"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-url', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("comment"))
 					box = self.CreateBox(elements[i], 'gn-icon-ann-commento', idToRem, i);
-				break;
-				case "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes":
-					box = self.CreateBox(elements[i], 'gn-icon-ann-retorica', idToRem, i);
-				break;
-				case "http://purl.org/spar/cito/cites":
+			
+			if(elements[i].predicate.value.endsWith("denotes"))
+				box = self.CreateBox(elements[i], 'gn-icon-ann-retorica', idToRem, i);
+			
+			if(elements[i].predicate.value.endsWith("cites"))
 					box = self.CreateBox(elements[i], 'gn-icon-ann-cites', idToRem, i);
-				break;
-			}
 			CarouselInner.append(box);
 		}
 		CarouselView.append(CarouselInner);
@@ -423,6 +439,9 @@ var Scrap = (function(){
 		Mainbox.append(CarouselView);
 		father.append(Mainbox);
 		father.fadeIn('fast');
+		if($(window).width() < 800){
+			$("body").addClass("overflow_hidden");
+		}
 	};
 	self.CreateBox = function(el, icon, idToRemove, index){
 		var active = index == 0 ? " active" : "";
@@ -450,32 +469,35 @@ var Scrap = (function(){
 				label = self.DecodeRetorica(el.object.value);
 		};
 		//Creazione Bottoni
-		var cancella = $(document.createElement('div')).addClass('col-md-3 center')
+		var cancella = $(document.createElement('div')).addClass('col-xs-12 col-sm-4 col-lg-3 center bottom-space')
 			.append($("<input>").attr("id","delete-ann").addClass("btn waves-effect waves-light red valencia white-text").attr("type","button").attr("value","Cancella").attr("onclick","Scrap.AddToFile('"+boxID+"','D','"+idToRemove+"')"));
-		var modifica = $(document.createElement('div')).addClass('col-md-offset-3 col-md-2')
+		var modifica = $(document.createElement('div')).addClass('col-xs-12 col-sm-4 col-lg-offset-3 col-lg-2 center bottom-space')
 			.append($("<input>").attr("id","edit-ann").addClass("btn waves-effect waves-light green accent-4  white-text").attr("type","button").attr("value","Modifica").attr("onclick","Scrap.EditOpen('"+boxID+"','','U','"+idToRemove+"')"))
 		//Creazione footer
 
 		var footerdiv = $(document.createElement("div")).addClass("commnet-separator row");
-		footerdiv.append($("<div>").addClass('col-md-4 center')
-			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel')));
+		footerdiv.append($("<div>").addClass('col-xs-12 col-sm-4 col-lg-4 center')
+			.append($("<span>").addClass("gn-icon " + icon).text(el.label.value).addClass('white-text footerlabel bottom-space')));
 			
 		if(el.gruppo == undefined && getCookie("email") != ""){
 			box.attr("data-info", JSON.stringify(el));
 			footerdiv.append(modifica).append(cancella);
 		}
 		else if (el.gruppo != undefined)
-			footerdiv.append($(document.createElement('div')).addClass('col-md-offset-3 col-md-2').append($("<span>").text(readRDF.DecodeGroupName(el.gruppo)).addClass('white-text footerlabel')));
+			footerdiv.append($(document.createElement('div')).addClass('col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center').append($("<span>").text(readRDF.DecodeGroupName(el.gruppo)).addClass('white-text footerlabel bottom-space')));
 		//Creazione BOX	
 		box.append($("<div>").addClass("commnet-desc modal-content row")
-				.append($("<div>").addClass('col-md-11').append($("<p>").attr("id","a-lable").text(label)))//qua sono tropi id a-lable
-				.append($("<div>").addClass('col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
-				.append($("<div>").addClass('col-md-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
+				.append($("<div>").addClass('col-sm-11 col-md-11').append($("<p>").attr("id","a-lable").html(label)))//qua sono tropi id a-lable
+				.append($("<div>").addClass('com-sm-1 col-md-1 center').append($("<a>").attr("id","hide-ann").addClass("btn-flat waves-effect grey-text text-darken-2 gn-icon gn-icon-hide modal-action modal-close").attr("onclick","Scrap.HideModal('CarouselViewMain')")))
+				.append($("<div>").addClass('col-xs-12 col-sm-12 col-md-12 col-lg-12').append($("<span>").addClass("time").text("Annotato il " + el.at.value + annotator))))
 		   .append(footerdiv);
 		return box;
 	};
 	self.HideModal = function(id){
 		$("#modalBox").empty().fadeOut('fast');
+		if($(window).width() < 800){
+			$("body").removeClass("overflow_hidden");
+		}
 		//$("#modalBox").fadeOut('fast');
 		//$("#" + id).remove();
 		if ( $("body").attr('style') != undefined )
@@ -695,10 +717,10 @@ var Scrap = (function(){
 			box.append('<div class="commnet-desc modal-content">\
 							<form>\
 								<div class="row">\
-									<div class="col-md-12 center">\
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">\
 										<h2 >'+ disptitle +'</h2>\
 									</div>\
-									<div class="col-md-6 center">\
+									<div class="col-xs-12 col-sm-6 col-md-6 center">\
 										<select id="iperSelector" data-toggle="select" name="searchfield" class="form-control select select-info mrs mbm">\
 											<option value="hasTitle0">Titolo</option>\
 											<option value="hasAuthor0">Autore</option>\
@@ -726,13 +748,13 @@ var Scrap = (function(){
 											</optgroup>\
 										</select>\
 									</div>\
-									<div class="col-md-6 center" style="display: '+ disp +';">\
+									<div class="col-xs-12 col-sm-6 col-md-6 center" style="display: '+ disp +';">\
 										<a id="change-target" class="waves-effect waves-light orange carrot white-text btn-flat gn-icon gn-icon-ann-target" onclick="modificaPosizione();">Cambia Posizione</a>\
 									</div>\
-									<div class="col-md-12 center">\
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">\
 										<p id="testo_selezionato" style="overflow:auto;">' + ellipsify(bodyObject, 447) + '</p>\
 									</div>\
-									<div class="input-field col-md-12">\
+									<div class="input-field col-xs-12 col-sm-12 col-md-12 col-lg-12">\
 										<textarea id="iperTextArea" class="materialize-textarea" name="text-label" cols="40" style="margin: 5%;width: 90%;" class="materialize-textarea">' + ellipsify(bodyLabel) + '</textarea>\
 										<label for="iperTextArea">' + dispnote + '</label>\
 									</div>\
@@ -741,13 +763,13 @@ var Scrap = (function(){
 						</div>\
 						<div class ="commnet-separator">\
 							<div class="edit-delete commnet-user row">\
-								<div class="col-md-3 col-md-offset-3 center">\
+								<div class="col-xs-12 col-sm-3 col-sm-offset-3 col-md-3 col-md-offset-3 center">\
 									<input id="save-ann" class="waves-effect waves-teal btn white purple-text text-wisteria" type="button" value="Salva" onclick="Scrap.AddToFile(\''+blockid+'\', \''+azione+'\', \'' + idToRem + '\')">\
 									</div>\
-								<div class="col-md-3 center">\
+								<div class="col-xs-12 col-sm-3 col-md-3 center">\
 									<input class="waves-effect btn-flat white-text" type="button" value="Annulla" onclick="Scrap.HideModal(\'idDiMerda\')">\
 									</div>\
-								<div class="col-md-3">\
+								<div class="col-xs-12 col-sm-3 col-md-3">\
 								</div>\
 							</div>\
 						</div>');
@@ -761,7 +783,7 @@ var Scrap = (function(){
 					axis:"y",
 					theme:"minimal-dark"
 			});
-			$("body").attr('style', 'overflow:hidden;');
+			//$("body").attr('style', 'overflow:hidden;');
 			if(!($(father).is(":visible"))) father.fadeIn('fast');
 			var neWelements = {id:{value:dati.id.value},start:{value:dati.start.value},end:{value:dati.end.value},object:{value:dati.object.value}};
 			$("p#testo_selezionato").attr("data-info", JSON.stringify(neWelements));
@@ -986,12 +1008,12 @@ var Scrap = (function(){
 			case "cites0": return "rgba(215,48,39,0.5)";
 			case "hasIntro": return "rgba(255,237,111,0.5)";
 			case "hasConcept": return "rgba(251,128,114, 0.5)";
-			case "hasAbstr": return "rgba(255,255,179, 0.5)";
+			case "hasAbstr": return "rgba(190,144,212, 0.5)";
 			case "hasMateria": return "rgba(217,217,217, 0.5)";
-			case "hasMeth": return "rgba(117,147,173, 0.5)";
+			case "hasMeth": return "rgba(188,128,189, 0.5)";
 			case "hasRes": return "rgba(191,129,45, 0.5)";
-			case "hasDisc": return "rgba(128,205,193, 0.5)";
-			case "hasConc": return "rgba(204,235,197, 0.5)";
+			case "hasDisc": return "rgba(46,204,113, 0.5)";
+			case "hasConc": return "rgba(52,152,219, 0.5)";
 		}
 		return null;
 	}
@@ -1019,13 +1041,17 @@ var Scrap = (function(){
 				sessionStorage.setItem(nomeSessione, delAll.substring(0, delAll.length - 1));
 				self.SalvaTutto(nomeSessione, true);
 			}
-		}		
-		$("#cancella-ann").parent().hide();
-		$("#ri_ann").parent().show();
+			$("#cancella-ann").parent().hide();
+			$("#ri_ann").parent().show();
+		}	
 	}
 	self.Groups = (function(){
 		var me = {};
 		me.Load = function(chk, article){
+			if(chk.getAttribute("id") == "ltw1516"){
+				me.ReadMulti();
+				return;
+			}
 			if(chk.checked){
 				article = article || $('#URL').val();
 				var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + chk.getAttribute("id");
@@ -1060,10 +1086,17 @@ var Scrap = (function(){
 		me.ReadMulti = function(){
 			/*Usato quando vengono caricate le annotazioni, e se esistono checkbox attivi, le evidenzia*/
 			$("#filtri input[type='checkbox']:checked").each(function(){
-				$(this)[0].checked = false;
-				$(this).trigger("change");
-				$(this)[0].checked = true;
-				$(this).trigger("change");
+				var chk = this;
+				setTimeout(
+				function(){
+					if($(chk)[0].checked){
+						$(chk)[0].checked = false;
+						$(chk).trigger("change");
+					}
+					$(chk)[0].checked = true;
+					$(chk).trigger("change");
+				},
+				500);
 			});
 		};
 		me.GetAnnotations = function(from, what, control, group){
@@ -1072,9 +1105,18 @@ var Scrap = (function(){
 			var array = [];
 			for(var i = 0; i< from.length; i++){
 				from[i].gruppo = {value: group};
+				if(group == "ltw1536"){
+					try{
+						from[i].subject.value = from[i].subject.value.split(".html")[0];
+						from[i].subject.value += "_" + control;
+						if(from[i].predicate.value.endsWith("creator"))
+							from[i].predicate.value = "http://purl.org/dc/terms/creator";
+					}
+					catch(ex){}
+				}
 				if(self.CheckRet(what))
 				{	//Se Retorica fai questo
-					if(from[i].predicate.value == "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" && from[i].object.value == what)
+					if(from[i].predicate.value.endsWith("denotes") && (from[i].object.value == what || what == self.Decode(from[i].object.value) || what.toUpperCase().indexOf(from[i].bLabel.value.toUpperCase()) != -1))
 						array.push(from[i]);
 				}
 				else
@@ -1110,9 +1152,12 @@ var Scrap = (function(){
 		}
 		id = Clear(id);
 		id = Crea(id);
-		id = id.replace("_html1_body1_","");
-		id = id.replace("html1_body1_","");
-		
+		id = id.replace(/_html1_body1_/g,"");
+		id = id.replace(/html1_body1_/g,"");
+		id = id.replace(/html1_body1/g,"");
+		id = id.replace(/_tbody1/g,"");
+		id = id.replace("div1_div1_div2_div1_","form1_table3_tr1_td1_table5_tr1_td1_");
+		if(id.indexOf("_table1") == 0) id = id.replace("_table1","form1_table3_tr1_td1_table5");
 		return id;
 	}
 	self.RefreshCheckBox = function(id){
@@ -1128,17 +1173,17 @@ var Scrap = (function(){
 function Normalize(str){
 var defaultDiacriticsRemovalMap = [
     {'base':'A', 'letters':/[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
-    {'base':'AA','letters':/[\uA732]/g},
-    {'base':'AE','letters':/[\u00C6\u01FC\u01E2]/g},
-    {'base':'AO','letters':/[\uA734]/g},
-    {'base':'AU','letters':/[\uA736]/g},
-    {'base':'AV','letters':/[\uA738\uA73A]/g},
-    {'base':'AY','letters':/[\uA73C]/g},
+    {'base':'A','letters':/[\uA732]/g},
+    {'base':'A','letters':/[\u00C6\u01FC\u01E2]/g},
+    {'base':'A','letters':/[\uA734]/g},
+    {'base':'A','letters':/[\uA736]/g},
+    {'base':'A','letters':/[\uA738\uA73A]/g},
+    {'base':'A','letters':/[\uA73C]/g},
     {'base':'B', 'letters':/[\u0042\u24B7\uFF22\u1E02\u1E04\u1E06\u0243\u0182\u0181]/g},
     {'base':'C', 'letters':/[\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E]/g},
     {'base':'D', 'letters':/[\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779]/g},
-    {'base':'DZ','letters':/[\u01F1\u01C4]/g},
-    {'base':'Dz','letters':/[\u01F2\u01C5]/g},
+    {'base':'D','letters':/[\u01F1\u01C4]/g},
+    {'base':'D','letters':/[\u01F2\u01C5]/g},
     {'base':'E', 'letters':/[\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E]/g},
     {'base':'F', 'letters':/[\u0046\u24BB\uFF26\u1E1E\u0191\uA77B]/g},
     {'base':'G', 'letters':/[\u0047\u24BC\uFF27\u01F4\u011C\u1E20\u011E\u0120\u01E6\u0122\u01E4\u0193\uA7A0\uA77D\uA77E]/g},
@@ -1147,66 +1192,66 @@ var defaultDiacriticsRemovalMap = [
     {'base':'J', 'letters':/[\u004A\u24BF\uFF2A\u0134\u0248]/g},
     {'base':'K', 'letters':/[\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2]/g},
     {'base':'L', 'letters':/[\u004C\u24C1\uFF2C\u013F\u0139\u013D\u1E36\u1E38\u013B\u1E3C\u1E3A\u0141\u023D\u2C62\u2C60\uA748\uA746\uA780]/g},
-    {'base':'LJ','letters':/[\u01C7]/g},
-    {'base':'Lj','letters':/[\u01C8]/g},
+    {'base':'L','letters':/[\u01C7]/g},
+    {'base':'L','letters':/[\u01C8]/g},
     {'base':'M', 'letters':/[\u004D\u24C2\uFF2D\u1E3E\u1E40\u1E42\u2C6E\u019C]/g},
     {'base':'N', 'letters':/[\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4]/g},
-    {'base':'NJ','letters':/[\u01CA]/g},
-    {'base':'Nj','letters':/[\u01CB]/g},
+    {'base':'N','letters':/[\u01CA]/g},
+    {'base':'N','letters':/[\u01CB]/g},
     {'base':'O', 'letters':/[\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C]/g},
-    {'base':'OI','letters':/[\u01A2]/g},
-    {'base':'OO','letters':/[\uA74E]/g},
-    {'base':'OU','letters':/[\u0222]/g},
+    {'base':'O','letters':/[\u01A2]/g},
+    {'base':'O','letters':/[\uA74E]/g},
+    {'base':'O','letters':/[\u0222]/g},
     {'base':'P', 'letters':/[\u0050\u24C5\uFF30\u1E54\u1E56\u01A4\u2C63\uA750\uA752\uA754]/g},
     {'base':'Q', 'letters':/[\u0051\u24C6\uFF31\uA756\uA758\u024A]/g},
     {'base':'R', 'letters':/[\u0052\u24C7\uFF32\u0154\u1E58\u0158\u0210\u0212\u1E5A\u1E5C\u0156\u1E5E\u024C\u2C64\uA75A\uA7A6\uA782]/g},
     {'base':'S', 'letters':/[\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784]/g},
     {'base':'T', 'letters':/[\u0054\u24C9\uFF34\u1E6A\u0164\u1E6C\u021A\u0162\u1E70\u1E6E\u0166\u01AC\u01AE\u023E\uA786]/g},
-    {'base':'TZ','letters':/[\uA728]/g},
+    {'base':'T','letters':/[\uA728]/g},
     {'base':'U', 'letters':/[\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244]/g},
     {'base':'V', 'letters':/[\u0056\u24CB\uFF36\u1E7C\u1E7E\u01B2\uA75E\u0245]/g},
-    {'base':'VY','letters':/[\uA760]/g},
+    {'base':'V','letters':/[\uA760]/g},
     {'base':'W', 'letters':/[\u0057\u24CC\uFF37\u1E80\u1E82\u0174\u1E86\u1E84\u1E88\u2C72]/g},
     {'base':'X', 'letters':/[\u0058\u24CD\uFF38\u1E8A\u1E8C]/g},
     {'base':'Y', 'letters':/[\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g},
     {'base':'Z', 'letters':/[\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g},
     {'base':'a', 'letters':/[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g},
-    {'base':'aa','letters':/[\uA733]/g},
-    {'base':'ae','letters':/[\u00E6\u01FD\u01E3]/g},
-    {'base':'ao','letters':/[\uA735]/g},
-    {'base':'au','letters':/[\uA737]/g},
-    {'base':'av','letters':/[\uA739\uA73B]/g},
-    {'base':'ay','letters':/[\uA73D]/g},
+    {'base':'a','letters':/[\uA733]/g},
+    {'base':'a','letters':/[\u00E6\u01FD\u01E3]/g},
+    {'base':'a','letters':/[\uA735]/g},
+    {'base':'a','letters':/[\uA737]/g},
+    {'base':'a','letters':/[\uA739\uA73B]/g},
+    {'base':'a','letters':/[\uA73D]/g},
     {'base':'b', 'letters':/[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g},
     {'base':'c', 'letters':/[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g},
     {'base':'d', 'letters':/[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g},
-    {'base':'dz','letters':/[\u01F3\u01C6]/g},
-    {'base':'e', 'letters':/[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g},
+    {'base':'d','letters':/[\u01F3\u01C6]/g},
+    {'base':'e', 'letters':/[\u0301\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g},
     {'base':'f', 'letters':/[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g},
     {'base':'g', 'letters':/[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g},
     {'base':'h', 'letters':/[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g},
-    {'base':'hv','letters':/[\u0195]/g},
+    {'base':'h','letters':/[\u0195]/g},
     {'base':'i', 'letters':/[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g},
     {'base':'j', 'letters':/[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g},
     {'base':'k', 'letters':/[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g},
     {'base':'l', 'letters':/[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g},
-    {'base':'lj','letters':/[\u01C9]/g},
+    {'base':'l','letters':/[\u01C9]/g},
     {'base':'m', 'letters':/[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g},
     {'base':'n', 'letters':/[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g},
-    {'base':'nj','letters':/[\u01CC]/g},
+    {'base':'n','letters':/[\u01CC]/g},
     {'base':'o', 'letters':/[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g},
-    {'base':'oi','letters':/[\u01A3]/g},
-    {'base':'ou','letters':/[\u0223]/g},
-    {'base':'oo','letters':/[\uA74F]/g},
+    {'base':'o','letters':/[\u01A3]/g},
+    {'base':'o','letters':/[\u0223]/g},
+    {'base':'o','letters':/[\uA74F]/g},
     {'base':'p','letters':/[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g},
     {'base':'q','letters':/[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g},
     {'base':'r','letters':/[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g},
     {'base':'s','letters':/[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g},
     {'base':'t','letters':/[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g},
-    {'base':'tz','letters':/[\uA729]/g},
+    {'base':'t','letters':/[\uA729]/g},
     {'base':'u','letters':/[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g},
     {'base':'v','letters':/[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g},
-    {'base':'vy','letters':/[\uA761]/g},
+    {'base':'v','letters':/[\uA761]/g},
     {'base':'w','letters':/[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g},
     {'base':'x','letters':/[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g},
     {'base':'y','letters':/[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g},
@@ -1618,13 +1663,13 @@ function onSuccess(json){
 	
 	view.append("<div class ='commnet-separator'>\
 							<div class='edit-delete commnet-user row'>\
-								<div class='col-md-4 center'>\
-									<span class='gn-icon gn-icon-ann-ex white-text footerlabel'>Annotazioni non salvate</span>\
+								<div class='col-xs-12 col-sm-4  col-md-4 center'>\
+									<span class='gn-icon gn-icon-ann-ex white-text footerlabel bottom-space'>Annotazioni non salvate</span>\
 								</div>\
-								<div class='col-md-offset-3 col-md-2'>\
+								<div class='col-xs-12 col-sm-offset-3 col-sm-2 col-md-offset-3 col-md-2 center'>\
 									<input id='save' class='btn waves-effect waves-light green accent-4 white-text' type='button' value='Salva Tutto' onclick='Scrap.SalvaTutto()'>\
 								</div>\
-								<div class='col-md-3 center'>\
+								<div class='col-xs-12 col-sm-3 col-md-3 center'>\
 									<button id='exit' class='btn-flat waves-effect waves-grey white-text purple wisteria'>Esci</button>\
 								</div>\
 							</div>\
@@ -1636,27 +1681,27 @@ function onSuccess(json){
 	for(i=0;i<json.length; i++){
 		if(json[i].azione.value=="I"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
-				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina('butt_ann_"+i+"','D','ann_"+i+"')>Elimina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
+				$('#riepilogo_ann').append("<div class='row'><div class='col-xs-5 col-sm-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-xs-5 col-sm-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina('butt_ann_"+i+"','D','ann_"+i+"')>Elimina</button><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
+				$('#riepilogo_ann').append("<div class='row'><div class='col-xs-5 col-sm-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE</span></div><div class='col-xs-5 col-sm-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=elimina(\'butt_ann_"+i+"\',\'D\',\'ann_"+i+"\')>Elimina</button><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-xs-12 col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");
 			}
 		}
 		else if(json[i].azione.value=="D"){
 			if(  json[i].predicate.value=="http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes" || json[i].predicate.value=="http://schema.org/comment"){
 				$('#riepilogo_ann').append("<div class='row'>\
-												<div class='col-md-9'>\
+												<div class='col-xs-5 col-sm-9'>\
 													<span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span>\
 												</div>\
-												<div class='col-md-3'></div>\
+												<div class='col-xs-5 col-sm-3'></div>\
 													<button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button>\
-												<div class='col-md-12'>\
+												<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>\
 													<p>\
 														<strong>Tipo</strong>: \
 														<em>"+json[i].label.value+"</em>\
 													</p>\
 												</div>\
-												<div class='col-md-12'>\
+												<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>\
 													<p>\
 														<strong>Annotazione</strong>: \
 														<em>"+json[i].bLabel.value+"</em>\
@@ -1666,7 +1711,7 @@ function onSuccess(json){
 											<hr>");
 			}
 			else{
-				$('#riepilogo_ann').append("<div class='row'><div class='col-md-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span></div><div class='col-md-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button><div class='col-md-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-md-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-md-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
+				$('#riepilogo_ann').append("<div class='row'><div class='col-xs-5 col-sm-9'><span id='ann_"+i+"' class='red-text text-valencia'>ANNOTAZIONE (eliminata)</span></div><div class='col-xs-5 col-sm-3'></div><button id='butt_ann_"+i+"' class='btn waves-effect waves-light red valencia white-text' onclick=ripristina(\'butt_ann_"+i+"\',\'I\',\'ann_"+i+"\')>Ripristina</button><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Tipo</strong>: <em>"+json[i].label.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Testo selezionato</strong>: <em>"+json[i].object.value+"</em></p></div><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><p><strong>Annotazione</strong>: <em>"+json[i].bLabel.value+"</em></p></div></div><hr>");   //quando faccio un' annotazione che contiene le virgolette si incazzava(ora non pi??
 				}
 		}
 		$("#butt_ann_"+i).attr("data-info", JSON.stringify(json[i]));

@@ -92,7 +92,7 @@
 	text-align: left;
 	font-size: 18px;
 	padding: 0px;
-	margin: 0px !important;
+	margin: 0px 0px 5% 0px!important;
 }
 .gn-menu li:not(:first-child),
 .gn-menu li li {

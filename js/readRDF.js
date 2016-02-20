@@ -8,6 +8,7 @@ function DirectSELECT(querry, callback, loader){
 var readRDF= (function (){
   var self ={};
   var ReadingGraph = "";
+  var count = 0;
   self.GetGraph = function () {
     return "http://vitali.web.cs.unibo.it/raschietto/graph/ltw1516"
   }
@@ -61,33 +62,88 @@ var readRDF= (function (){
 	  });
 	  $("#ListaGruppi input[type='checkbox']").each(function(){
 		  var from = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
-		  var Query = self.GetQuery(from, url) + " LIMIT 1 ";
+		  var Query = "";
+		  if(this.getAttribute("id") == "ltw1529") 
+			Query = self.GetQuery(from, url.replace("www.", "")) + " LIMIT 1";
+		  else
+			Query = self.GetQuery(from, url) + " LIMIT 1";
+		
 		  var chk = this;
 		  DirectSELECT(Query, function(res){
 			  var json = res.results.bindings;
 			  if(json.length == 0)
-			  {
-				  chk.disabled = true;
-				  chk.checked = false;
-			  }
+				  $(chk).parent().addClass("hidden");
+			  else
+				  $(chk).parent().removeClass("hidden");
 		  });
 	  });
   }
   self.GetData = function (fromquerry, url) {
-    fromquerry = fromquerry || self.GetGraph();
+	fromquerry = fromquerry || self.GetGraph();
+	
+	if(fromquerry.split('/').pop() == "ltw1529") 
+		url = url.replace("www.", "");
+		  
     var Query = self.GetQuery(fromquerry, url);
-	if(fromquerry == self.GetGraph())
+	if(fromquerry == self.GetGraph()){
+		self.ClearSession();
 		DirectSELECT(Query, self.CallBackData);
+		self.EnableIfExists(url);
+	}
 	else
 	{
 		ReadingGraph = fromquerry.split('/').pop();
 		DirectSELECT(Query, self.CallBackDataGroup);
 	}
-	self.EnableIfExists(url);
+  }
+  self.ReadOnlyGroups = function (fromquerry, url) {
+	fromquerry = fromquerry || self.GetGraph();
+	var readGraph = fromquerry.split('/').pop();
+	if(readGraph == "ltw1529") 
+		url = url.replace("www.", "");
+	
+    var Query = self.GetQuery(fromquerry, url);
+	
+	DirectSELECT(Query, function(res){
+		sessionStorage.setItem('ann'+readGraph, JSON.stringify(res));
+		count--;
+		if(count == 0)
+			Scrap.Groups.ReadMulti();
+	});
   }
   self.CallBackData = function (res) {
     sessionStorage.setItem('ann', "");
     sessionStorage.setItem('annotation', JSON.stringify(res));
+	
+	if($("#BUTTON_RIANNOTA").val() != ""){
+		$("#BUTTON_RIANNOTA").val("");
+		$("#filtri input[type='checkbox']").each(function(){
+			if($(this)[0].checked){
+				$(this)[0].checked = false;
+				$(this).trigger("change");
+			}
+			$(this)[0].checked = true;
+			$(this).trigger("change");
+		});
+		return;
+	}
+	
+	//Attiviamo Solo il nostro gruppo
+	$("#ListaGruppi input[id='ltw1516']")[0].checked = true;
+	$("#filtri input[type='checkbox']").each(function(){
+		$(this)[0].checked = true;
+		$(this).trigger("change");
+	});
+	
+	//il count serve dopo nella callback, se 0 refresh, ovvero se ha caricato tutti i gruppi.
+	count = $("#ListaGruppi li[class!='hidden']").length - 1; //-1 togliamo il nostro gruppo
+	//leggiamo solo i gruppi che esistono
+	$("#ListaGruppi li[class!='hidden'] input[type='checkbox']").each(function(){
+		if(this.getAttribute("id") == "ltw1516") return; //Continue se nostro gruppo
+		$(this)[0].checked = true;
+		var groupURL = "http://vitali.web.cs.unibo.it/raschietto/graph/" + this.getAttribute("id");
+		self.ReadOnlyGroups(groupURL, $('#URL').val());
+	});
   }
   self.CallBackDataGroup = function(res){
 	sessionStorage.setItem('ann'+ReadingGraph, JSON.stringify(res));
@@ -117,8 +173,7 @@ var readRDF= (function (){
   					?sel a oa:FragmentSelector ;\
   							rdf:value ?id.\
   					OPTIONAL{?sel oa:start ?start ; oa:end ?end.}.\
-  					?body a rdf:Statement ;\
-  							rdf:subject ?subject ;\
+  					?body 	rdf:subject ?subject ;\
   							rdf:predicate ?predicate ;\
   							rdf:object ?object ;\
   					OPTIONAL { ?body rdfs:label ?bLabel }\
@@ -137,7 +192,7 @@ var readRDF= (function (){
 	api.chiamaServizio({loader: false, requestUrl: "gruppi.json", isAsync:true, callback: function(json){
 		$("#ListaGruppi").empty();
 		for(var i = 0; i < json.length; i++){
-			if(json[i].id == "ltw1516") continue;
+			//if(json[i].id == "ltw1516") continue;
 			$("#ListaGruppi").append(
 				$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
 						 .append($("<label>").attr("for", json[i].id))
@@ -154,6 +209,26 @@ var readRDF= (function (){
 			return json[i].nome;
 	}
 	return id;
+  }
+  self.EnableRiannota = function(url){
+	var Query = self.GetQuery(self.GetGraph(), url) + " LIMIT 1 ";
+	  DirectSELECT(Query, function(res){
+		  var json = res.results.bindings;
+		  if(json.length == 0){
+			$("#cancella-ann").parent().hide();
+			$("#ri_ann").parent().show();
+		  }
+		  else
+		  {
+			$("#cancella-ann").parent().show();
+			$("#ri_ann").parent().hide();
+		  }
+	  });
+  }
+  self.ClearSession = function(){
+	var groups = sessionStorage.getItem("GroupNames");
+	sessionStorage.clear();
+	sessionStorage.setItem("GroupNames", groups);
   }
   return self;
 }());
