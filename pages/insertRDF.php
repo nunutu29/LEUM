@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 require_once("../vendor/autoload.php" );
 require_once("utils.php");
@@ -664,10 +665,10 @@ foreach($aut as $node){
 //Abstract
 $astratto = $xpath->query("//p[@id='div1_div2_div2_div3_div4_div1_p1']")->item(0);
 if($astratto != null)
-CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l'abstract dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 else{
 	$astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
-	CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+	CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' abstract dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 }
 
 
@@ -794,7 +795,7 @@ CreateAuthors($Exp, $item, $var, 0, strlen($var), $autTarget, $uri);
 
 //Abstract
 $astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
-CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' abstract dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 
 
@@ -864,7 +865,7 @@ foreach($aut as $node){
 //Abstract
 $astratto = $xpath->query("//div[@id='div1_div2_div2_div3_div4_div1']")->item(0);
 if($astratto != null)
-CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l'abstract dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 
 
@@ -993,7 +994,7 @@ for($i = 0; $i < $autArray->length; $i++){
 //Abstract
 $astratto = $xpath->query("//h3[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_h33']/following-sibling::p[1]")->item(0);
 if($astratto != null)
-CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l' astratto dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
+CreateRethoric($Exp, $item, "sro:Abstract", "Questo è l'abstract dell'articolo.", 0, strlen($astratto->nodeValue), $astratto->getAttribute('id'), $uri);
 
 //URL
 $url = $xpath->query("//a[@id='form1_table3_tr1_td1_table5_tr1_td1_table1_tr1_td2_p3_a1']")->item(0);
