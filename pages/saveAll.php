@@ -88,6 +88,7 @@ function CreateNewAnnotation($obj){
 	catch(Exception $ex){
 	}
 	
+	//file_put_contents("test.txt", $mainExp." | ".$item." | ".$mURL." | ".$Exp."|".$obj->subject->value, FILE_APPEND);
 	
 	switch($obj->predicate->value){
 		case "http://purl.org/dc/terms/title":
