@@ -25,7 +25,7 @@
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasAuthor0"  style="padding:.5em;">Autore</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasConcept"  style="padding:.5em;">Concetto</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasDOI0"  style="padding:.5em;">Doi</span></div>
-			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasAbstr"  style="padding:.5em;">Astratto</span></div>
+			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasAbstr"  style="padding:.5em;">Abstract</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasURL0"  style="padding:.5em;">URL</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasMateria"  style="padding:.5em;">Materiali</span></div>
 			<div class="col-xs-4" style="margin-bottom: 1.5em;"><span class="hasComment0"  style="padding:.5em;">Commenti</span></div>

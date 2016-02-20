@@ -731,7 +731,7 @@ var Scrap = (function(){
 											<optgroup label="Retorica">\
 												<option value="deo:Introduction0">Introduzione</option>\
 												<option value="skos:Concept0">Concetto</option>\
-												<option value="sro:Abstract0">Astratto</option>\
+												<option value="sro:Abstract0">Abstract</option>\
 												<option value="deo:Materials0">Materiali</option>\
 												<option value="deo:Methods0">Metodi</option>\
 												<option value="deo:Results0">Risultati</option>\
@@ -847,7 +847,7 @@ var Scrap = (function(){
 		switch(what){
 			case "http://purl.org/spar/deo/Introduction": return "Introduzione";
 			case "http://www.w3.org/2004/02/skos/core#Concept":  return "Concetto";
-			case "http://salt.semanticauthoring.org/ontologies/sro#Abstract": return "Astratto";
+			case "http://salt.semanticauthoring.org/ontologies/sro#Abstract": return "Abstract";
 			case "http://purl.org/spar/deo/Materials": return "Materiale";
 			case "http://purl.org/spar/deo/Methods": return "Metodo";
 			case "http://purl.org/spar/deo/Results": return "Risultato";

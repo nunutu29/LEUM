@@ -196,6 +196,12 @@ nav#gn-menu li.center{
     left: 10px;
     margin-left: -13px !important;
     font-size: 19px;
+    transition: all 0.2s ease-in-out;
+}
+.gn-icon-show:hover:before {
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .gn-icon-hide::before {
 	content: "\e04c";

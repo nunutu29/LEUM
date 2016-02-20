@@ -87,7 +87,7 @@
 											<li>
 												<input id ="hasAbstr" class="grey-text text-darken-2" type="checkbox">
 												<label for ="hasAbstr" name="" class="css-label1"></label>
-												<a class ="">Astratto</a>
+												<a class ="">Abstract</a>
 											</li>
 											<li>
 												<input id ="hasMateria" class="grey-text text-darken-2" type="checkbox">
