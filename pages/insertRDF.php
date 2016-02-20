@@ -496,16 +496,16 @@ foreach($cities as $cite){
 		if($DOI != NULL)
 			CreateDoi($citExp, $item, $DOI->nodeValue, 0, strlen($DOI->nodeValue), $DOI->getAttribute('id'), $uri);
 		//Anno
+		//replace dei punti per fare lo split
 		$node = Normalize($cite->nodeValue);
-		$anni = explode(",", $node);
+		$node_anno = str_replace(".", ",", $node);
+		$anni = explode(",", $node_anno);
 		$positionStart = 0;
 		foreach($anni as $anno){
-			if((strlen(trim($anno)) == 4) || (strlen(trim($anno)) == 5 && substr(trim($anno), -1) == ".")){
+			if(strlen(trim($anno)) == 4 && is_numeric(trim($anno))){
 				//manipulazione anno
 				$positionStart += strlen($anno) - strlen(ltrim($anno));
 				$anno = trim($anno);
-				if(substr($anno, -1) == ".")
-					$anno = substr($anno, -1);
 				//Inserimento anno
 				CreatePublicationYear($citExp, $item, $anno, $positionStart, $positionStart + strlen($anno), $cite->getAttribute('id'), $uri); 
 				break;

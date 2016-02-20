@@ -24,6 +24,7 @@
 <body class="blue tumblr loading">
 <div class="modalBox no-opacity" id="myLoader" style="display:block;"><?php include('loader.php');?></div>
 	<input type="text" name="URL" id="URL" style="display:none;">
+	<input type="text" name="BUTTON_RIANNOTA" id="BUTTON_RIANNOTA" style="display:none;">
 	<div class="container" id="container">
 		<?php include('menu.php');?>
 		<?php include('ann-menu.php');?>
@@ -141,6 +142,7 @@ var Page = (function (){
 		var myData = {link: $('#URL').val(), StartScrapper: "2"};
 		var api = new API();
 		api.chiamaServizio({requestUrl: 'pages/pageScrapper.php', data: myData, isAsync: true, loader: true, callback: function(str){
+			$("#BUTTON_RIANNOTA").val("OK");
 			readRDF.GetData(undefined, $('#URL').val());
 			$("#cancella-ann").parent().show();
 			$("#ri_ann").parent().hide();
