@@ -43,7 +43,12 @@ overflow: hidden !important;
   text-transform: none;
   font-weight: 300;
   font-family: 'Lato', sans-serif;
-  line-height: 60px;
+}
+label.css-label1 {
+    margin: 17.5px 0px;
+}
+label#label-gn-icon-open-main-retoric::before {
+    font-size: 1.6rem;
 }
 .ann-details{
   cursor: auto;}
