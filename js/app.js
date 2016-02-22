@@ -1321,7 +1321,7 @@ function manualAnn() {
 		}
 	}	
 		
-	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==1 ){		//nodo diverso, tutti e 2 citati differenza nei parentNode
+	else{		//nodo diverso
 		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
 		var selanchor=selezione.anchorNode;
 		var selfocus=selezione.focusNode;
@@ -1364,140 +1364,6 @@ function manualAnn() {
 		}
 	}
 		
-	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==1 && isSpan(selezione.focusNode)==0){		//nodo diverso, inizio citato e fine no differenza nei parentNode
-		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
-		var selanchor=selezione.anchorNode;
-		var selfocus=selezione.focusNode;
-		var responso=-1;	//variabile di controllo
-		while(responso==-1 && selanchor!=undefined){		//selanchor non dovrebbe essere mai undefined
-			for(i=0;i<=nodo_comune.childNodes.length;i++){
-				
-				if(selanchor==nodo_comune.childNodes[i]){	
-					nodo_iniziale=i;	//posizione del nodo
-					responso=0;			//se trova il nodo cambia variabile di controlo ed esce dal while
-					break;				//se trova il nodo esce dal for
-				}
-				else responso=-1;	//se non trova il nodo continua il while
-			}
-			selanchor=selanchor.parentNode;
-		}
-		responso=-1;
-		while(responso==-1 && selfocus!=undefined){
-			for(i=0;i<=nodo_comune.childNodes.length;i++){
-				
-				if(selfocus==nodo_comune.childNodes[i]){	
-					nodo_finale=i;	//posizione del nodo
-					responso=0;
-					break;
-				}
-				else responso=-1;
-			}
-			selfocus=selfocus.parentNode;
-		}
-		
-		if(nodo_iniziale<nodo_finale){
-			var anchor=selezione.anchorNode;
-			var focus=selezione.focusNode;
-		}
-		else if(nodo_iniziale>nodo_finale){
-			var focus=selezione.anchorNode;		//inverto i nodi
-				var anchor=selezione.focusNode;
-				var aux=inizio_selezione			//inverto start e end
-				inizio_selezione=fine_selezione;
-				fine_selezione=aux;
-		}
-	}
-	
-	
-	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==1){	//nodo diverso, inizio non citato e fine si, differenza nei parentNode	
-		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
-		var selanchor=selezione.anchorNode;
-		var selfocus=selezione.focusNode;
-		var responso=-1;	//variabile di controllo
-		while(responso==-1 && selanchor!=undefined){		//selanchor non dovrebbe essere mai undefined
-			for(i=0;i<=nodo_comune.childNodes.length;i++){
-				
-				if(selanchor==nodo_comune.childNodes[i]){	
-					nodo_iniziale=i;	//posizione del nodo
-					responso=0;			//se trova il nodo cambia variabile di controlo ed esce dal while
-					break;				//se trova il nodo esce dal for
-				}
-				else responso=-1;	//se non trova il nodo continua il while
-			}
-			selanchor=selanchor.parentNode;
-		}
-		responso=-1;
-		while(responso==-1 && selfocus!=undefined){
-			for(i=0;i<=nodo_comune.childNodes.length;i++){
-				
-				if(selfocus==nodo_comune.childNodes[i]){	
-					nodo_finale=i;	//posizione del nodo
-					responso=0;
-					break;
-				}
-				else responso=-1;
-			}
-			selfocus=selfocus.parentNode;
-		}
-		if(nodo_iniziale<nodo_finale){
-			var anchor=selezione.anchorNode;
-			var focus=selezione.focusNode;
-		}
-		else if(nodo_iniziale>nodo_finale){
-			var focus=selezione.anchorNode;		//inverto i nodi
-				var anchor=selezione.focusNode;
-				var aux=inizio_selezione			//inverto start e end
-				inizio_selezione=fine_selezione;
-				fine_selezione=aux;
-		}
-	}
-	
-	
-	
-	else if(selezione.anchorNode!=selezione.focusNode && isSpan(selezione.anchorNode)==0 && isSpan(selezione.focusNode)==0){	//nodo diverso, non citato	
-		var nodo_comune=selezione.getRangeAt(0).commonAncestorContainer;	//prendo il nodo comune
-		var selanchor=selezione.anchorNode;
-		var selfocus=selezione.focusNode;
-		var nodo_iniziale;
-		var nodo_finale;
-		var responso=-1;	//variabile di controllo
-		while(responso==-1 && selanchor!=undefined){		//selanchor non dovrebbe essere mai undefined
-			for(i=0;i<=nodo_comune.childNodes.length;i++){
-				
-				if(selanchor==nodo_comune.childNodes[i]){	
-					nodo_iniziale=i;	//posizione del nodo
-					responso=0;			//se trova il nodo cambia variabile di controlo ed esce dal while
-					break;				//se trova il nodo esce dal for
-				}
-				else responso=-1;	//se non trova il nodo continua il while
-			}
-			selanchor=selanchor.parentNode;
-		}
-		responso=-1;
-		while(responso==-1 && selfocus!=undefined){
-			for(i=0;i<=nodo_comune.childNodes.length;i++){
-				
-				if(selfocus==nodo_comune.childNodes[i]){	
-					nodo_finale=i;	//posizione del nodo
-					responso=0;
-					break;
-				}
-				else responso=-1;
-			}
-			selfocus=selfocus.parentNode;
-		}
-		if(nodo_iniziale<nodo_finale){
-			var anchor=selezione.anchorNode;
-			var focus=selezione.focusNode;
-		}
-		else if(nodo_iniziale>nodo_finale){
-			var focus=selezione.anchorNode;		//inverto i nodi
-				var anchor=selezione.focusNode;
-				var aux=inizio_selezione			//inverto start e end
-				inizio_selezione=fine_selezione;
-				fine_selezione=aux;
-		}
-	}
 	
 	
 
