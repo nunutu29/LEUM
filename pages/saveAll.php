@@ -88,13 +88,14 @@ function CreateNewAnnotation($obj){
 	catch(Exception $ex){
 	}
 	
+	//file_put_contents("test.txt", $mainExp." | ".$item." | ".$mURL." | ".$Exp."|".$obj->subject->value, FILE_APPEND);
 	
 	switch($obj->predicate->value){
 		case "http://purl.org/dc/terms/title":
 			CreateTitle($Exp, $item, Normalize(html_entity_decode($obj->object->value)), $obj->start->value, $obj->end->value, $obj->id->value, $mURL,  Normalize(html_entity_decode($obj->bLabel->value)));
 			break;
 		case "http://purl.org/dc/terms/creator":
-			print CreateAuthors($Exp, $item, Normalize(html_entity_decode($obj->key->value)), $obj->start->value, $obj->end->value, $obj->id->value, $mURL, Normalize(html_entity_decode($obj->bLabel->value)));
+			CreateAuthors($Exp, $item, Normalize(html_entity_decode($obj->key->value)), $obj->start->value, $obj->end->value, $obj->id->value, $mURL, Normalize(html_entity_decode($obj->bLabel->value)));
 			break;
 		case "http://prismstandard.org/namespaces/basic/2.0/doi":
 			CreateDoi($Exp, $item, Normalize(html_entity_decode($obj->object->value)), $obj->start->value, $obj->end->value, $obj->id->value, $mURL, Normalize(html_entity_decode($obj->bLabel->value)));

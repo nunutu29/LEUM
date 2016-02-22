@@ -92,7 +92,6 @@
 	text-align: left;
 	font-size: 18px;
 	padding: 0px;
-	margin: 0px 0px 5% 0px!important;
 }
 .gn-menu li:not(:first-child),
 .gn-menu li li {
@@ -106,7 +105,13 @@ nav#gn-menu li.center{
 
 .gn-menu.ann *::before {
 	margin-left: 1.4em; }
-
+.css-label1::before {
+    font-size: 1rem;}
+label.css-label1 {
+    color: #222;
+    font-size: 1em;
+    list-style: none;
+    font-family: 'Lato', sans-serif;}
 .gn-icon::before {
 	display: inline-block;
 	text-align: center !important;
@@ -396,10 +401,15 @@ nav#gn-menu li.center{
 	line-height:40px;
 }
 #gn-menu-slide-menu-retoric {
-	padding-left: 0px;
+	padding: 9px 0px;
 }
 #gn-menu-slide-menu-cites {
-	padding-left: 0px;
+	padding: 9px 0px;
+}
+ul.gn-menu.doc-annotati {margin-top: 0px !important;}
+ul.gn-menu.doc-search {margin-top: 0px !important;}
+ul.gn-menu.doc-annotati li {
+    padding: 6px 0px;
 }
 .gn-menu .retorica{
 	border: none;
