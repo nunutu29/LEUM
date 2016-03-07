@@ -570,10 +570,6 @@ foreach($cities as $cite){
 		if($title != NULL)
 			$title = $title->nodeValue;
 	}
-	//$asdf = file_get_contents("log.txt");
-	//file_put_contents("log.txt", $asdf."\n".$title);
-	//$title = $cite->getElementsByTagName('i');
-	//$title = $title->length > 0 ? $title->item(0) : NULL;
 	if($title != NULL && trim($title) != ""){
 		CreateCities($title, $citExp, $Exp, $item, $cite->nodeValue, $cite->getAttribute('id'), 0, strlen(Normalize($cite->nodeValue)), $uri);
 		CreateTitle($citExp, $item, $title, strpos(Normalize($cite->nodeValue), Normalize($title)), strpos(Normalize($cite->nodeValue), Normalize($title)) + strlen(Normalize($title)), $cite->getAttribute('id'), $uri);
