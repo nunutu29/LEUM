@@ -1,3 +1,5 @@
+var timeOut;
+
 String.prototype.endsWith = function(suffix){
 		return this.match(suffix+"$") == suffix;
 };
@@ -1047,6 +1049,10 @@ var Scrap = (function(){
 	}
 	self.Groups = (function(){
 		var me = {};
+		me.Try = function(){
+			clearTimeout(timeOut);
+			timeOut = setTimeout(function(){me.ReadMulti();}, 1000);
+		}
 		me.Load = function(chk, article){
 			if(chk.getAttribute("id") == "ltw1516"){
 				me.ReadMulti();

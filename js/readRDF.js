@@ -193,7 +193,7 @@ self.ReadGroups = function(){
 		$("#ListaGruppi").empty();
 		for(var i = 0; i < json.length; i++){
 			$("#ListaGruppi").append(
-				$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Load(this)"))
+				$("<li>").append($("<input>").attr("id", json[i].id).attr("type","checkbox").attr("onchange","Scrap.Groups.Try()"))
 						 .append($("<label>").attr("for", json[i].id).addClass('css-label1').html("&nbsp;&nbsp;&nbsp;" + json[i].nome).attr("style", "text-transform:capitalize;"))
 			);
 		}
