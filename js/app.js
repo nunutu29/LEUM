@@ -257,12 +257,13 @@ var Scrap = (function(){
 		EyeSpan.remove();
 	}
 	self.Highlight = function(annotation, style){
+		if(annotation.start == undefined || annotation.end == undefined || annotation.id == undefined) return;
 	  var gruppo = "";
 	  if(annotation.gruppo != undefined && annotation.gruppo != null)
 		  gruppo = annotation.gruppo.value;
 	  annotation.id.value = self.GetMyID(annotation.id.value);
 	  var target_xpath = '//*[@id="' + annotation.id.value + '"]';//Prendi l'elemento
-	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
+	  var target_node =$(document.evaluate(target_xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue)	 
 	  var ann_start = annotation.start.value;
 	  var ann_end = annotation.end.value;
 
