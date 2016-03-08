@@ -3,7 +3,7 @@
 		<form>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 center">
-					<img src="img/logoRaschettoperspective.svg" alt="logo" style="width: 55%;">
+					<img src="../dest/img/logoRaschettoperspective.svg" alt="logo" style="width: 55%;">
 				</div>
 				<div class="col-xs12 col-sm-12 center" style="margin-bottom: -5%;">
 					<h2 >Crea un account</h2>

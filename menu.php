@@ -68,7 +68,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-$('#aAiuto').on({click: function(){Page.Aiuto()}});
-$('#aChiSiamo').on({click: function(){Page.ChiSiamo()}});
-</script>

@@ -6,9 +6,9 @@
 			<h3>L'interfaccia utente pi&ugrave; intuitiva e facile da usare</h3>
 			<hr />
 			<h4 class="light grey-text text-lighten-3">Si può accedere agli articoli dalla nostra libreria a destra</h4>
-			<?php include ("img/art.svg"); ?>
+			<?php include ("./dest/img/art.svg"); ?>
 			<h4 class="light grey-text text-lighten-3">Partecipa anche tu alla nostra libreria. Fai la ricerca del tuo articolo preferito inserendo inserendo l'indirizzo</h4>
-			<?php include ("img/search.svg"); ?>
+			<?php include ("./dest/img/search.svg"); ?>
 		</div>
 	</li>
 	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
@@ -43,7 +43,7 @@
 	<li class="mCustomScrollbar" data-mcs-theme="minimal-dark">
 	  <div class="caption right-align">
 		<h3>Inizia ora la tua esperienza</h3>
-		<img src="img/logoRaschetto.svg" alt="logo" style="background-repeat: no-repeat;background-size: 22em;width: 21em;height: 5em;">
+		<img src="./dest/img/logoRaschetto.svg" alt="logo" style="background-repeat: no-repeat;background-size: 22em;width: 21em;height: 5em;">
 		<hr />
 		<button id="eschelp" class="btn-large waves-effect waves-light orange carrot white-text" onclick="Scrap.HideModal()">FATTO</button>
 	  </div>

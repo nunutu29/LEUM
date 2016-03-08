@@ -1,28 +1,26 @@
-	var globalLoader = true;
-		$('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
-		$('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
-		$('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
-		$('#hasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this);});
-		$('#hasURL').change(function(){Scrap.ShowArray("hasURL",this);});
-		$('#hasComment').change(function(){Scrap.ShowArray("hasComment",this);});
-		$('#hasIntro').change(function(){Scrap.ShowArray("deo:Introduction",this);});
-		$('#hasConcept').change(function(){Scrap.ShowArray("skos:Concept",this);});
-		$('#hasAbstr').change(function(){Scrap.ShowArray("sro:Abstract",this);});
-		$('#hasMateria').change(function(){Scrap.ShowArray("deo:Materials",this);});
-		$('#hasMeth').change(function(){Scrap.ShowArray("deo:Methods",this);});
-		$('#hasRes').change(function(){Scrap.ShowArray("deo:Results",this);});
-		$('#hasDisc').change(function(){Scrap.ShowArray("sro:Discussion",this);});
-		$('#hasConc').change(function(){Scrap.ShowArray("sro:Conclusion",this);});
-		$('#chasBody').change(function(){Scrap.ShowArray("cites", this, 0);});
-		$('#chasTitle').change(function(){Scrap.ShowArray("hasTitle", this, 1);});
-		$('#chasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this, 1);});
-		$('#chasDOI').change(function(){Scrap.ShowArray("hasDOI",this, 1);});
-		$('#chasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this, 1);});
-		$('#chasURL').change(function(){Scrap.ShowArray("hasURL",this, 1);});
-		// $('#MenuTrigger').on('touchstart', function(){Login.Remove();});
-		// document.querySelector( "#MenuTrigger" ).addEventListener( "click", function() {
-			//   this.classList.toggle( "active" );
-			// });
+$('#aAiuto').on({click: function(){Page.Aiuto()}});
+$('#aChiSiamo').on({click: function(){Page.ChiSiamo()}});
+var globalLoader = true;
+	$('#hasTitle').change(function(){Scrap.ShowArray("hasTitle", this);});
+	$('#hasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this);});
+	$('#hasDOI').change(function(){Scrap.ShowArray("hasDOI",this);});
+	$('#hasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this);});
+	$('#hasURL').change(function(){Scrap.ShowArray("hasURL",this);});
+	$('#hasComment').change(function(){Scrap.ShowArray("hasComment",this);});
+	$('#hasIntro').change(function(){Scrap.ShowArray("deo:Introduction",this);});
+	$('#hasConcept').change(function(){Scrap.ShowArray("skos:Concept",this);});
+	$('#hasAbstr').change(function(){Scrap.ShowArray("sro:Abstract",this);});
+	$('#hasMateria').change(function(){Scrap.ShowArray("deo:Materials",this);});
+	$('#hasMeth').change(function(){Scrap.ShowArray("deo:Methods",this);});
+	$('#hasRes').change(function(){Scrap.ShowArray("deo:Results",this);});
+	$('#hasDisc').change(function(){Scrap.ShowArray("sro:Discussion",this);});
+	$('#hasConc').change(function(){Scrap.ShowArray("sro:Conclusion",this);});
+	$('#chasBody').change(function(){Scrap.ShowArray("cites", this, 0);});
+	$('#chasTitle').change(function(){Scrap.ShowArray("hasTitle", this, 1);});
+	$('#chasAuthor').change(function(){Scrap.ShowArray("hasAuthor",this, 1);});
+	$('#chasDOI').change(function(){Scrap.ShowArray("hasDOI",this, 1);});
+	$('#chasPublicationYear').change(function(){Scrap.ShowArray("hasPublicationYear",this, 1);});
+	$('#chasURL').change(function(){Scrap.ShowArray("hasURL",this, 1);});
 
 $(document).on('click', '#login-open', function(event){
 	event.stopPropagation();
@@ -128,7 +126,7 @@ var Page = (function (){
 							.append($("<div>").addClass("col-md-12 center").append($("<h3>").text("Applicazione per l'annotazione semantica")))
 							.append($("<div>").addClass("col-md-12")
 								.append($("<h4>").text("Adesso puoi annotare articoli delle diverse riviste a disposizione e guardare quello che hanno fatto gli altri utenti."))
-								.append($("<h4>").text("Realizzato dal team L.E.U.M. che ha come componenti ANTONIO LAGANÀ, FLORIN-CLAUDIU EPUREANU e ION URSACHI."))
+								.append($("<h4>").html("Realizzato dal team L.E.U.M. che ha come componenti ANTONIO LAGAN&Agrave;, FLORIN-CLAUDIU EPUREANU e ION URSACHI."))
 							)
 						)
 					)
